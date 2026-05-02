@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lectora de Estrellas — Astrología, journaling & herramientas mágicas</title>
+  <meta name="description" content="Guía cósmica para tu autoconocimiento y desarrollo personal. Lecturas astrales, herramientas mágicas, eventos y cursos con Andrea.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: min(92vh, 820px);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--grad-hero);
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      opacity: 0.65;
+      mix-blend-mode: multiply;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 30%,
+        rgba(26,17,24,0.3) 70%,
+        rgba(26,17,24,0.7) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 2rem 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.9rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      color: white;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 20px rgba(21,13,30,0.3);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 480px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 48px;
+      background: rgba(255,255,255,0.3);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ── Category Pills ──────────────────────────────── */
+    .category-strip {
+      background: white;
+      border-bottom: 1px solid rgba(155,122,158,0.1);
+      padding: 1.5rem 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .category-strip::-webkit-scrollbar { display: none; }
+
+    .category-pills {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      white-space: nowrap;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid rgba(155,122,158,0.2);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      transition: all 0.2s;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .category-pill:hover, .category-pill.active {
+      background: var(--plum);
+      border-color: var(--plum);
+      color: white;
+    }
+
+    /* ── Featured Collection ──────────────────────────── */
+    .collection-section {
+      padding: var(--space-lg) 0;
+      background: var(--parchment);
+    }
+
+    .collection-featured {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+    }
+
+    .collection-main {
+      grid-row: 1 / 3;
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 520px;
+      cursor: pointer;
+    }
+
+    .collection-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease);
+    }
+
+    .collection-main:hover img { transform: scale(1.03); }
+
+    .collection-main-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(21,13,30,0.85) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+
+    .collection-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .collection-main-overlay h3 {
+      font-size: 1.75rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    .collection-main-overlay p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .collection-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 240px;
+      cursor: pointer;
+    }
+
+    .collection-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+
+    .collection-card:hover img { transform: scale(1.05); }
+
+    .collection-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(21,13,30,0.75) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+
+    .collection-card-overlay h3 {
+      font-size: 1.1rem;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+
+    .collection-card-price {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── Services Section ────────────────────────────── */
+    .services-section {
+      background: var(--cream);
+      padding: var(--space-lg) 0;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: var(--space-md);
+    }
+
+    .service-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      cursor: pointer;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .service-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+
+    .service-card:hover .service-img img { transform: scale(1.05); }
+
+    .service-img-tag {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+    }
+
+    .service-body {
+      padding: 1.5rem;
+    }
+
+    .service-body h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-body p {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* ── About Strip ─────────────────────────────────── */
+    .about-strip {
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about-img-side {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-img-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .about-content-side {
+      background: var(--deep-plum);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .about-content-side .eyebrow { color: var(--gold); }
+
+    .about-content-side h2 {
+      font-size: clamp(2rem, 3vw, 2.75rem);
+      color: white;
+      margin: 0.75rem 0 1.25rem;
+    }
+
+    .about-content-side p {
+      color: rgba(250,246,240,0.75);
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+      line-height: 1.75;
+    }
+
+    /* ── Products Grid ───────────────────────────────── */
+    .products-section {
+      padding: var(--space-lg) 0;
+      background: var(--parchment);
+    }
+
+    /* ── Events Preview ──────────────────────────────── */
+    .events-preview {
+      background: white;
+      padding: var(--space-lg) 0;
+    }
+
+    .event-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(155,122,158,0.12);
+      transition: box-shadow 0.3s;
+    }
+
+    .event-card:hover { box-shadow: var(--shadow-md); }
+
+    .event-card-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .event-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .event-card:hover .event-card-img img { transform: scale(1.05); }
+
+    .event-card-body {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: white;
+    }
+
+    .event-date {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.5rem;
+    }
+
+    .event-card-body h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-card-body p {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Blog Preview ────────────────────────────────── */
+    .blog-preview {
+      background: var(--cream);
+      padding: var(--space-lg) 0;
+    }
+
+    .blog-card {
+      background: white;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(155,122,158,0.08);
+    }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+    .blog-card-img {
+      height: 200px;
+      overflow: hidden;
+    }
+    .blog-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
+
+    .blog-card-body {
+      padding: 1.25rem;
+    }
+
+    .blog-meta {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      color: var(--mauve);
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-card-body h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .blog-card-body p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* ── Instagram ───────────────────────────────────── */
+    .instagram-section {
+      padding: var(--space-md) 0;
+      background: var(--parchment);
+    }
+
+    .instagram-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.5rem;
+    }
+
+    .ig-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    .ig-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s, opacity 0.3s;
+    }
+    .ig-item:hover img { transform: scale(1.06); opacity: 0.85; }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .collection-featured {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .collection-main { grid-row: 1; grid-column: 1 / 3; min-height: 360px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .about-strip { grid-template-columns: 1fr; }
+      .about-img-side { height: 400px; }
+      .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .hero { height: 88vh; }
+      .hero-title { font-size: 2.8rem; }
+      .collection-featured { grid-template-columns: 1fr; }
+      .collection-main { grid-column: 1; min-height: 300px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .event-card { grid-template-columns: 140px 1fr; }
+      .about-content-side { padding: 3rem 1.5rem; }
+      .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2.2rem; }
+      .event-card { grid-template-columns: 1fr; }
+      .event-card-img { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Announcement Banner ─────────────────────────────── -->
+<div class="banner">
+  <div class="banner-track">
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+  </div>
+</div>
+
+<!-- ── Navigation ─────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      LECTORA <em>de</em> ESTRELLAS
+    </a>
+
+    <div class="nav-links">
+      <a href="index.html" class="active">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <div class="has-dropdown">
+        <a href="tienda.html">Herramientas mágicas</a>
+        <div class="dropdown">
+          <div class="dropdown-section">Colección Lunar 2026</div>
+          <a href="tienda.html?cat=lunar2026">Agenda Lunar 2026</a>
+          <a href="tienda.html?cat=lunar2026">Print Calendario Lunar</a>
+          <a href="tienda.html?cat=lunar2026">Calendario mini de escritorio</a>
+          <div class="dropdown-section">Libretas</div>
+          <a href="tienda.html?cat=libretas">Libretas artesanales</a>
+          <a href="tienda.html?cat=libretas">Mini libretas</a>
+          <div class="dropdown-section">Digitales</div>
+          <a href="tienda.html?cat=digitales">Productos digitales</a>
+          <a href="tienda.html?cat=bundles">Bundles</a>
+        </div>
+      </div>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+    </div>
+
+    <div class="nav-actions">
+      <a href="tienda.html" class="nav-search" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </a>
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <!-- Replace src with your actual hero image -->
+  <img class="hero-img" src="images/hero-agendas.jpg" alt="Colección Lunar 2026 - Lectora de Estrellas" loading="eager">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag fade-up">
+      <span>✦</span> La nueva colección 2026 te espera
+    </div>
+    <h1 class="hero-title fade-up-2">
+      Dale un toque<br><em>mágico</em> a tu 2026
+    </h1>
+    <p class="hero-sub fade-up-3">
+      Sincronízate con el cosmos cada día. Agendas, journals y herramientas astrológicas creadas con intención y magia.
+    </p>
+    <div class="hero-actions fade-up-4">
+      <a href="tienda.html?cat=lunar2026" class="btn btn-gold btn-lg">Ver Colección Lunar</a>
+      <a href="sesiones.html" class="btn btn-ghost btn-lg" style="color:white;border-color:rgba(255,255,255,0.4)">Sesiones 1:1</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ── Category Pills ─────────────────────────────────── -->
+<div class="category-strip">
+  <div class="category-pills">
+    <a href="tienda.html" class="category-pill active">✦ Todo</a>
+    <a href="tienda.html?cat=lunar2026" class="category-pill">🌙 Colección Lunar 2026</a>
+    <a href="tienda.html?cat=agendas" class="category-pill">📓 Agendas</a>
+    <a href="tienda.html?cat=libretas" class="category-pill">📒 Libretas</a>
+    <a href="tienda.html?cat=notepads" class="category-pill">📋 Notepads</a>
+    <a href="tienda.html?cat=bundles" class="category-pill">🎁 Bundles</a>
+    <a href="tienda.html?cat=digitales" class="category-pill">💫 Digitales</a>
+    <a href="sesiones.html" class="category-pill">⭐ Lecturas astrales</a>
+  </div>
+</div>
+
+<!-- ── Featured Collection ────────────────────────────── -->
+<section class="collection-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Colección estrella</span>
+      <h2>Guíate con el cosmos y aprende de ti</h2>
+      <p>Herramientas diseñadas para acompañarte en cada ciclo lunar y cada etapa de tu historia.</p>
+    </div>
+
+    <div class="collection-featured">
+      <!-- Main featured -->
+      <a href="tienda.html?producto=agenda-lunar-2026" class="collection-main" data-reveal>
+        <img src="images/agenda-lunar-2026-hero.jpg" alt="Agenda Lunar 2026">
+        <div class="collection-main-overlay">
+          <span class="collection-label">Best Seller · Colección Lunar 2026</span>
+          <h3>Agenda Lunar 2026</h3>
+          <p>La agenda que te conecta con los ciclos de la luna mes a mes.</p>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <span style="font-family:var(--font-ui);font-size:1rem;color:white;font-weight:600">$999 <s style="opacity:0.5;font-weight:400;font-size:0.85rem">$1,050</s></span>
+            <span class="btn btn-gold btn-sm">Ver producto</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Side cards -->
+      <a href="tienda.html?producto=diario-lunar-2026" class="collection-card" data-reveal data-delay="100ms">
+        <img src="images/diario-lunar-2026.jpg" alt="Diario Lunar 2026">
+        <div class="collection-card-overlay">
+          <span class="collection-label">Edición limitada</span>
+          <h3>Diario Lunar 2026</h3>
+          <div class="collection-card-price">$250 MXN</div>
+        </div>
+      </a>
+
+      <a href="tienda.html?producto=calendario-mini-lunar" class="collection-card" data-reveal data-delay="200ms">
+        <img src="images/calendario-mini-lunar.jpg" alt="Calendario Mini Lunar 2026">
+        <div class="collection-card-overlay">
+          <span class="collection-label">Colección Lunar 2026</span>
+          <h3>Calendario Mini de Escritorio</h3>
+          <div class="collection-card-price">$120 MXN</div>
+        </div>
+      </a>
+
+      <a href="tienda.html?producto=print-calendario-lunar" class="collection-card" data-reveal data-delay="150ms">
+        <img src="images/print-calendario-lunar.jpg" alt="Print Calendario Lunar 2026">
+        <div class="collection-card-overlay">
+          <span class="collection-label">Colección Lunar 2026</span>
+          <h3>Print Calendario Lunar 2026</h3>
+          <div class="collection-card-price">$250 MXN</div>
+        </div>
+      </a>
+
+      <a href="tienda.html?cat=lunar2026" class="collection-card" data-reveal data-delay="250ms" style="background:var(--deep-plum);display:flex;align-items:center;justify-content:center;text-decoration:none">
+        <div style="text-align:center;padding:2rem;color:white">
+          <div style="font-size:2rem;margin-bottom:1rem">✦</div>
+          <h3 style="font-size:1.1rem;margin-bottom:0.5rem">Agrega toda la<br>colección y llévate<br>el Diario de regalo</h3>
+          <span class="btn btn-secondary btn-sm" style="margin-top:1rem;border-color:rgba(255,255,255,0.4);color:white">Comprar todo</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services Section ───────────────────────────────── -->
+<section class="services-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Productos y servicios</span>
+      <h2>Productos y contenido astrológicos<br>para tu desarrollo personal</h2>
+    </div>
+
+    <div class="services-grid">
+      <a href="sesiones.html" class="service-card" data-reveal>
+        <div class="service-img">
+          <img src="images/lecturas-astrales.jpg" alt="Lecturas astrales">
+          <div class="service-img-tag">
+            <span class="btn btn-primary btn-sm">Lecturas astrales</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <span class="eyebrow">Guía cósmica</span>
+          <h3>Sesiones 1:1</h3>
+          <p>Recibe mensajes de los astros para un mejor autoconocimiento y desarrollo personal. Online vía Google Meet.</p>
+          <span class="btn btn-secondary btn-sm">Reservar sesión →</span>
+        </div>
+      </a>
+
+      <a href="tienda.html" class="service-card" data-reveal data-delay="100ms">
+        <div class="service-img">
+          <img src="images/tienda-libretas.jpg" alt="Herramientas mágicas">
+          <div class="service-img-tag">
+            <span class="btn btn-gold btn-sm">Tienda</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <span class="eyebrow">Astrología en tu día a día</span>
+          <h3>Herramientas mágicas</h3>
+          <p>Explora agendas, libretas, notepads y productos digitales para aprender o usar como guía en tu vida.</p>
+          <span class="btn btn-secondary btn-sm">Explorar tienda →</span>
+        </div>
+      </a>
+
+      <a href="aprende.html" class="service-card" data-reveal data-delay="200ms">
+        <div class="service-img">
+          <img src="images/aprende-webinars.jpg" alt="Webinars y talleres">
+          <div class="service-img-tag">
+            <span class="btn btn-primary btn-sm" style="background:var(--violet)">Aprende</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <span class="eyebrow">Aprende astrología</span>
+          <h3>Cursos & Webinars</h3>
+          <p>Participa en talleres y cursos sobre diferentes temas astrológicos. También disponibles en formato digital.</p>
+          <span class="btn btn-secondary btn-sm">Ver cursos →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Libretas Section ───────────────────────────────── -->
+<section class="products-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Romantiza tu vida</span>
+      <h2>Elige la historia que quieres contar sobre ti</h2>
+      <p>Libretas artesanales creadas con intención y magia para journaling, grimorios y más.</p>
+    </div>
+
+    <div class="grid-4" style="margin-top:2rem">
+      <!-- Product cards — replace images with your actual photos -->
+      <div class="product-card" data-reveal>
+        <div class="product-card-img">
+          <img src="images/libreta-mistica.jpg" alt="Libreta Mística" loading="lazy">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">Libreta Mística</div>
+          <div class="product-card-price">$250.00 MXN</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:calc(100% - 2.5rem);margin:0 1.25rem 1.25rem;justify-content:center"
+          onclick="Cart.add({id:'libreta-mistica',name:'Libreta Mística',price:250,image:'images/libreta-mistica.jpg'})">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="product-card" data-reveal data-delay="80ms">
+        <div class="product-card-img">
+          <img src="images/libreta-as-above.jpg" alt="Libreta As Above So Below" loading="lazy">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">Libreta As Above So Below</div>
+          <div class="product-card-price">$250.00 MXN</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:calc(100% - 2.5rem);margin:0 1.25rem 1.25rem;justify-content:center"
+          onclick="Cart.add({id:'libreta-as-above',name:'Libreta As Above So Below',price:250,image:'images/libreta-as-above.jpg'})">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="product-card" data-reveal data-delay="160ms">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+        <div class="product-card-img">
+          <img src="images/diarios-zodiacales.jpg" alt="Diarios Zodiacales" loading="lazy">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">Diarios Zodiacales</div>
+          <div class="product-card-price">$200.00 MXN</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:calc(100% - 2.5rem);margin:0 1.25rem 1.25rem;justify-content:center"
+          onclick="Cart.add({id:'diarios-zodiacales',name:'Diarios Zodiacales',price:200,image:'images/diarios-zodiacales.jpg'})">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="product-card" data-reveal data-delay="240ms">
+        <div class="product-card-img">
+          <img src="images/libreta-fases-lunares.jpg" alt="Libreta Fases Lunares" loading="lazy">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">Libreta Fases Lunares</div>
+          <div class="product-card-price">$200.00 MXN</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:calc(100% - 2.5rem);margin:0 1.25rem 1.25rem;justify-content:center"
+          onclick="Cart.add({id:'libreta-fases-lunares',name:'Libreta Fases Lunares',price:200,image:'images/libreta-fases-lunares.jpg'})">
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem" data-reveal>
+      <a href="tienda.html?cat=libretas" class="btn btn-ghost">Ver todas las libretas →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── About Strip ────────────────────────────────────── -->
+<section class="about-strip" data-reveal>
+  <div class="about-img-side">
+    <img src="images/andrea-portrait.jpg" alt="Andrea - Lectora de Estrellas">
+  </div>
+  <div class="about-content-side">
+    <span class="eyebrow">Tu mentora cósmica</span>
+    <h2>¡Holi holi! Me llamo Andrea</h2>
+    <p>
+      Te doy la bienvenida a mi espacio cósmico, creado con la intención de elevar tu desarrollo personal, bienestar y conexión espiritual a través de la guía astral e intuitiva.
+    </p>
+    <p>
+      Trabajar con la astrología y con los ángeles ha cambiado mi vida ya que me ha enseñado vivir de forma más alineada a mi fuente y conmigo misma; me ha recordado el poder que tengo para contar mi propia historia.
+    </p>
+    <a href="sesiones.html" class="btn btn-gold" style="margin-top:0.5rem;align-self:flex-start">Hablemos →</a>
+  </div>
+</section>
+
+<!-- ── Events Preview ─────────────────────────────────── -->
+<section class="events-preview">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Próximos eventos</span>
+      <h2>Próximos eventos y encuentros</h2>
+      <p>Pláticas, talleres y encuentros en Monterrey y online.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem;margin-top:2rem;max-width:780px;margin-left:auto;margin-right:auto">
+      <div class="event-card" data-reveal>
+        <div class="event-card-img">
+          <img src="images/evento-beltane.jpg" alt="Beltane y el deseo" loading="lazy">
+        </div>
+        <div class="event-card-body">
+          <div class="event-date">Vie 08 de mayo · La Mano Oculta · SPGG</div>
+          <h3>Beltane y el deseo</h3>
+          <p>Contágiate del desenfreno, abundancia y pasión que enciende esta festividad para expandir tus deseos y metas.</p>
+          <div style="display:flex;gap:0.75rem;align-items:center">
+            <a href="eventos.html" class="btn btn-primary btn-sm">RSVP</a>
+            <a href="eventos.html" style="font-family:var(--font-ui);font-size:0.8rem;color:var(--mauve)">Leer más →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem" data-reveal>
+      <a href="eventos.html" class="btn btn-ghost">Ver todos los eventos →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonial ────────────────────────────────────── -->
+<section class="testimonial-strip">
+  <div class="container">
+    <div class="testimonial-card" data-reveal>
+      <blockquote>
+        "Me encantó, Andrea es muy talentosa y se expresa fácilmente, además tiene muy buena vibra y magia, te agradezco de corazón"
+      </blockquote>
+      <cite>— Verónica Olmos</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ── Blog Preview ───────────────────────────────────── -->
+<section class="blog-preview">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Forecast astrológico</span>
+      <h2>Blog</h2>
+    </div>
+
+    <div class="grid-3" style="margin-top:2rem">
+      <a href="blog.html" class="blog-card" data-reveal>
+        <div class="blog-card-img">
+          <img src="images/blog-saturno-aries.jpg" alt="Saturno en Aries" loading="lazy">
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-meta">23 mayo 2025 · 10 Min. de lectura · Forecast astrológico</div>
+          <h3>Saturno en Aries (2025-2028)</h3>
+          <p>Supérate y realízate con las llamas de Aries para renovar tu confianza en ti.</p>
+        </div>
+      </a>
+
+      <a href="blog.html" class="blog-card" data-reveal data-delay="100ms">
+        <div class="blog-card-img">
+          <img src="images/blog-temporada-geminis.jpg" alt="Temporada Géminis 2025" loading="lazy">
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-meta">21 mayo 2025 · 13 Min. de lectura · Forecast astrológico</div>
+          <h3>Temporada Géminis 2025</h3>
+          <p>Llega un tiempo luminoso enfocado en tener una variedad de experiencias y nuevos aprendizajes.</p>
+        </div>
+      </a>
+
+      <a href="blog.html" class="blog-card" data-reveal data-delay="200ms">
+        <div class="blog-card-img">
+          <img src="images/blog-temporada-aries.jpg" alt="Temporada Aries 2025" loading="lazy">
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-meta">26 marzo 2025 · 12 Min. de lectura · Forecast astrológico</div>
+          <h3>Temporada Aries 2025</h3>
+          <p>Aries llega para traer nueva vida: nos inspira a tomar acción y seguir nuestros deseos.</p>
+        </div>
+      </a>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem" data-reveal>
+      <a href="blog.html" class="btn btn-ghost">Leer más artículos →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Newsletter ─────────────────────────────────────── -->
+<section class="newsletter-strip">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="moon-phases">
+      <span>🌑</span><span>🌒</span><span>🌓</span><span>🌔</span><span>🌕</span><span>🌖</span><span>🌗</span>
+    </div>
+    <h2>Sé parte de la comunidad cósmica</h2>
+    <p>Suscríbete a mi newsletter para recibir avisos, notificaciones y ofertas especiales.</p>
+    <form class="newsletter-form" id="newsletter-home">
+      <input type="email" placeholder="Escribe tu correo electrónico" required>
+      <button type="submit" class="btn btn-gold">Suscribirme</button>
+    </form>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Espacio cósmico para tu desarrollo personal, bienestar y conexión espiritual a través de la guía astral e intuitiva.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://tiktok.com/@lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.85 1.56V6.79a4.85 4.85 0 01-1.08-.1z"/></svg>
+          </a>
+          <a href="https://facebook.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Sesiones</h4>
+        <a href="sesiones.html">Lecturas astrales</a>
+        <a href="sesiones.html#oraculo">Tiradas de oráculo</a>
+        <a href="sesiones.html#lectura-natal">Lectura natal</a>
+        <a href="sesiones.html#lectura-karmica">Lectura kármica</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <a href="tienda.html?cat=lunar2026">Colección Lunar 2026</a>
+        <a href="tienda.html?cat=libretas">Libretas</a>
+        <a href="tienda.html?cat=notepads">Notepads</a>
+        <a href="tienda.html?cat=bundles">Bundles</a>
+        <a href="tienda.html?cat=digitales">Digitales</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="eventos.html">Eventos</a>
+        <a href="aprende.html">Cursos</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Lectora de Estrellas · Todos los derechos reservados</span>
+      <span>Hecho con ✦ en Monterrey, MX</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Cart Sidebar ───────────────────────────────────── -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h3>Tu carrito ✦</h3>
+    <button class="cart-close" id="cart-close">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="amount" id="cart-subtotal">$0.00 MXN</span>
+    </div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem"
+      onclick="Checkout.proceedToCheckout()">
+      Proceder al pago →
+    </button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">
+      Seguir comprando
+    </button>
+  </div>
+</aside>
+
+<script src="js/main.js"></script>
+<script>
+  // Reveal animation trigger
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.65s ease ${el.dataset.delay || '0ms'}, transform 0.65s ease ${el.dataset.delay || '0ms'}`;
+      observer.observe(el);
+    });
+  });
+</script>
+</body>
+</html>
