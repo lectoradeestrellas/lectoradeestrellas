@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Lunar 2026 Digital Interactiva — Lectora de Estrellas</title>
+  <meta name="description" content="La Agenda Lunar 2026 en versión digital interactiva. PDF con hipervínculos, compatible con GoodNotes, Notability y cualquier app de PDF. Descarga inmediata. $299 MXN.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/producto.css">
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>💫 Productos digitales — descarga inmediata</span><span>✦</span>
+  <span>Sin envío físico · Acceso permanente al archivo</span><span>✦</span>
+  <span>💫 Productos digitales — descarga inmediata</span><span>✦</span>
+  <span>Sin envío físico · Acceso permanente al archivo</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <div class="has-dropdown">
+        <a href="tienda.html" class="active">Herramientas mágicas</a>
+        <div class="dropdown">
+          <div class="dropdown-section">Colección Lunar 2026</div>
+          <a href="tienda.html?cat=lunar2026">Agenda Lunar 2026</a>
+          <a href="tienda.html?cat=lunar2026">Print Calendario Lunar</a>
+          <a href="tienda.html?cat=lunar2026">Calendario mini de escritorio</a>
+          <div class="dropdown-section">Libretas</div>
+          <a href="tienda.html?cat=libretas">Libretas artesanales</a>
+          <a href="tienda.html?cat=libretas">Mini libretas</a>
+          <div class="dropdown-section">Digitales</div>
+          <a href="producto-agenda-lunar-digital.html">Agenda Lunar Digital</a>
+          <a href="producto-calendario-astrologico-digital-2026.html">Calendario Astrológico Digital</a>
+          <a href="tienda.html?cat=bundles">Bundles</a>
+        </div>
+      </div>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+    </div>
+    <div class="nav-actions">
+      <a href="tienda.html" class="nav-search" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </a>
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="gallery-main" id="gallery-main" onclick="openZoom()">
+          <img id="main-img" src="images/productos/agenda-digital-1.jpg" alt="Agenda Lunar 2026 Digital Interactiva">
+          <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
+          <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a href="index.html">Inicio</a> ›
+          <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=digitales">Digitales</a> ›
+          <span>Agenda Lunar 2026 Digital</span>
+        </div>
+
+        <div style="margin-bottom:0.75rem">
+          <span class="product-badge-inline badge-digital">💫 Digital</span>
+        </div>
+
+        <span class="eyebrow">Colección Lunar 2026 · Digital</span>
+        <h1 class="product-title">Agenda Lunar 2026<br>Digital Interactiva</h1>
+        <p class="product-subtitle">La experiencia completa de la Agenda Lunar 2026, ahora en tu tablet o computadora. PDF interactivo con hipervínculos, fases lunares y toda la magia — sin papel, sin envío.</p>
+
+        <div class="product-price-block">
+          <div class="product-price">$299 <span class="price-currency">MXN</span></div>
+        </div>
+
+        <!-- Download info -->
+        <div class="digital-download-box">
+          <div class="icon">📩</div>
+          <p><strong>Descarga inmediata.</strong> Al confirmar tu pago recibirás un email con el link de descarga del archivo PDF. El acceso es permanente — el archivo es tuyo para siempre.</p>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="add-to-cart-block">
+          <button class="add-btn-main" id="add-btn" onclick="addToCart()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Comprar y descargar
+          </button>
+          <div class="shipping-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Sin envío físico · Link de descarga por email
+          </div>
+        </div>
+
+        <!-- También disponible versión física -->
+        <div style="margin-top:1rem;padding:1rem 1.25rem;background:var(--cream);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:0.85rem;color:var(--ink)">
+          ¿Prefieres la versión física? →
+          <a href="producto-agenda-lunar.html" style="color:var(--violet);font-weight:500;text-decoration:none">Ver Agenda Lunar 2026 impresa ($999 MXN)</a>
+        </div>
+
+        <div class="product-details">
+          <div class="detail-accordion">
+            <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
+            <div class="detail-content open">
+              <p>La Agenda Lunar 2026 Digital Interactiva es la versión PDF de tu compañera cósmica favorita. Tiene todo el contenido de la versión impresa — fases lunares, eventos astrológicos, sección de finanzas, espacios de reflexión — pero optimizada para usarse en pantalla.</p>
+              <p>Gracias a sus hipervínculos internos puedes navegar entre secciones con un toque, igual que una app. Perfecta si viajas seguido o prefieres llevar todo en un solo dispositivo.</p>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">¿Qué incluye? <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <ul>
+                <li>PDF interactivo con hipervínculos internos de navegación</li>
+                <li>Fases lunares y eventos astrológicos todo 2026</li>
+                <li>Temporadas zodiacales y retrógrados planetarios</li>
+                <li>Sección de finanzas e intenciones mensuales</li>
+                <li>Espacios de reflexión y gratitud semanales</li>
+                <li>Páginas de notas libres</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">¿Cómo funciona la descarga? <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <ul>
+                <li>Completa tu compra con tarjeta o PayPal</li>
+                <li>Recibes un email con el link de descarga</li>
+                <li>Descarga el PDF a tu dispositivo</li>
+                <li>Ábrelo con GoodNotes, Notability, Adobe Acrobat o cualquier lector de PDF</li>
+                <li>El link es permanente — el archivo es tuyo para siempre</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Compatibilidad <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Compatible con iPad (GoodNotes, Notability, PDF Expert), tablets Android, Mac, PC y cualquier dispositivo que abra archivos PDF. Para escribir sobre él necesitas una app de anotación como GoodNotes o Notability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto relacionado -->
+    <div class="related-section" style="margin-top:4rem">
+      <div class="section-header" style="text-align:left;margin-bottom:1.5rem">
+        <span class="eyebrow">También te puede interesar</span>
+        <h2>Más herramientas digitales</h2>
+      </div>
+      <div class="grid-2" style="max-width:600px">
+        <a href="producto-calendario-astrologico-digital-2026.html" class="product-card">
+          <div class="product-card-img">
+            <img src="images/productos/calendario-astro-digital-1.jpg" alt="Calendario Astrológico Digital 2026" onerror="this.src='images/placeholder.jpg'">
+          </div>
+          <div class="product-card-body">
+            <span class="product-card-name">Calendario Astrológico Digital 2026</span>
+            <span class="product-card-price">$199 MXN</span>
+          </div>
+        </a>
+        <a href="producto-agenda-lunar.html" class="product-card">
+          <div class="product-card-img">
+            <img src="images/productos/agenda-lunar-1.jpg" alt="Agenda Lunar 2026 impresa" onerror="this.src='images/placeholder.jpg'">
+            <span class="product-badge badge-bestseller">Best Seller</span>
+          </div>
+          <div class="product-card-body">
+            <span class="product-card-name">Agenda Lunar 2026 (impresa)</span>
+            <span class="product-card-price">$999 MXN</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews-section" id="reviews-section"></div>
+  </div>
+</section>
+
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <span class="zoom-close">×</span><img id="zoom-img" src="" alt="Zoom">
+</div>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Producto digital — sin costo de envío</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="Checkout.proceedToCheckout()">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script src="js/producto.js"></script>
+<script>
+  const PRODUCT = {
+    id: 'agenda-lunar-2026-digital',
+    name: 'Agenda Lunar 2026 Digital Interactiva',
+    price: 299,
+    sku: 'AGENDADIGITAL26',
+    images: [
+      'images/productos/agenda-digital-1.jpg',
+      'images/productos/agenda-digital-2.jpg',
+      'images/productos/agenda-digital-3.jpg'
+    ],
+    digital: true
+  };
+
+  function addToCart() {
+    Cart.add({
+      id: PRODUCT.id,
+      name: PRODUCT.name,
+      price: PRODUCT.price,
+      image: PRODUCT.images[0],
+      sku: PRODUCT.sku,
+      digital: true
+    });
+    flashAddBtn();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initGallery(PRODUCT.images);
+    renderReviews('lde_reviews_agenda_digital', 'Agenda Lunar Digital');
+  });
+</script>
+</body>
+</html>

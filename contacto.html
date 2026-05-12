@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Lectora de Estrellas</title>
+  <meta name="description" content="¿Tienes una pregunta o quieres saber más? Escríbeme por aquí, por Instagram o por email. Con gusto te respondo.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .contacto-hero {
+      background: var(--deep-plum);
+      padding: 7rem 0 5rem;
+      text-align: center;
+    }
+
+    .contacto-hero .eyebrow { color: var(--gold); }
+
+    .contacto-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: white;
+      margin: 0.75rem 0 1rem;
+    }
+
+    .contacto-hero p {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-style: italic;
+      color: rgba(250,246,240,0.7);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Main layout ─────────────────────────────────────── */
+    .contacto-main {
+      background: var(--parchment);
+      padding: var(--space-lg) 0;
+    }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* ── Canales ─────────────────────────────────────────── */
+    .contacto-canales h2 {
+      font-size: 1.5rem;
+      color: var(--deep-plum);
+      margin-bottom: 0.5rem;
+    }
+
+    .contacto-canales > p {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--ink);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .canal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 0.5px solid rgba(107,68,113,0.12);
+    }
+
+    .canal-item:first-of-type { border-top: 0.5px solid rgba(107,68,113,0.12); }
+
+    .canal-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--plum);
+    }
+
+    .canal-icon svg { width: 18px; height: 18px; }
+
+    .canal-label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      margin-bottom: 0.25rem;
+    }
+
+    .canal-value {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--deep-plum);
+    }
+
+    .canal-value a {
+      color: var(--deep-plum);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .canal-value a:hover { color: var(--violet); }
+
+    .canal-note {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--mauve);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Formulario ──────────────────────────────────────── */
+    .contacto-form-wrap {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid rgba(107,68,113,0.1);
+    }
+
+    .contacto-form-wrap h2 {
+      font-size: 1.5rem;
+      color: var(--deep-plum);
+      margin-bottom: 0.4rem;
+    }
+
+    .contacto-form-wrap > p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink);
+      opacity: 0.7;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mauve);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--parchment);
+      border: 1px solid rgba(107,68,113,0.2);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(123,94,167,0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B4471' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-submit {
+      margin-top: 0.5rem;
+    }
+
+    .form-submit .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .form-note {
+      text-align: center;
+      margin-top: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--mauve);
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .form-success-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-success h3 {
+      color: var(--deep-plum);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-success p {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--mauve);
+      font-size: 1.05rem;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .contacto-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contacto-form-wrap {
+        padding: 1.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Announcement Banner ─────────────────────────────── -->
+<div class="banner">
+  <div class="banner-track">
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+  </div>
+</div>
+
+<!-- ── Navigation ─────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      LECTORA <em>de</em> ESTRELLAS
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <div class="has-dropdown">
+        <a href="tienda.html">Herramientas mágicas</a>
+        <div class="dropdown">
+          <div class="dropdown-section">Colección Lunar 2026</div>
+          <a href="tienda.html?cat=lunar2026">Agenda Lunar 2026</a>
+          <a href="tienda.html?cat=lunar2026">Print Calendario Lunar</a>
+          <a href="tienda.html?cat=lunar2026">Calendario mini de escritorio</a>
+          <div class="dropdown-section">Libretas</div>
+          <a href="tienda.html?cat=libretas">Libretas artesanales</a>
+          <a href="tienda.html?cat=libretas">Mini libretas</a>
+          <div class="dropdown-section">Digitales</div>
+          <a href="tienda.html?cat=digitales">Productos digitales</a>
+          <a href="tienda.html?cat=bundles">Bundles</a>
+        </div>
+      </div>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+    </div>
+    <div class="nav-actions">
+      <a href="tienda.html" class="nav-search" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </a>
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<section class="contacto-hero">
+  <div class="container">
+    <span class="eyebrow" data-reveal>Hablemos</span>
+    <h1 data-reveal>¿En qué te puedo ayudar? ✦</h1>
+    <p data-reveal>Escríbeme con confianza — con gusto te respondo en cuanto pueda.</p>
+  </div>
+</section>
+
+<!-- ── Main ───────────────────────────────────────────── -->
+<section class="contacto-main">
+  <div class="container">
+    <div class="contacto-grid">
+
+      <!-- Canales -->
+      <div class="contacto-canales" data-reveal>
+        <h2>Encuéntrame aquí</h2>
+        <p>Puedes escribirme por cualquiera de estos canales o usar el formulario. Respondo en un plazo de 1 a 3 días hábiles.</p>
+
+        <div class="canal-item">
+          <div class="canal-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <div>
+            <div class="canal-label">Instagram</div>
+            <div class="canal-value">
+              <a href="https://instagram.com/lectoradeestrellas" target="_blank" rel="noopener">@lectoradeestrellas</a>
+            </div>
+            <div class="canal-note">DM directo — ideal para preguntas rápidas</div>
+          </div>
+        </div>
+
+        <div class="canal-item">
+          <div class="canal-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="canal-label">Email</div>
+            <div class="canal-value">
+              <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas@gmail.com</a>
+            </div>
+            <div class="canal-note">Para preguntas más detalladas o pedidos especiales</div>
+          </div>
+        </div>
+
+        <div class="canal-item">
+          <div class="canal-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="canal-label">Tiempo de respuesta</div>
+            <div class="canal-value">1 a 3 días hábiles</div>
+            <div class="canal-note">Respondo con calma y atención ✦</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="contacto-form-wrap" data-reveal data-delay="100ms">
+        <h2>Escríbeme ✦</h2>
+        <p>Cuéntame en qué puedo ayudarte — ya sea una pregunta sobre sesiones, un pedido o simplemente decir hola.</p>
+
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✦</div>
+          <h3>¡Mensaje recibido!</h3>
+          <p>Gracias por escribirme. Te respondo pronto con mucho cariño.</p>
+        </div>
+
+        <!-- Reemplaza YOUR_FORM_ID con tu endpoint de Formspree -->
+        <form id="contactoForm" action="https://formspree.io/f/xlgzjqdo" method="POST">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="asunto">¿Sobre qué me escribes?</label>
+            <select id="asunto" name="asunto" required>
+              <option value="" disabled selected>Elige una opción</option>
+              <option value="sesion">Quiero saber más sobre una sesión</option>
+              <option value="producto">Pregunta sobre un producto</option>
+              <option value="evento">Info sobre eventos o talleres</option>
+              <option value="pedido">Seguimiento de pedido</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Cuéntame..." required></textarea>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary">Enviar mensaje →</button>
+          </div>
+          <p class="form-note">Tu información es privada y solo se usa para responderte ✦</p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Espacio cósmico para tu desarrollo personal, bienestar y conexión espiritual a través de la guía astral e intuitiva.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://tiktok.com/@lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.85 1.56V6.79a4.85 4.85 0 01-1.08-.1z"/></svg>
+          </a>
+          <a href="https://facebook.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Sesiones</h4>
+        <a href="sesiones.html">Lecturas astrales</a>
+        <a href="sesiones.html#oraculo">Tiradas de oráculo</a>
+        <a href="sesiones.html#lectura-natal">Lectura natal</a>
+        <a href="sesiones.html#lectura-karmica">Lectura kármica</a>
+      </div>
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <a href="tienda.html?cat=lunar2026">Colección Lunar 2026</a>
+        <a href="tienda.html?cat=libretas">Libretas</a>
+        <a href="tienda.html?cat=bundles">Bundles</a>
+        <a href="tienda.html?cat=digitales">Digitales</a>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="sobre-mi.html">Sobre mí</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="aprende.html">Cursos</a>
+        <a href="blog.html">Blog</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lectora de Estrellas · Todos los derechos reservados</span>
+      <span>Hecho con ✦ en Monterrey, MX</span>
+    </div>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h3>Tu carrito ✦</h3>
+    <button class="cart-close" id="cart-close">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="amount" id="cart-subtotal">$0.00 MXN</span>
+    </div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem"
+      onclick="Checkout.proceedToCheckout()">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center"
+      onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script>
+  /* Form submit — Formspree AJAX */
+  document.getElementById('contactoForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        btn.textContent = 'Hubo un error, intenta de nuevo';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Hubo un error, intenta de nuevo';
+      btn.disabled = false;
+    }
+  });
+
+  /* Reveal */
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.65s ease ${el.dataset.delay || '0ms'}, transform 0.65s ease ${el.dataset.delay || '0ms'}`;
+      observer.observe(el);
+    });
+  });
+</script>
+</body>
+</html>

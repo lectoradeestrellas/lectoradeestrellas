@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libretas Artesanales — Lectora de Estrellas</title>
+  <meta name="description" content="Libretas artesanales creadas con intención y magia. Elige tu diseño favorito.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .product-page { padding: 3rem 0 5rem; }
+
+    /* ── Product Layout ── */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* ── Image Gallery ── */
+    .gallery { position: sticky; top: 88px; }
+
+    .gallery-main {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--cream);
+      aspect-ratio: 1;
+      cursor: zoom-in;
+      margin-bottom: 0.75rem;
+    }
+
+    .gallery-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .gallery-main:hover img { transform: scale(1.04); }
+
+    /* Zoom overlay */
+    .zoom-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(21,13,30,0.92);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .zoom-overlay.active { display: flex; }
+    .zoom-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+    .zoom-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      color: white; font-size: 1.75rem;
+      cursor: pointer; line-height: 1;
+      background: rgba(255,255,255,0.1);
+      width: 40px; height: 40px;
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .zoom-close:hover { background: rgba(255,255,255,0.2); }
+
+    /* Prev / Next arrows on main image */
+    .gallery-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px;
+      background: white;
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      font-size: 1rem;
+      color: var(--ink);
+      z-index: 2;
+      transition: all 0.2s;
+      border: none;
+    }
+    .gallery-arrow:hover { background: var(--plum); color: white; transform: translateY(-50%) scale(1.05); }
+    .gallery-arrow.prev { left: 0.75rem; }
+    .gallery-arrow.next { right: 0.75rem; }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-thumb {
+      width: 72px; height: 72px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--cream);
+      flex-shrink: 0;
+    }
+    .gallery-thumb:hover { border-color: var(--mauve); }
+    .gallery-thumb.active { border-color: var(--plum); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Product Info ── */
+    .product-info { padding-top: 0.5rem; }
+
+    .breadcrumb {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .breadcrumb a { color: var(--mauve); }
+    .breadcrumb a:hover { color: var(--plum); }
+
+    .product-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      line-height: 1.15;
+    }
+
+    .product-subtitle {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .product-price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid rgba(155,122,158,0.15);
+    }
+
+    .product-price {
+      font-family: var(--font-ui);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--plum);
+    }
+
+    .product-price-original {
+      font-family: var(--font-ui);
+      font-size: 1.15rem;
+      color: var(--blush);
+      text-decoration: line-through;
+    }
+
+    .product-price-note {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      align-self: flex-end;
+    }
+
+    /* ── Design Selector ── */
+    .option-group { margin-bottom: 1.5rem; }
+
+    .option-label {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .option-label .selected-name {
+      color: var(--plum);
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+
+    .design-option {
+      border: 2px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .design-option:hover { border-color: var(--mauve); }
+    .design-option.active { border-color: var(--plum); }
+    .design-option.active::after {
+      content: '✓';
+      position: absolute;
+      top: 0.3rem; right: 0.3rem;
+      width: 20px; height: 20px;
+      background: var(--plum);
+      color: white;
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+
+    .design-option img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    .design-option-name {
+      padding: 0.4rem 0.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Zodiac Sign Selector ── */
+    .sign-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+
+    .sign-option {
+      border: 1.5px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.25rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .sign-option:hover { border-color: var(--mauve); background: rgba(155,122,158,0.05); }
+    .sign-option.active { border-color: var(--plum); background: rgba(107,68,113,0.08); }
+
+    .sign-symbol { font-size: 1.1rem; display: block; margin-bottom: 0.2rem; }
+    .sign-name { font-family: var(--font-ui); font-size: 0.65rem; color: var(--ink-soft); }
+
+    /* ── Language Options ── */
+    .lang-options {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .lang-option {
+      flex: 1;
+      border: 1.5px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .lang-option:hover:not(.disabled) { border-color: var(--mauve); }
+    .lang-option.active { border-color: var(--plum); background: rgba(107,68,113,0.08); }
+    .lang-option.disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .lang-option-name { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+    .lang-option-note { font-family: var(--font-ui); font-size: 0.68rem; color: var(--mauve); margin-top: 0.2rem; }
+
+    /* ── Workbook selector ── */
+    .workbook-options { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .workbook-option {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      border: 1.5px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .workbook-option:hover { border-color: var(--mauve); }
+    .workbook-option.active { border-color: var(--plum); background: rgba(107,68,113,0.04); }
+
+    .workbook-option img { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); }
+    .workbook-option-info { min-width: 0; }
+    .workbook-option-name { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+    .workbook-option-desc { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.2rem; line-height: 1.4; }
+    .workbook-option-price { font-family: var(--font-ui); font-weight: 600; color: var(--plum); font-size: 0.9rem; flex-shrink: 0; }
+
+    /* ── Birth Data Form ── */
+    .birth-form {
+      background: rgba(155,122,158,0.06);
+      border: 1px solid rgba(155,122,158,0.15);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .birth-form-title {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--plum);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-row.thirds { grid-template-columns: 1fr 1fr 1fr; }
+
+    .form-field { display: flex; flex-direction: column; gap: 0.3rem; }
+
+    .form-label {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .form-input {
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid rgba(155,122,158,0.25);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      color: var(--ink);
+      background: white;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--plum); }
+    .form-input.error { border-color: var(--rose); }
+
+    .form-select {
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid rgba(155,122,158,0.25);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      color: var(--ink);
+      background: white;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .form-select:focus { border-color: var(--plum); }
+
+    /* ── Add to Cart ── */
+    .add-to-cart-block { margin-bottom: 1.5rem; }
+
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid rgba(155,122,158,0.25);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+
+    .qty-btn-large {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: color 0.2s, background 0.2s;
+    }
+    .qty-btn-large:hover { color: var(--plum); background: rgba(155,122,158,0.08); }
+
+    .qty-display {
+      min-width: 40px;
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .add-btn-main {
+      width: 100%;
+      padding: 1rem;
+      background: var(--plum);
+      color: white;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .add-btn-main:hover { background: var(--deep-plum); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(107,68,113,0.3); }
+    .add-btn-main:active { transform: translateY(0); }
+    .add-btn-main.added { background: #2d7a4f; }
+
+    .shipping-note {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      justify-content: center;
+    }
+
+    /* ── Product Details ── */
+    .product-details { border-top: 1px solid rgba(155,122,158,0.15); }
+
+    .detail-accordion {
+      border-bottom: 1px solid rgba(155,122,158,0.12);
+    }
+
+    .detail-toggle {
+      width: 100%;
+      padding: 1.1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-align: left;
+    }
+
+    .detail-toggle .chevron {
+      transition: transform 0.25s;
+      font-size: 0.8rem;
+      color: var(--mauve);
+    }
+    .detail-toggle.open .chevron { transform: rotate(180deg); }
+
+    .detail-content {
+      padding-bottom: 1.25rem;
+      display: none;
+    }
+    .detail-content.open { display: block; }
+
+    .detail-content p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 0.75rem; }
+    .detail-content ul { padding-left: 1.25rem; }
+    .detail-content li { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 0.4rem; line-height: 1.5; }
+    .detail-content li::marker { color: var(--mauve); }
+
+    /* ── Reviews ── */
+    .reviews-section { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(155,122,158,0.15); }
+
+    .reviews-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .reviews-header h2 { font-size: 1.75rem; }
+
+    .rating-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stars { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.05em; }
+    .rating-num { font-family: var(--font-ui); font-size: 0.85rem; color: var(--ink-soft); }
+
+    .review-card {
+      background: var(--cream);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .reviewer-info { display: flex; align-items: center; gap: 0.75rem; }
+
+    .reviewer-avatar {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--mauve);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .reviewer-name { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+    .review-date { font-family: var(--font-ui); font-size: 0.72rem; color: var(--ink-soft); margin-top: 0.1rem; }
+
+    .review-body { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.65; }
+
+    /* ── Write Review ── */
+    .write-review {
+      background: white;
+      border: 1.5px solid rgba(155,122,158,0.15);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-top: 2rem;
+    }
+
+    .write-review h3 { font-size: 1.2rem; margin-bottom: 0.25rem; }
+    .write-review .subtitle { font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
+
+    .star-selector {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .star-selector span { color: rgba(155,122,158,0.3); transition: color 0.15s; }
+    .star-selector span.lit { color: var(--gold); }
+
+    .review-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.875rem;
+      border: 1.5px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 0.75rem;
+    }
+    .review-textarea:focus { border-color: var(--plum); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .product-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .gallery { position: static; }
+      .design-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-row.thirds { grid-template-columns: 1fr 1fr; }
+      .sign-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="banner">
+  <div class="banner-track">
+    <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+    <span>Libretas artesanales creadas con intención y magia</span><span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+    <span>Libretas artesanales creadas con intención y magia</span><span>✦</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html" class="active">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Product Page -->
+<section class="product-page">
+  <div class="container">
+
+    <div class="product-layout">
+
+      <!-- LEFT: Gallery -->
+      <div class="gallery">
+        <div class="gallery-main" id="gallery-main" onclick="openZoom()">
+          <img id="main-img" src="images/productos/libreta-mistica-1.jpg" alt="Libreta artesanal">
+          <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
+          <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- RIGHT: Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a href="index.html">Inicio</a> ›
+          <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=libretas">Libretas & Bundles</a> ›
+          <span id="breadcrumb-title">Libretas artesanales</span>
+        </div>
+
+        <span class="eyebrow">Libretas artesanales</span>
+        <h1 class="product-title" id="product-title">Libretas Artesanales</h1>
+        <p class="product-subtitle">Escoge el diseño de tu libreta. Todas tienen el mismo formato A5, 200 páginas y espiral dorado.</p>
+
+        <div class="product-price-block">
+          <div class="product-price" id="product-price">$250 MXN</div>
+          <div class="product-price-note">Precio varía según diseño</div>
+        </div>
+
+        <!-- Design Selector -->
+        <div class="option-group">
+          <div class="option-label">
+            Diseño:
+            <span class="selected-name" id="selected-design-name">Elige tu diseño</span>
+          </div>
+          <div class="design-grid" id="design-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Interior type selector -->
+        <div class="option-group">
+          <div class="option-label">
+            Tipo de interior: <span class="selected-name" id="selected-interior-name">Elige el interior</span>
+          </div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap" id="interior-options">
+            <button onclick="selectInterior('rayado','Rayado')" id="int-rayado"
+              style="padding:0.5rem 1.1rem;border-radius:var(--radius-full);border:1.5px solid rgba(155,122,158,0.2);font-family:var(--font-ui);font-size:0.8rem;font-weight:500;color:var(--ink-soft);background:white;cursor:pointer;transition:all 0.2s">
+              📏 Rayado
+            </button>
+            <button onclick="selectInterior('puntos','Puntos')" id="int-puntos"
+              style="padding:0.5rem 1.1rem;border-radius:var(--radius-full);border:1.5px solid rgba(155,122,158,0.2);font-family:var(--font-ui);font-size:0.8rem;font-weight:500;color:var(--ink-soft);background:white;cursor:pointer;transition:all 0.2s">
+              ⠿ Puntos
+            </button>
+            <button onclick="selectInterior('blanco','En blanco')" id="int-blanco"
+              style="padding:0.5rem 1.1rem;border-radius:var(--radius-full);border:1.5px solid rgba(155,122,158,0.2);font-family:var(--font-ui);font-size:0.8rem;font-weight:500;color:var(--ink-soft);background:white;cursor:pointer;transition:all 0.2s">
+              □ En blanco
+            </button>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="option-group">
+          <div class="option-label">Cantidad</div>
+          <div class="qty-selector">
+            <button class="qty-btn-large" onclick="changeQty(-1)">−</button>
+            <span class="qty-display" id="qty-display">1</span>
+            <button class="qty-btn-large" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Add to Cart -->
+        <div class="add-to-cart-block">
+          <button class="add-btn-main" id="add-btn" onclick="addToCart()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Agregar al carrito
+          </button>
+          <div class="shipping-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Envío a todo el mundo · Costo calculado al confirmar dirección
+          </div>
+        </div>
+
+        <!-- Product Details Accordion -->
+        <div class="product-details">
+          <div class="detail-accordion">
+            <button class="detail-toggle open" onclick="toggleDetail(this)">
+              Descripción <span class="chevron">▾</span>
+            </button>
+            <div class="detail-content open">
+              <p>Libretas artesanales creadas con intención y magia, ideales para usarlas como diarios, grimorios de tus aprendizajes witchy, introspección, journaling libre e intuitivo ¡y más!</p>
+              <p>Cada página es un espacio sagrado para conectar contigo, descubrir tu voz interior y dejar que tu luz se exprese.</p>
+            </div>
+          </div>
+
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">
+              Características <span class="chevron">▾</span>
+            </button>
+            <div class="detail-content">
+              <ul>
+                <li>Papel de alta calidad 90g sin ácido</li>
+                <li>Tapas ilustradas con diseños exclusivos Lectora de Estrellas</li>
+                <li>Espiral dorado resistente</li>
+                <li>200 páginas pautadas</li>
+                <li>Formato A5 (14.8 × 21 cm)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">
+              Envío & entrega <span class="chevron">▾</span>
+            </button>
+            <div class="detail-content">
+              <p>Enviamos a todo el mundo. El costo de envío se calcula automáticamente en el checkout según tu código postal.</p>
+              <p>Tiempo de entrega México: 3-7 días hábiles · Internacional: 7-20 días hábiles</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Productos recomendados -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
+      <div class="grid-4">
+        <a href="producto-bundles.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/bundle-mistica-1.jpg" alt="Bundles" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body"><div class="product-card-name">Bundles</div><div class="product-card-price">$450 MXN</div></div>
+        </a>
+        <a href="producto-diario-zodiacal.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/diario-zodiacal-aries.jpg" alt="Diario Zodiacal" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body"><div class="product-card-name">Diario Zodiacal</div><div class="product-card-price">$200 MXN</div></div>
+        </a>
+        <a href="producto-workbook-emociones.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/emociones-ciclos-1.jpg" alt="La Astrología de mis Emociones" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body"><div class="product-card-name">La Astrología de mis Emociones</div><div class="product-card-price">$380 MXN</div></div>
+        </a>
+        <a href="producto-agenda-lunar.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body"><div class="product-card-name">Agenda Lunar 2026</div><div class="product-card-price">$999 MXN</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <div class="reviews-header">
+        <div>
+          <h2>Reseñas</h2>
+          <div class="rating-summary">
+            <span class="stars" id="avg-stars">★★★★★</span>
+            <span class="rating-num" id="avg-rating">5.0 · <span id="review-count">0</span> reseña(s)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Existing reviews -->
+      <div id="reviews-list"></div>
+
+      <!-- Write review form -->
+      <div class="write-review">
+        <h3>Deja tu reseña ✦</h3>
+        <p class="subtitle">¿Ya tienes tu libreta? Comparte tu experiencia con la comunidad.</p>
+
+        <div class="star-selector" id="star-selector">
+          <span data-val="1">★</span>
+          <span data-val="2">★</span>
+          <span data-val="3">★</span>
+          <span data-val="4">★</span>
+          <span data-val="5">★</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">Nombre</label>
+            <input class="form-input" type="text" id="reviewer-name" placeholder="Tu nombre">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Diseño comprado</label>
+            <select class="form-select" id="reviewer-design">
+              <option value="">Selecciona...</option>
+            </select>
+          </div>
+        </div>
+
+        <textarea class="review-textarea" id="review-text" placeholder="Cuéntanos tu experiencia con la libreta..."></textarea>
+
+        <button class="btn btn-primary" onclick="submitReview()">Publicar reseña ✦</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Zoom Overlay -->
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <span class="zoom-close" onclick="closeZoom()">×</span>
+  <img id="zoom-img" src="" alt="Zoom">
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h3>Tu carrito ✦</h3>
+    <button class="cart-close" id="cart-close">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="amount" id="cart-subtotal">$0.00 MXN</span>
+    </div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const DESIGNS = [
+    { id: 'mistica',          name: 'Mística',              price: 250, images: ['images/productos/libreta-mistica-1.jpg','images/productos/libreta-mistica-2.jpg'], sku: 'LIB-MIST' },
+    { id: 'sol-luna',         name: 'Sol & Luna',           price: 250, images: ['images/productos/libreta-sol-luna-1.jpg','images/productos/libreta-sol-luna-2.jpg'], sku: 'LIB-SOL' },
+    { id: 'fases-lunares',    name: 'Fases Lunares',        price: 200, images: ['images/productos/libreta-fases-1.jpg','images/productos/libreta-fases-2.jpg'], sku: 'LIB-FASES' },
+    { id: 'as-above',         name: 'As Above So Below',    price: 250, images: ['images/productos/libreta-as-above-1.jpg','images/productos/libreta-as-above-2.jpg'], sku: 'LIB-ASABOVE' },
+    { id: 'power-of-your-light', name: 'Power of Your Light', price: 250, images: ['images/productos/libreta-power-1.jpg','images/productos/libreta-power-2.jpg'], sku: 'LIB-POWER' },
+    { id: 'musa-lunar',       name: 'Musa Lunar',           price: 250, images: ['images/productos/libreta-musa-1.jpg','images/productos/libreta-musa-2.jpg'], sku: 'LIB-MUSA' },
+  ];
+
+  let selectedDesign = null;
+  let selectedInterior = null;
+  let qty = 1;
+  let currentImgIndex = 0;
+
+  function selectInterior(id, label) {
+    selectedInterior = { id, label };
+    document.getElementById('selected-interior-name').textContent = label;
+    ['rayado','puntos','blanco'].forEach(i => {
+      const btn = document.getElementById(`int-${i}`);
+      if (!btn) return;
+      btn.style.borderColor = i === id ? 'var(--plum)' : 'rgba(155,122,158,0.2)';
+      btn.style.color = i === id ? 'var(--plum)' : 'var(--ink-soft)';
+      btn.style.background = i === id ? 'rgba(107,68,113,0.06)' : 'white';
+    });
+  }
+  let currentImages = [DESIGNS[0].images[0]];
+  let reviewRating = 0;
+
+  // ── Gallery ──────────────────────────────────────────
+  function setMainImage(src, index) {
+    currentImgIndex = index;
+    const img = document.getElementById('main-img');
+    img.style.opacity = '0.4';
+    setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 150);
+    document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === index);
+    });
+  }
+
+  function prevImg() {
+    const next = (currentImgIndex - 1 + currentImages.length) % currentImages.length;
+    setMainImage(currentImages[next], next);
+  }
+
+  function nextImg() {
+    const next = (currentImgIndex + 1) % currentImages.length;
+    setMainImage(currentImages[next], next);
+  }
+
+  function renderThumbs(images) {
+    currentImages = images;
+    const container = document.getElementById('gallery-thumbs');
+    container.innerHTML = images.map((src, i) => `
+      <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="setMainImage('${src}', ${i})">
+        <img src="${src}" alt="" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+      </div>`).join('');
+    setMainImage(images[0], 0);
+  }
+
+  function openZoom() {
+    document.getElementById('zoom-img').src = currentImages[currentImgIndex];
+    document.getElementById('zoom-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeZoom() {
+    document.getElementById('zoom-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeZoom(); });
+
+  // ── Design Selector ───────────────────────────────────
+  function renderDesignGrid() {
+    const grid = document.getElementById('design-grid');
+    const reviewSelect = document.getElementById('reviewer-design');
+
+    grid.innerHTML = DESIGNS.map(d => `
+      <div class="design-option ${selectedDesign?.id === d.id ? 'active' : ''}"
+           onclick="selectDesign('${d.id}')">
+        <img src="${d.images[0]}" alt="${d.name}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+        <div class="design-option-name">${d.name} · $${d.price}</div>
+      </div>`).join('');
+
+    reviewSelect.innerHTML = '<option value="">Selecciona...</option>' +
+      DESIGNS.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+  }
+
+  function selectDesign(id) {
+    selectedDesign = DESIGNS.find(d => d.id === id);
+    if (!selectedDesign) return;
+
+    document.getElementById('selected-design-name').textContent = selectedDesign.name;
+    document.getElementById('product-price').textContent = `$${selectedDesign.price} MXN`;
+    document.getElementById('product-title').textContent = `Libreta ${selectedDesign.name}`;
+    document.getElementById('breadcrumb-title').textContent = `Libreta ${selectedDesign.name}`;
+
+    renderThumbs(selectedDesign.images);
+    renderDesignGrid();
+  }
+
+  // ── Quantity ──────────────────────────────────────────
+  function changeQty(delta) {
+    qty = Math.max(1, Math.min(10, qty + delta));
+    document.getElementById('qty-display').textContent = qty;
+  }
+
+  // ── Add to Cart ───────────────────────────────────────
+  function addToCart() {
+    if (!selectedDesign) {
+      document.getElementById('design-grid').style.outline = '2px solid var(--rose)';
+      document.getElementById('design-grid').style.borderRadius = '12px';
+      setTimeout(() => document.getElementById('design-grid').style.outline = '', 2000);
+      return;
+    }
+    if (!selectedInterior) {
+      document.getElementById('interior-options').style.outline = '2px solid var(--rose)';
+      document.getElementById('interior-options').style.borderRadius = '99px';
+      setTimeout(() => document.getElementById('interior-options').style.outline = '', 2000);
+      return;
+    }
+
+    for (let i = 0; i < qty; i++) {
+      Cart.add({
+        id: `libreta-${selectedDesign.id}-${selectedInterior.id}`,
+        name: `Libreta ${selectedDesign.name} (${selectedInterior.label})`,
+        price: selectedDesign.price,
+        image: selectedDesign.images[0],
+        sku: `${selectedDesign.sku}-${selectedInterior.id.toUpperCase()}`,
+      });
+    }
+
+    const btn = document.getElementById('add-btn');
+    btn.textContent = '✦ Agregada al carrito';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Agregar al carrito`;
+      btn.classList.remove('added');
+    }, 2500);
+  }
+
+  // ── Accordion ─────────────────────────────────────────
+  function toggleDetail(btn) {
+    const content = btn.nextElementSibling;
+    btn.classList.toggle('open');
+    content.classList.toggle('open');
+  }
+
+  // ── Reviews ───────────────────────────────────────────
+  const REVIEWS_KEY = 'lde_reviews_libretas';
+
+  function loadReviews() {
+    return JSON.parse(localStorage.getItem(REVIEWS_KEY) || '[]');
+  }
+
+  function renderReviews() {
+    const reviews = loadReviews();
+    const list = document.getElementById('reviews-list');
+    const count = document.getElementById('review-count');
+    const avgStars = document.getElementById('avg-stars');
+    const avgRating = document.getElementById('avg-rating');
+
+    count.textContent = reviews.length;
+
+    if (reviews.length === 0) {
+      list.innerHTML = `<p style="color:var(--ink-soft);font-size:0.95rem;margin-bottom:1.5rem">Aún no hay reseñas. ¡Sé la primera en compartir tu experiencia! ✦</p>`;
+      avgStars.textContent = '☆☆☆☆☆';
+      return;
+    }
+
+    const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+    avgRating.innerHTML = `${avg.toFixed(1)} · <span id="review-count">${reviews.length}</span> reseña(s)`;
+    avgStars.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+
+    list.innerHTML = reviews.map(r => {
+      const initials = r.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      return `
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">${initials}</div>
+              <div>
+                <div class="reviewer-name">${r.name}</div>
+                <div class="review-date">${r.design ? `Libreta ${r.design} · ` : ''}${r.date}</div>
+              </div>
+            </div>
+            <div class="stars">${stars}</div>
+          </div>
+          <div class="review-body">${r.text}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // Star selector
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('#star-selector span').forEach(star => {
+      star.addEventListener('mouseenter', () => {
+        const val = parseInt(star.dataset.val);
+        document.querySelectorAll('#star-selector span').forEach((s, i) => {
+          s.classList.toggle('lit', i < val);
+        });
+      });
+      star.addEventListener('click', () => {
+        reviewRating = parseInt(star.dataset.val);
+      });
+    });
+    document.getElementById('star-selector').addEventListener('mouseleave', () => {
+      document.querySelectorAll('#star-selector span').forEach((s, i) => {
+        s.classList.toggle('lit', i < reviewRating);
+      });
+    });
+
+    renderDesignGrid();
+    renderThumbs([DESIGNS[0].images[0]]);
+    renderReviews();
+  });
+
+  function submitReview() {
+    const name = document.getElementById('reviewer-name').value.trim();
+    const text = document.getElementById('review-text').value.trim();
+    const design = document.getElementById('reviewer-design').value;
+
+    if (!name || !text || !reviewRating) {
+      alert('Por favor completa tu nombre, calificación y reseña.');
+      return;
+    }
+
+    const reviews = loadReviews();
+    reviews.unshift({
+      name, text, rating: reviewRating,
+      design: DESIGNS.find(d => d.id === design)?.name || '',
+      date: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
+    });
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+
+    document.getElementById('reviewer-name').value = '';
+    document.getElementById('review-text').value = '';
+    document.getElementById('reviewer-design').value = '';
+    reviewRating = 0;
+    document.querySelectorAll('#star-selector span').forEach(s => s.classList.remove('lit'));
+
+    renderReviews();
+  }
+</script>
+</body>
+</html>

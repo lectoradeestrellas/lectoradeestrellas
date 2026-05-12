@@ -1,0 +1,52 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 2/js"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 2/netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 2/{css,js,netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 2/css"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 3/{css,js,netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 3/css"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 3/js"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 3/netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 5/{css,js,netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 5/css"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 5/js"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 5/netlify"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 4/css"
+		},
+		{
+			"path": "../../Downloads/lectoradeestrellas 4/js"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "lectoradeestrellas"
+	}
+}

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre mí — Andrea · Lectora de Estrellas</title>
+  <meta name="description" content="Holi, soy Andrea. Astróloga, creadora de herramientas mágicas y tu mentora cósmica. Conoce mi historia y cómo la astrología cambió mi vida.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ── Page Hero ──────────────────────────────────────── */
+    .sobre-hero {
+      position: relative;
+      background: var(--deep-plum);
+      min-height: 420px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .sobre-hero-img {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+    }
+
+    .sobre-hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .sobre-hero-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--deep-plum) 100%);
+    }
+
+    .sobre-hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 3rem;
+    }
+
+    .sobre-hero-content .eyebrow { color: var(--gold); }
+
+    .sobre-hero-content h1 {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: white;
+      margin: 0.75rem 0 1.25rem;
+      line-height: 1.2;
+    }
+
+    .sobre-hero-content p {
+      color: rgba(250,246,240,0.75);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 460px;
+    }
+
+    /* ── Carta section ──────────────────────────────────── */
+    .carta-section {
+      background: var(--parchment);
+      padding: var(--space-lg) 0;
+    }
+
+    .carta-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .carta-inner .eyebrow {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .carta-inner h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: var(--deep-plum);
+      margin-bottom: 2rem;
+    }
+
+    .carta-body {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--ink);
+    }
+
+    .carta-body p {
+      margin-bottom: 1.5rem;
+    }
+
+    .carta-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .carta-firma {
+      margin-top: 2.5rem;
+      font-family: var(--font-body);
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--plum);
+    }
+
+    /* ── Datos curiosos ─────────────────────────────────── */
+    .datos-section {
+      background: var(--cream);
+      padding: var(--space-lg) 0;
+    }
+
+    .datos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .dato-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border: 1px solid rgba(107,68,113,0.1);
+    }
+
+    .dato-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .dato-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      margin-bottom: 0.5rem;
+    }
+
+    .dato-value {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      color: var(--deep-plum);
+      font-style: italic;
+    }
+
+    /* ── Lo que ofrezco ─────────────────────────────────── */
+    .ofrezco-section {
+      background: var(--midnight);
+      padding: var(--space-lg) 0;
+    }
+
+    .ofrezco-section .section-header { text-align: center; margin-bottom: 3rem; }
+    .ofrezco-section .eyebrow { color: var(--mauve); }
+    .ofrezco-section h2 { color: var(--parchment); }
+
+    .ofrezco-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .ofrezco-card {
+      background: rgba(250,246,240,0.05);
+      border: 1px solid rgba(250,246,240,0.1);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: background 0.3s;
+    }
+
+    .ofrezco-card:hover {
+      background: rgba(250,246,240,0.08);
+    }
+
+    .ofrezco-card-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .ofrezco-card h3 {
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .ofrezco-card p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(250,246,240,0.65);
+      line-height: 1.7;
+    }
+
+    .ofrezco-card a {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .ofrezco-card a:hover { color: var(--parchment); }
+
+    /* ── CTA final ──────────────────────────────────────── */
+    .sobre-cta {
+      background: var(--grad-warm);
+      padding: var(--space-lg) 0;
+      text-align: center;
+    }
+
+    .sobre-cta h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: var(--deep-plum);
+      margin-bottom: 0.75rem;
+    }
+
+    .sobre-cta p {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--mauve);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .sobre-cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .sobre-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .sobre-hero-img {
+        min-height: 320px;
+      }
+
+      .sobre-hero-img::after {
+        background: linear-gradient(to bottom, transparent 50%, var(--deep-plum) 100%);
+      }
+
+      .sobre-hero-content {
+        padding: 2.5rem 1.5rem 3rem;
+      }
+
+      .datos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .ofrezco-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Announcement Banner ─────────────────────────────── -->
+<div class="banner">
+  <div class="banner-track">
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span>
+    <span>✦</span>
+    <span>Lecturas astrales online vía Google Meet</span>
+    <span>✦</span>
+    <span>Nuevas herramientas mágicas disponibles</span>
+    <span>✦</span>
+  </div>
+</div>
+
+<!-- ── Navigation ─────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      LECTORA <em>de</em> ESTRELLAS
+    </a>
+
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <div class="has-dropdown">
+        <a href="tienda.html">Herramientas mágicas</a>
+        <div class="dropdown">
+          <div class="dropdown-section">Colección Lunar 2026</div>
+          <a href="tienda.html?cat=lunar2026">Agenda Lunar 2026</a>
+          <a href="tienda.html?cat=lunar2026">Print Calendario Lunar</a>
+          <a href="tienda.html?cat=lunar2026">Calendario mini de escritorio</a>
+          <div class="dropdown-section">Libretas</div>
+          <a href="tienda.html?cat=libretas">Libretas artesanales</a>
+          <a href="tienda.html?cat=libretas">Mini libretas</a>
+          <div class="dropdown-section">Digitales</div>
+          <a href="tienda.html?cat=digitales">Productos digitales</a>
+          <a href="tienda.html?cat=bundles">Bundles</a>
+        </div>
+      </div>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+      <a href="sobre-mi.html" class="active">Sobre mí</a>
+    </div>
+
+    <div class="nav-actions">
+      <a href="tienda.html" class="nav-search" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </a>
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<section class="sobre-hero">
+  <div class="sobre-hero-img">
+    <img src="images/andrea-portrait.jpg" alt="Andrea — Lectora de Estrellas">
+  </div>
+  <div class="sobre-hero-content" data-reveal>
+    <span class="eyebrow">Holi holi, soy</span>
+    <h1>Andrea ✦</h1>
+    <p>
+      Astróloga, creadora de herramientas mágicas y tu mentora cósmica. Vivo en Monterrey y llevo años ayudando a personas a reconectar con su propia luz a través de la astrología y la guía intuitiva.
+    </p>
+  </div>
+</section>
+
+<!-- ── Carta ───────────────────────────────────────────── -->
+<section class="carta-section">
+  <div class="carta-inner">
+    <span class="eyebrow" data-reveal>Mi historia</span>
+    <h2 data-reveal>Una carta para ti ✦</h2>
+
+    <div class="carta-body" data-reveal>
+      <p>
+        Desde niña sentí que la astrología explicaba cosas que de otra forma no tenían nombre. Cosas de mí, de las personas que quería, de por qué el mundo funcionaba como funcionaba. En la adolescencia era la típica chica que sacaba las cartas astrales de todos en las fiestas — y mis amigos ya sabían que si querían entender algo de sí mismos, me buscaban a mí.
+      </p>
+      <p>
+        Pero fue de adulta, navegando una época especialmente difícil de mi vida, cuando decidí entrar de lleno. Me volví autodidacta: libros de astrología psicológica, autores como Donna Cunningham y Stephen Arroyo, horas y horas aprendiendo a leer el cielo como un mapa del alma. La astrología no solo me dio herramientas — me dio un lenguaje para entenderme, para hacer las paces con mis ciclos y recordar que tengo el poder de contar mi propia historia.
+      </p>
+      <p>
+        De eso hace ya más de cinco años. Desde entonces, Lectora de Estrellas ha sido mi forma de compartir ese mismo regalo: lecturas personalizadas, herramientas de apoyo como la Agenda Lunar, talleres y eventos donde aprendemos juntas a leer nuestro propio cielo.
+      </p>
+      <p>
+        No vengo a decirte qué va a pasar. Vengo a ayudarte a leer tu propio mapa — porque ya tienes todo lo que necesitas. A veces solo hace falta que alguien te lo señale.
+      </p>
+
+      <div class="carta-firma">Con amor cósmico, Andrea ✦</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Datos curiosos ──────────────────────────────────── -->
+<section class="datos-section">
+  <div class="container">
+    <div class="section-header" data-reveal style="text-align:center">
+      <span class="eyebrow">Un poco más de mí</span>
+      <h2>Por si quieres conocerme mejor</h2>
+    </div>
+
+    <div class="datos-grid">
+      <div class="dato-card" data-reveal>
+        <span class="dato-icon">♒</span>
+        <div class="dato-title">Signo solar</div>
+        <div class="dato-value">Acuario</div>
+      </div>
+      <div class="dato-card" data-reveal data-delay="80ms">
+        <span class="dato-icon">📍</span>
+        <div class="dato-title">Base de operaciones</div>
+        <div class="dato-value">Monterrey, México</div>
+      </div>
+      <div class="dato-card" data-reveal data-delay="160ms">
+        <span class="dato-icon">✦</span>
+        <div class="dato-title">Herramientas</div>
+        <div class="dato-value">Astrología · Ángeles · Oráculo</div>
+      </div>
+      <div class="dato-card" data-reveal data-delay="240ms">
+        <span class="dato-icon">📖</span>
+        <div class="dato-title">Formación</div>
+        <div class="dato-value">Autodidacta · Cunningham · Arroyo</div>
+      </div>
+      <div class="dato-card" data-reveal data-delay="320ms">
+        <span class="dato-icon">⭐</span>
+        <div class="dato-title">Trayectoria</div>
+        <div class="dato-value">+5 años con Lectora de Estrellas</div>
+      </div>
+      <div class="dato-card" data-reveal data-delay="400ms">
+        <span class="dato-icon">🎙️</span>
+        <div class="dato-title">También en</div>
+        <div class="dato-value">YouTube @lectoradeestrellas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Lo que ofrezco ──────────────────────────────────── -->
+<section class="ofrezco-section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">¿Cómo puedo acompañarte?</span>
+      <h2>Lo que hacemos juntas ✦</h2>
+    </div>
+
+    <div class="ofrezco-grid">
+      <div class="ofrezco-card" data-reveal>
+        <span class="ofrezco-card-icon">🌙</span>
+        <h3>Sesiones 1:1</h3>
+        <p>Lecturas astrales y tiradas de oráculo personalizadas. Tu carta natal, tu momento actual, tus encrucijadas — las vemos juntas a través de la astrología.</p>
+        <a href="sesiones.html">Ver sesiones →</a>
+      </div>
+      <div class="ofrezco-card" data-reveal data-delay="100ms">
+        <span class="ofrezco-card-icon">📚</span>
+        <h3>Herramientas mágicas</h3>
+        <p>Agendas lunares, libretas artesanales, workbooks y recursos digitales creados con intención para acompañar tu proceso de autoconocimiento.</p>
+        <a href="tienda.html">Ver tienda →</a>
+      </div>
+      <div class="ofrezco-card" data-reveal data-delay="200ms">
+        <span class="ofrezco-card-icon">✨</span>
+        <h3>Eventos &amp; talleres</h3>
+        <p>Pláticas íntimas, talleres estacionales y encuentros presenciales en Monterrey donde la magia y el conocimiento se encuentran.</p>
+        <a href="eventos.html">Ver eventos →</a>
+      </div>
+      <div class="ofrezco-card" data-reveal data-delay="300ms">
+        <span class="ofrezco-card-icon">🎓</span>
+        <h3>Aprende astrología</h3>
+        <p>Cursos, masterclasses y grabaciones para que empieces a leer tu propio cielo. Aprende a tu ritmo, desde donde estés.</p>
+        <a href="aprende.html">Ver cursos →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA final ───────────────────────────────────────── -->
+<section class="sobre-cta">
+  <div class="container">
+    <h2 data-reveal>¿Lista para empezar? ✦</h2>
+    <p data-reveal>Reserva tu sesión o explora las herramientas — estoy aquí para acompañarte.</p>
+    <div class="sobre-cta-btns" data-reveal>
+      <a href="sesiones.html" class="btn btn-primary">Reservar sesión →</a>
+      <a href="tienda.html" class="btn btn-ghost">Ver herramientas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Espacio cósmico para tu desarrollo personal, bienestar y conexión espiritual a través de la guía astral e intuitiva.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://tiktok.com/@lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.85 1.56V6.79a4.85 4.85 0 01-1.08-.1z"/></svg>
+          </a>
+          <a href="https://facebook.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Sesiones</h4>
+        <a href="sesiones.html">Lecturas astrales</a>
+        <a href="sesiones.html#oraculo">Tiradas de oráculo</a>
+        <a href="sesiones.html#lectura-natal">Lectura natal</a>
+        <a href="sesiones.html#lectura-karmica">Lectura kármica</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <a href="tienda.html?cat=lunar2026">Colección Lunar 2026</a>
+        <a href="tienda.html?cat=libretas">Libretas</a>
+        <a href="tienda.html?cat=notepads">Notepads</a>
+        <a href="tienda.html?cat=bundles">Bundles</a>
+        <a href="tienda.html?cat=digitales">Digitales</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="sobre-mi.html">Sobre mí</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="aprende.html">Cursos</a>
+        <a href="blog.html">Blog</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Lectora de Estrellas · Todos los derechos reservados</span>
+      <span>Hecho con ✦ en Monterrey, MX</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Cart Sidebar ───────────────────────────────────── -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h3>Tu carrito ✦</h3>
+    <button class="cart-close" id="cart-close">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="amount" id="cart-subtotal">$0.00 MXN</span>
+    </div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem"
+      onclick="Checkout.proceedToCheckout()">
+      Proceder al pago →
+    </button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">
+      Seguir comprando
+    </button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.65s ease ${el.dataset.delay || '0ms'}, transform 0.65s ease ${el.dataset.delay || '0ms'}`;
+      observer.observe(el);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecturas Astrales & Tiradas de Oráculo — Sesiones 1:1 · Lectora de Estrellas</title>
+  <meta name="description" content="Lecturas astrales y tiradas de oráculo online. Natal, Kármica, Ciclo Anual, Momento Actual, Encrucijada, Símbolos y más.">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Cal.com embed -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["-attachtodom", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", {origin:"https://cal.com"});
+    Cal("ui", {
+      "theme": "light",
+      "styles": {
+        "branding": { "brandColor": "#6B4471" }
+      },
+      "hideEventTypeDetails": false,
+      "layout": "month_view"
+    });
+  </script>
+  <style>
+    .page-tabs { background:white; border-bottom:1px solid rgba(155,122,158,0.15); position:sticky; top:68px; z-index:80; }
+    .page-tabs-inner { max-width:1280px; margin:0 auto; padding:0 2rem; display:flex; }
+    .page-tab { padding:1rem 1.75rem; font-family:var(--font-ui); font-size:0.85rem; font-weight:500; color:var(--ink-soft); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; transition:all 0.2s; white-space:nowrap; }
+    .page-tab:hover { color:var(--plum); }
+    .page-tab.active { color:var(--plum); border-bottom-color:var(--plum); }
+
+    .sessions-hero { position:relative; min-height:460px; display:flex; align-items:flex-end; overflow:hidden; }
+    .sessions-hero-bg { position:absolute; inset:0; background:linear-gradient(135deg,#e8c5b0 0%,#d4a4c0 40%,#9b7a9e 70%,#6b4471 100%); }
+    .sessions-hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.4; mix-blend-mode:multiply; }
+    .sessions-hero-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(21,13,30,0.75) 0%,transparent 60%); }
+    .sessions-hero-content { position:relative; z-index:2; padding:0 2rem 4rem; max-width:1280px; margin:0 auto; width:100%; }
+    .sessions-hero-content h1 { font-size:clamp(2.25rem,5vw,3.75rem); color:white; margin-bottom:0.875rem; line-height:1.1; }
+    .sessions-hero-content h1 em { font-style:italic; color:var(--gold); }
+    .sessions-hero-content p { color:rgba(255,255,255,0.8); font-size:1.05rem; max-width:520px; line-height:1.65; margin-bottom:1.25rem; }
+    .hero-includes { display:flex; gap:1.25rem; flex-wrap:wrap; }
+    .hero-includes span { font-family:var(--font-ui); font-size:0.75rem; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:0.35rem; }
+
+    .philosophy { background:var(--cream); padding:4rem 0; }
+    .philosophy-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+    .philosophy-img { border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:4/5; }
+    .philosophy-img img { width:100%; height:100%; object-fit:cover; }
+    .philosophy-text h2 { font-size:clamp(1.6rem,2.5vw,2.2rem); margin:0.5rem 0 1.1rem; }
+    .philosophy-text p { color:var(--ink-soft); line-height:1.78; margin-bottom:0.9rem; font-size:0.98rem; }
+
+    .sessions-page { display:none; }
+    .sessions-page.active { display:block; }
+
+    .sessions-list { padding:4rem 0 5rem; background:var(--parchment); }
+    .sessions-subcategory { margin-bottom:3.5rem; }
+    .subcategory-label { font-family:var(--font-ui); font-size:0.7rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--mauve); padding-bottom:0.6rem; border-bottom:1px dashed rgba(155,122,158,0.25); margin-bottom:1.25rem; }
+    .subcategory-label.seasonal { color:var(--rose); border-color:rgba(201,125,110,0.2); }
+
+    .session-card { display:grid; grid-template-columns:200px 1fr; background:white; border-radius:var(--radius-lg); overflow:hidden; border:1px solid rgba(155,122,158,0.1); margin-bottom:1.1rem; transition:box-shadow 0.3s,transform 0.3s; }
+    .session-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+    .session-card-img { position:relative; overflow:hidden; background:var(--cream); min-height:220px; }
+    .session-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
+    .session-card:hover .session-card-img img { transform:scale(1.05); }
+
+    .format-badge { position:absolute; top:0.75rem; left:0.75rem; font-family:var(--font-ui); font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.25rem 0.65rem; border-radius:var(--radius-full); }
+    .badge-meet { background:#185FA5; color:white; }
+    .badge-pdf { background:var(--dusty-gold); color:#2a1f00; }
+    .badge-voice { background:var(--mauve); color:white; }
+    .badge-seasonal { position:absolute; top:0.75rem; right:0.75rem; font-family:var(--font-ui); font-size:0.58rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:0.2rem 0.55rem; border-radius:var(--radius-full); background:rgba(201,125,110,0.15); color:var(--rose); border:1px solid rgba(201,125,110,0.3); }
+
+    .session-card-body { padding:1.6rem 1.85rem; display:flex; flex-direction:column; justify-content:center; }
+    .session-subtitle { font-family:var(--font-ui); font-size:0.75rem; color:var(--mauve); margin-bottom:0.35rem; font-style:italic; }
+    .session-card-body h3 { font-size:1.3rem; margin-bottom:0.5rem; color:var(--ink); }
+    .session-card-body p { font-size:0.9rem; color:var(--ink-soft); line-height:1.65; margin-bottom:1.1rem; }
+    .session-includes { font-family:var(--font-ui); font-size:0.75rem; color:var(--ink-soft); margin-bottom:0.875rem; display:flex; gap:0.875rem; flex-wrap:wrap; }
+    .session-includes span { display:flex; align-items:center; gap:0.3rem; }
+    .session-meta { display:flex; align-items:center; gap:1.25rem; margin-bottom:1.1rem; flex-wrap:wrap; }
+    .session-price { font-family:var(--font-ui); font-size:1.2rem; font-weight:600; color:var(--plum); }
+    .session-price .discount { font-size:0.72rem; font-weight:400; color:var(--ink-soft); margin-left:0.3rem; }
+    .session-actions { display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; }
+    .complementa { display:inline-flex; align-items:center; gap:0.5rem; margin-top:0.875rem; font-family:var(--font-ui); font-size:0.75rem; color:var(--mauve); background:rgba(155,122,158,0.08); padding:0.35rem 0.85rem; border-radius:var(--radius-full); text-decoration:none; transition:background 0.2s; width:fit-content; cursor:pointer; border:none; }
+    .complementa:hover { background:rgba(155,122,158,0.15); }
+
+    .oracle-note { background:rgba(155,122,158,0.06); border:1px solid rgba(155,122,158,0.15); border-radius:var(--radius-md); padding:1.5rem 1.75rem; margin-bottom:2.5rem; }
+    .oracle-note-title { font-family:var(--font-ui); font-size:0.78rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--plum); margin-bottom:0.75rem; }
+    .oracle-do-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem 2rem; margin-top:0.75rem; }
+    .do-label { font-family:var(--font-ui); font-size:0.7rem; font-weight:600; margin-bottom:0.35rem; }
+    .do-label.no { color:var(--rose); } .do-label.yes { color:var(--mauve); }
+    .do-text { color:var(--ink-soft); line-height:1.65; font-size:0.85rem; }
+
+    .benefits-inline { background:var(--cream); border-radius:var(--radius-lg); padding:2.5rem; margin-top:1rem; }
+    .benefits-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2rem 3rem; margin-top:2rem; }
+    .benefit { display:flex; gap:1rem; }
+    .benefit-num { font-family:var(--font-display); font-size:1.75rem; color:var(--mauve); opacity:0.4; line-height:1; flex-shrink:0; width:44px; text-align:right; }
+    .benefit-title { font-size:0.98rem; font-weight:500; margin-bottom:0.3rem; }
+    .benefit-desc { font-size:0.88rem; color:var(--ink-soft); line-height:1.65; }
+
+    .testimonials { background:var(--grad-warm); padding:4.5rem 0; }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.5rem; }
+    .testimonial-card { background:white; border-radius:var(--radius-lg); padding:1.75rem; box-shadow:var(--shadow-sm); }
+    .t-stars { color:var(--gold); font-size:0.9rem; margin-bottom:0.75rem; }
+    .t-text { font-style:italic; font-size:0.98rem; color:var(--ink); line-height:1.65; margin-bottom:1rem; }
+    .t-author { font-family:var(--font-ui); font-size:0.75rem; font-weight:500; color:var(--mauve); }
+
+    .faq { padding:4.5rem 0; background:var(--parchment); }
+    .faq-list { max-width:700px; margin:2.5rem auto 0; }
+    .faq-item { border-bottom:1px solid rgba(155,122,158,0.12); }
+    .faq-q { width:100%; padding:1.2rem 0; display:flex; justify-content:space-between; align-items:center; font-size:0.98rem; font-weight:500; color:var(--ink); background:none; border:none; cursor:pointer; text-align:left; gap:1rem; }
+    .faq-chevron { color:var(--mauve); transition:transform 0.25s; font-size:0.85rem; flex-shrink:0; }
+    .faq-q.open .faq-chevron { transform:rotate(180deg); }
+    .faq-a { display:none; padding-bottom:1.2rem; font-size:0.92rem; color:var(--ink-soft); line-height:1.7; }
+    .faq-a.open { display:block; }
+
+    .modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(21,13,30,0.6); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:1.5rem; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:var(--parchment); border-radius:var(--radius-lg); padding:2rem 2.25rem; max-width:520px; width:100%; box-shadow:var(--shadow-lg); position:relative; max-height:90vh; overflow-y:auto; }
+    .modal-close { position:absolute; top:1rem; right:1.25rem; font-size:1.5rem; color:var(--ink-soft); cursor:pointer; background:none; border:none; line-height:1; }
+    .modal-box h3 { font-size:1.4rem; margin-bottom:0.3rem; }
+    .modal-subtitle { font-size:0.88rem; color:var(--ink-soft); margin-bottom:1.25rem; line-height:1.55; }
+    .modal-price { font-family:var(--font-ui); font-size:1.5rem; font-weight:600; color:var(--plum); margin-bottom:1.25rem; }
+    .modal-field { display:flex; flex-direction:column; gap:0.3rem; margin-bottom:0.75rem; }
+    .modal-label { font-family:var(--font-ui); font-size:0.72rem; font-weight:500; color:var(--ink-soft); }
+    .modal-input,.modal-select { padding:0.65rem 0.875rem; border:1.5px solid rgba(155,122,158,0.25); border-radius:var(--radius-sm); font-family:var(--font-ui); font-size:0.88rem; color:var(--ink); background:white; outline:none; transition:border-color 0.2s; width:100%; }
+    .modal-input:focus,.modal-select:focus { border-color:var(--plum); }
+    .modal-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+    .modal-row.thirds { grid-template-columns:1fr 1fr 1fr; }
+    .modal-section-label { font-family:var(--font-ui); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--plum); margin:1.25rem 0 0.75rem; }
+    .modal-note { font-family:var(--font-ui); font-size:0.75rem; color:var(--mauve); line-height:1.55; margin-bottom:1rem; background:rgba(155,122,158,0.07); padding:0.75rem; border-radius:var(--radius-sm); }
+    .checkout-btn-modal { width:100%; padding:0.95rem; background:var(--plum); color:white; border:none; border-radius:var(--radius-full); font-family:var(--font-ui); font-size:0.85rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.5rem; transition:all 0.2s; margin-top:0.75rem; }
+    .checkout-btn-modal:hover { background:var(--deep-plum); transform:translateY(-1px); }
+
+    @media(max-width:900px){
+      .philosophy-grid{grid-template-columns:1fr}
+      .philosophy-img{aspect-ratio:16/9}
+      .session-card{grid-template-columns:160px 1fr}
+      .testimonials-grid{grid-template-columns:1fr}
+      .benefits-grid{grid-template-columns:1fr;gap:1.5rem}
+      .oracle-do-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .session-card{grid-template-columns:1fr}
+      .session-card-img{height:180px;min-height:unset}
+      .modal-row{grid-template-columns:1fr}
+      .modal-row.thirds{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>✦ Sesiones 1:1 online vía Google Meet</span><span>✦</span>
+  <span>Incluyen grabación + resumen PDF + prompts de journaling</span><span>✦</span>
+  <span>✦ Sesiones 1:1 online vía Google Meet</span><span>✦</span>
+  <span>Incluyen grabación + resumen PDF + prompts de journaling</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html" class="active">Sesiones 1:1</a>
+      <a href="tienda.html">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="sessions-hero">
+  <div class="sessions-hero-bg"></div>
+  <img class="sessions-hero-img" src="images/sesiones-hero.jpg" alt="Sesiones astrales" loading="eager" onerror="this.style.display='none'">
+  <div class="sessions-hero-overlay"></div>
+  <div class="sessions-hero-content">
+    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.35rem 1rem;font-family:var(--font-ui);font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.9);margin-bottom:1.25rem">✦ Guía cósmica personalizada</div>
+    <h1>Lecturas <em>astrales</em><br>& Tiradas de oráculo</h1>
+    <p>Recibe guía cósmica para tu autoconocimiento y ciclos de vida desde un enfoque intuitivo y espiritual.</p>
+    <div class="hero-includes">
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.88v6.24a1 1 0 0 1-1.447.889L15 14M3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/></svg> Google Meet en vivo</span><span>📄 Resumen PDF</span>
+      <span>✍️ Prompts de journaling</span><span>💻 Vía Google Meet</span>
+    </div>
+  </div>
+</section>
+
+<!-- Tabs -->
+<div class="page-tabs">
+  <div class="page-tabs-inner">
+    <button class="page-tab active" onclick="showPage('lecturas',this)">Lecturas Astrales</button>
+    <button class="page-tab" onclick="showPage('oraculo',this)">Tiradas de Oráculo</button>
+  </div>
+</div>
+
+<!-- ═══ LECTURAS ASTRALES ═══════════════════════════════ -->
+<div class="sessions-page active" id="page-lecturas">
+
+  <section class="philosophy">
+    <div class="container">
+      <div class="philosophy-grid">
+        <div class="philosophy-img" data-reveal>
+          <img src="images/andrea-carta-astral.jpg" alt="Andrea — Lectora de Estrellas" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+        </div>
+        <div data-reveal data-delay="150ms">
+          <span class="eyebrow">Nada está escrito en piedra</span>
+          <h2 class="philosophy-text" style="font-size:clamp(1.6rem,2.5vw,2.2rem);margin:0.5rem 0 1.1rem">La astrología como herramienta de autoconocimiento</h2>
+          <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:0.9rem;font-size:0.98rem">Si algo he aprendido en los últimos años dando consultas astrológicas y observando los movimientos del cielo manifestándose en mi vida, es que siempre existe la voluntad para decidir.</p>
+          <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:0.9rem;font-size:0.98rem">Todo lo que vemos en la carta astral representa potenciales y en la lectura lo hacemos consciente para ayudarte a que uses las energías disponibles constructivamente.</p>
+          <p style="color:var(--ink-soft);line-height:1.78;font-size:0.98rem">La astrología es una de las herramientas más poderosas para conocer más a profundidad sobre tu personalidad y psicología. <em>Las estrellas inclinan, no obligan.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sessions-list">
+    <div class="container">
+
+      <!-- Natal -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label">Tu carta natal · El punto de partida</div>
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/lectura-natal.jpg" alt="Natal" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Tu mapa de origen. El punto de partida para conocerte.</div>
+            <h3>Natal</h3>
+            <div class="session-includes"><span>⏱ 90 min</span><span>📹 Grabación</span><span>📄 PDF + prompts</span></div>
+            <p>Tu carta natal es tu huella única en el Universo. En lugar de recorrer cada planeta de forma aislada, identifico los patrones que más te definen: una historia coherente sobre tu psicología y tu potencial. Si nunca has tenido una sesión astral, aquí es donde empezar.</p>
+            <div class="session-meta"><span class="session-price">$1,000 MXN</span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/natal" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button>
+            </div>
+            <button class="complementa" onclick="showPage('lecturas',null);document.getElementById('simbolos-card')?.scrollIntoView({behavior:'smooth'})">✦ Complementa con: Símbolos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kármica -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label">Patrones y origen</div>
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/lectura-karmica.jpg" alt="Kármica" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Entiende de dónde vienes para saber adónde vas.</div>
+            <h3>Kármica</h3>
+            <div class="session-includes"><span>⏱ 90 min</span><span>📹 Grabación</span><span>📄 PDF + prompts</span></div>
+            <p>A través de los nodos lunares construimos juntas el relato de quién fuiste en vidas pasadas, qué quedó pendiente y qué pruebas viniste a superar. La segunda parte se enfoca en tu nodo norte como brújula y el Sol como la energía que tu alma pide encarnar.</p>
+            <div class="session-meta"><span class="session-price">$1,000 MXN</span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/karmica" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ciclos -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label">Ciclos de vida</div>
+
+        <div class="session-card" style="margin-bottom:1.1rem">
+          <div class="session-card-img">
+            <img src="images/sesiones/lectura-ciclo-anual.jpg" alt="Ciclo Anual" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Conoce el guion de tu nuevo año de vida.</div>
+            <h3>Ciclo Anual</h3>
+            <div class="session-includes"><span>⏱ 90 min</span><span>📹 Grabación</span><span>📄 PDF + prompts</span></div>
+            <p>La carta de Retorno Solar es como el guion de una obra de un año donde tú eres la protagonista. Te da claridad psicológica y emocional: qué está madurando en ti, qué lecciones vienen y cómo aprovechar la energía del año. Puedes comenzar hasta tres meses antes de tu cumpleaños.</p>
+            <div class="session-meta"><span class="session-price">$1,000 MXN <span class="discount">/ $800 recurrentes</span></span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/ciclo-anual" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button>
+            </div>
+            <button class="complementa" onclick="showPage('oraculo',document.querySelectorAll('.page-tab')[1]);setTimeout(()=>document.getElementById('tirada-camino')?.scrollIntoView({behavior:'smooth'}),200)">✦ Complementa con: Tirada de Camino</button>
+          </div>
+        </div>
+
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/lectura-momento-actual.jpg" alt="Momento Actual" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Claridad sobre lo que estás viviendo, ahora.</div>
+            <h3>Momento Actual</h3>
+            <div class="session-includes"><span>⏱ 90 min</span><span>📹 Grabación</span><span>📄 PDF + prompts</span></div>
+            <p>Hay momentos en que algo se siente revuelto o incierto. Llegas con una pregunta específica y a través de tránsitos, progresiones y tu carta natal construimos una respuesta que te dé sostén, comprensión y dirección. No para que el proceso desaparezca, sino para que tenga sentido.</p>
+            <div class="session-meta"><span class="session-price">$1,000 MXN</span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/momento-actual" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button>
+            </div>
+            <button class="complementa" onclick="showPage('oraculo',document.querySelectorAll('.page-tab')[1]);setTimeout(()=>document.getElementById('guia-alma')?.scrollIntoView({behavior:'smooth'}),200)">✦ Complementa con: Guía del Alma</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Encrucijada -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label">Decisiones importantes</div>
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/lectura-encrucijada.jpg" alt="Encrucijada" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Cuando dos caminos se abren y necesitas claridad para elegir.</div>
+            <h3>Encrucijada</h3>
+            <div class="session-includes"><span>⏱ 90 min</span><span>📹 Grabación</span><span>📄 PDF + prompts</span><span>🃏 Oráculo incluido</span></div>
+            <p>Esta sesión combina astrología y oráculo: exploramos tránsitos y progresiones para entender hacia dónde se dirige tu energía, luego hacemos una tirada enfocada en tus opciones. Sales con tu propia respuesta, más clara y más consciente.</p>
+            <div class="session-meta"><span class="session-price">$1,200 MXN</span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/encrucijada" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button>
+            </div>
+            <button class="complementa" onclick="showPage('oraculo',document.querySelectorAll('.page-tab')[1]);setTimeout(()=>document.getElementById('tirada-camino')?.scrollIntoView({behavior:'smooth'}),200)">✦ Complementa con: Tirada de Camino</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Símbolos -->
+      <div class="sessions-subcategory" data-reveal id="simbolos-card">
+        <div class="subcategory-label">Reporte escrito · Sin sesión en vivo</div>
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/reporte-simbolos.jpg" alt="Símbolos" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-pdf">📄 PDF</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Una mirada arquetípica y poética sobre quién eres.</div>
+            <h3>Símbolos</h3>
+            <div class="session-includes"><span>📄 7 páginas PDF</span><span>⏱ Entrega 5-7 días hábiles</span><span>✍️ Prompts incluidos</span></div>
+            <p>Explora siete puntos clave de tu carta (Sol, Luna, Ascendente, Mercurio, Venus, Marte, Medio Cielo) a través de la conexión de cada grado con una carta de tarot y un símbolo sabbiano. No es análisis técnico sino una invitación a verte más poético y visual. Ideal si ya tienes contexto sobre tu carta.</p>
+            <div class="session-meta"><span class="session-price">$650 MXN</span></div>
+            <div class="session-actions">
+              <button class="btn btn-primary btn-sm" onclick="openModal('simbolos')">Solicitar reporte</button>
+            </div>
+            <button class="complementa" onclick="document.querySelector('.sessions-subcategory').scrollIntoView({behavior:'smooth'})">✦ Complementa con: Natal</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benefits -->
+      <div class="benefits-inline" data-reveal>
+        <span class="eyebrow">¿Por qué una lectura astral?</span>
+        <h2 style="font-size:1.6rem;margin:0.5rem 0 0">Beneficios con énfasis psicológico</h2>
+        <div class="benefits-grid">
+          <div class="benefit"><div class="benefit-num">01</div><div><div class="benefit-title">Autoconocimiento</div><div class="benefit-desc">Comprende tu personalidad, fortalezas y patrones de comportamiento a profundidad.</div></div></div>
+          <div class="benefit"><div class="benefit-num">02</div><div><div class="benefit-title">Toma de decisiones</div><div class="benefit-desc">Decisiones más informadas y alineadas con tus propósitos y valores reales.</div></div></div>
+          <div class="benefit"><div class="benefit-num">03</div><div><div class="benefit-title">Manejo del estrés</div><div class="benefit-desc">Perspectiva holística que reduce el estrés al dar sentido de propósito y comprensión.</div></div></div>
+          <div class="benefit"><div class="benefit-num">04</div><div><div class="benefit-title">Planificación estratégica</div><div class="benefit-desc">Identifica períodos propicios o desafiantes para planificar actividades y metas.</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ═══ TIRADAS DE ORÁCULO ══════════════════════════════ -->
+<div class="sessions-page" id="page-oraculo">
+  <section class="sessions-list">
+    <div class="container" style="padding-top:3rem">
+
+      <!-- Oracle intro -->
+      <div class="oracle-note" data-reveal>
+        <div class="oracle-note-title">✦ Sobre las tiradas de oráculo</div>
+        <p style="font-size:0.92rem;color:var(--ink-soft);line-height:1.65;margin-bottom:0.75rem">El oráculo funciona como un espejo: las cartas que aparecen no son casualidad sino un reflejo de lo que estás viviendo, pensando o necesitando escuchar. Mis tiradas tienen un enfoque intuitivo y terapéutico. No se trata de predecir el futuro sino de darte claridad, perspectiva y guía.</p>
+        <div class="oracle-do-grid">
+          <div><div class="do-label no">✗ No respondo sobre:</div><div class="do-text">Otras personas sin relación familiar · Preguntas sí/no · Lotería o suerte · Muertes</div></div>
+          <div><div class="do-label yes">✓ Sí respondo sobre:</div><div class="do-text">Estado actual en relaciones · Posibles resultados de decisiones · Consejos para situaciones específicas</div></div>
+        </div>
+      </div>
+
+      <!-- Siempre disponibles -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label">Siempre disponibles</div>
+
+        <div class="session-card" style="margin-bottom:1.1rem">
+          <div class="session-card-img">
+            <img src="images/sesiones/tirada-express.jpg" alt="Tirada Express" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Claridad rápida sobre un tema específico.</div>
+            <h3>Tirada Express</h3>
+            <div class="session-includes"><span>⏱ 30 min</span><span>💻 Google Meet</span></div>
+            <p>Cuando tienes una pregunta concreta sobre amor, trabajo, dinero o cualquier área y necesitas una respuesta clara y directa. Ideal como primera experiencia con el oráculo o cuando simplemente necesitas un poco de guía sin profundizar demasiado.</p>
+            <div class="session-meta"><span class="session-price">$300 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/tirada-express" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button></div>
+          </div>
+        </div>
+
+        <div class="session-card" id="guia-alma" style="margin-bottom:1.1rem">
+          <div class="session-card-img">
+            <img src="images/sesiones/tirada-guia-alma.jpg" alt="Guía del Alma" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Profundiza en lo que realmente está pasando.</div>
+            <h3>Guía del Alma</h3>
+            <div class="session-includes"><span>⏱ 1 hora</span><span>💻 Google Meet</span></div>
+            <p>Cuando algo te pesa, te confunde o sientes que hay capas que no estás viendo. Exploramos la situación desde varios ángulos: qué la origina, qué fuerzas están en juego, qué obstáculos hay y hacia dónde se dirige la energía. Ideal para situaciones complejas o procesos emocionales.</p>
+            <div class="session-meta"><span class="session-price">$700 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/guia-del-alma" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button></div>
+            <button class="complementa" onclick="showPage('lecturas',document.querySelectorAll('.page-tab')[0])">✦ Complementa con: Momento Actual</button>
+          </div>
+        </div>
+
+        <div class="session-card" id="tirada-camino">
+          <div class="session-card-img">
+            <img src="images/sesiones/tirada-camino.jpg" alt="Tirada de Camino" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">¿Hacia dónde se dirige tu energía en el próximo año?</div>
+            <h3>Tirada de Camino</h3>
+            <div class="session-includes"><span>⏱ 1 hora</span><span>💻 Google Meet</span></div>
+            <p>A veces no se trata de una pregunta concreta sino de querer ver el panorama. Esta tirada explora tu horizonte mes a mes o por etapas para darte guía sobre lo que viene. Puedes llegar con algo específico que quieras desarrollar o con la pregunta completamente abierta.</p>
+            <div class="session-meta"><span class="session-price">$700 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/tirada-camino" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button></div>
+            <button class="complementa" onclick="showPage('lecturas',document.querySelectorAll('.page-tab')[0])">✦ Complementa con: Ciclo Anual</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- De temporada -->
+      <div class="sessions-subcategory" data-reveal>
+        <div class="subcategory-label seasonal">✦ De temporada · Disponibles por tiempo limitado</div>
+
+        <div class="session-card" style="margin-bottom:1.1rem">
+          <div class="session-card-img">
+            <img src="images/sesiones/tirada-guia-anio.jpg" alt="Guía del Año" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-meet">📹 Google Meet</span>
+            <span class="badge-seasonal">Nov · Dic · Ene</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Una carta por mes. Una guía para tu año.</div>
+            <h3>Guía del Año</h3>
+            <div class="session-includes"><span>⏱ 1 hora</span><span>💻 Google Meet</span></div>
+            <p>Una carta por mes que revela la energía o enfoque principal de cada período. Disponible en noviembre y diciembre para cerrar el ciclo que termina, y en enero para recibir el que comienza. Puedes llegar con algo en mente o dejarlo completamente abierto.</p>
+            <div class="session-meta"><span class="session-price">$700 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" data-cal-link="lectora-de-estrellas/guia-del-anio" data-cal-config='{"layout":"month_view"}'>Reservar ahora</button></div>
+          </div>
+        </div>
+
+        <div class="session-card" style="margin-bottom:1.1rem">
+          <div class="session-card-img">
+            <img src="images/sesiones/tiradas-estacionales.jpg" alt="Tiradas Estacionales" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-voice">🎙 Nota de voz</span>
+            <span class="badge-seasonal">Disponible esta temporada</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Lecturas que siguen el ritmo de la Tierra.</div>
+            <h3>Tiradas Estacionales</h3>
+            <div class="session-includes"><span>🎙 Nota de voz por email</span><span>📝 O reporte escrito</span></div>
+            <p>Cada estación trae su propia energía y sus propias preguntas. Estas tiradas nacen de ese ciclo natural: una temática específica que honra el momento del año que estamos viviendo. Cambian cada ~3 meses con la estación.</p>
+            <div class="session-meta"><span class="session-price">$200 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" onclick="openModal('voice','Tiradas Estacionales',200)">Solicitar tirada</button></div>
+          </div>
+        </div>
+
+        <div class="session-card">
+          <div class="session-card-img">
+            <img src="images/sesiones/tiradas-zodiacales.jpg" alt="Tiradas Zodiacales" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+            <span class="format-badge badge-voice">🎙 Nota de voz</span>
+            <span class="badge-seasonal">Disponible esta temporada</span>
+          </div>
+          <div class="session-card-body">
+            <div class="session-subtitle">Una lectura para cada temporada del cielo.</div>
+            <h3>Tiradas Zodiacales</h3>
+            <div class="session-includes"><span>🎙 Nota de voz por email</span><span>📝 O reporte escrito</span></div>
+            <p>Cada vez que el Sol entra en un nuevo signo, el cielo cambia de tema. Estas tiradas capturan esa energía zodiacal con un enfoque específico que resuena con la temporada que estamos viviendo. Cambian cada ~30 días.</p>
+            <div class="session-meta"><span class="session-price">$200 MXN</span></div>
+            <div class="session-actions"><button class="btn btn-primary btn-sm" onclick="openModal('voice','Tiradas Zodiacales',200)">Solicitar tirada</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ─── Shared sections ────────────────────────────────── -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-header" data-reveal><span class="eyebrow">Lo que dicen</span><h2>Experiencias de la comunidad</h2></div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card" data-reveal><div class="t-stars">★★★★★</div><p class="t-text">"Me encantó, Andrea es muy talentosa y se expresa fácilmente, además tiene muy buena vibra y magia, te agradezco de corazón"</p><div class="t-author">— Verónica Olmos</div></div>
+      <div class="testimonial-card" data-reveal data-delay="100ms"><div class="t-stars">★★★★★</div><p class="t-text">"La lectura fue muy profunda y reveladora. Andrea tiene un don especial para conectar con lo que necesitas escuchar. ¡100% la recomiendo!"</p><div class="t-author">— Daniela M.</div></div>
+      <div class="testimonial-card" data-reveal data-delay="200ms"><div class="t-stars">★★★★★</div><p class="t-text">"Fue una experiencia transformadora. Todo lo que Andrea me compartió resonó perfectamente con lo que estoy viviendo. Gracias infinitas."</p><div class="t-author">— Karla R.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="container">
+    <div class="section-header" data-reveal><span class="eyebrow">Dudas frecuentes</span><h2>Preguntas frecuentes</h2></div>
+    <div class="faq-list">
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Cuál es la diferencia entre las lecturas? <span class="faq-chevron">▾</span></button><div class="faq-a">La Natal explora quién eres en esencia. La Kármica trabaja patrones del pasado y nodos lunares. El Ciclo Anual mira tu próximo año de vida. El Momento Actual trabaja con lo que estás viviendo ahora. La Encrucijada combina astrología y oráculo para decisiones. Los Símbolos son un reporte poético sin sesión en vivo.</div></div>
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Se puede dar la lectura en presencial? <span class="faq-chevron">▾</span></button><div class="faq-a">Por el momento todas las sesiones en vivo son online vía Google Meet, lo que nos permite atenderte en cualquier parte del mundo.</div></div>
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Con cuánto tiempo de anticipación puedo reservar? <span class="faq-chevron">▾</span></button><div class="faq-a">Puedes reservar con hasta 4 semanas de anticipación. Te recomendamos hacerlo con al menos 3-5 días para asegurar el horario que más te convenga.</div></div>
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Se queda grabada la sesión? <span class="faq-chevron">▾</span></button><div class="faq-a">Sí, todas las sesiones en vivo se graban. Recibes el video y un resumen PDF con prompts de journaling por email al terminar.</div></div>
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Qué datos necesito para la sesión? <span class="faq-chevron">▾</span></button><div class="faq-a">Para las lecturas astrales: fecha, hora y lugar de nacimiento. Ciclo Anual, Momento Actual y Encrucijada requieren además tu ciudad actual de residencia. Para las tiradas de oráculo no necesitas datos adicionales.</div></div>
+      <div class="faq-item" data-reveal><button class="faq-q" onclick="toggleFaq(this)">¿Cómo funcionan las tiradas de nota de voz? <span class="faq-chevron">▾</span></button><div class="faq-a">Las tiradas de temporada se entregan como nota de voz o reporte escrito por email en 24-48 horas hábiles. Al solicitar solo necesitas tu nombre y email.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-strip">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="moon-phases"><span>🌑</span><span>🌒</span><span>🌓</span><span>🌔</span><span>🌕</span><span>🌖</span><span>🌗</span></div>
+    <h2>Sé parte de la comunidad cósmica</h2>
+    <p>Recibe avisos de nuevas sesiones y ofertas especiales.</p>
+    <form class="newsletter-form"><input type="email" placeholder="Tu correo electrónico" required><button type="submit" class="btn btn-gold">Suscribirme</button></form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Guía cósmica para tu desarrollo personal y conexión espiritual.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Lecturas astrales</h4><a href="sesiones.html">Natal</a><a href="sesiones.html">Kármica</a><a href="sesiones.html">Ciclo Anual</a><a href="sesiones.html">Momento Actual</a><a href="sesiones.html">Encrucijada</a><a href="sesiones.html">Símbolos</a></div>
+      <div class="footer-col"><h4>Tiradas de oráculo</h4><a href="sesiones.html#oraculo">Tirada Express</a><a href="sesiones.html#oraculo">Guía del Alma</a><a href="sesiones.html#oraculo">Tirada de Camino</a><a href="sesiones.html#oraculo">De temporada</a></div>
+      <div class="footer-col"><h4>Más</h4><a href="tienda.html">Herramientas mágicas</a><a href="eventos.html">Eventos</a><a href="aprende.html">Cursos</a><a href="blog.html">Blog</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Lectora de Estrellas</span><span>Hecho con ✦ en Monterrey, MX</span></div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modal-content"></div></div>
+</div>
+
+<!-- Cart -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Sin envío para sesiones digitales</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir explorando</button>
+  </div>
+</aside>
+
+<script src="js/main.js"></script>
+<script>
+  // ── Tabs ──────────────────────────────────────────────
+  function showPage(page, btn) {
+    document.querySelectorAll('.sessions-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page)?.classList.add('active');
+    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    else {
+      const tabs = document.querySelectorAll('.page-tab');
+      if (page === 'lecturas') tabs[0]?.classList.add('active');
+      else tabs[1]?.classList.add('active');
+    }
+  }
+
+  // Hash nav on load
+  if (window.location.hash === '#oraculo') {
+    showPage('oraculo', document.querySelectorAll('.page-tab')[1]);
+  }
+
+  // ── FAQ ───────────────────────────────────────────────
+  function toggleFaq(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+
+  // ── Modal ─────────────────────────────────────────────
+  // ⚠️ REEMPLAZA con tu número real de WhatsApp (código país + número, sin espacios)
+  const WHATSAPP_NUMBER = '528100000000';
+
+  function openModal(type, sessionName, price) {
+    const content = document.getElementById('modal-content');
+
+    if (type === 'simbolos') {
+      content.innerHTML = `
+        <h3>Solicitar reporte Símbolos</h3>
+        <div class="modal-subtitle">Reporte PDF de 7 páginas · Entrega 5-7 días hábiles</div>
+        <div class="modal-price">$650 MXN</div>
+        <div class="modal-section-label">Datos de nacimiento</div>
+        <div class="modal-note">Necesitamos estos datos para calcular los 7 puntos clave de tu carta natal.</div>
+        <div class="modal-row">
+          <div class="modal-field"><label class="modal-label">Nombre *</label><input class="modal-input" id="m-nombre" placeholder="Tu nombre"></div>
+          <div class="modal-field"><label class="modal-label">Apellido *</label><input class="modal-input" id="m-apellido" placeholder="Tu apellido"></div>
+        </div>
+        <div class="modal-row thirds">
+          <div class="modal-field"><label class="modal-label">Día *</label><input class="modal-input" id="m-dia" type="number" placeholder="DD" min="1" max="31"></div>
+          <div class="modal-field"><label class="modal-label">Mes *</label><select class="modal-select" id="m-mes"><option value="">Mes</option><option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option></select></div>
+          <div class="modal-field"><label class="modal-label">Año *</label><input class="modal-input" id="m-anio" type="number" placeholder="AAAA" min="1920" max="2015"></div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field"><label class="modal-label">Hora *</label><input class="modal-input" id="m-hora" type="time"></div>
+          <div class="modal-field"><label class="modal-label">AM / PM</label><select class="modal-select" id="m-ampm"><option>AM</option><option>PM</option></select></div>
+        </div>
+        <div class="modal-field"><label class="modal-label">Lugar de nacimiento * (Ciudad, País)</label><input class="modal-input" id="m-lugar" placeholder="Ej. Monterrey, México"></div>
+        <div class="modal-field"><label class="modal-label">Tu email *</label><input class="modal-input" id="m-email" type="email" placeholder="Para enviarte el PDF"></div>
+        <button class="checkout-btn-modal" onclick="checkoutSimbolos()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Pagar y solicitar reporte
+        </button>`;
+    } else {
+      content.innerHTML = `
+        <h3>Solicitar ${sessionName}</h3>
+        <div class="modal-subtitle">Se entrega como nota de voz o reporte escrito por email en 24-48 hrs hábiles.</div>
+        <div class="modal-price">$${price} MXN</div>
+        <div class="modal-row">
+          <div class="modal-field"><label class="modal-label">Tu nombre *</label><input class="modal-input" id="v-nombre" placeholder="Tu nombre"></div>
+          <div class="modal-field"><label class="modal-label">Tu email *</label><input class="modal-input" id="v-email" type="email" placeholder="tu@email.com"></div>
+        </div>
+        <div class="modal-field"><label class="modal-label">Fecha de nacimiento * <span style="font-weight:400">(día / mes / año)</span></label>
+          <input class="modal-input" id="v-nacimiento" placeholder="Ej. 15 / Marzo / 1992">
+        </div>
+        <div class="modal-field"><label class="modal-label">¿Cómo prefieres recibir tu tirada? *</label>
+          <select class="modal-select" id="v-formato">
+            <option value="voz">🎙 Nota de voz por email</option>
+            <option value="reporte">📝 Reporte escrito por email</option>
+          </select>
+        </div>
+        <div class="modal-field"><label class="modal-label">Intención o pregunta (opcional)</label><input class="modal-input" id="v-intencion" placeholder="Escríbela o déjala abierta"></div>
+        <button class="checkout-btn-modal" onclick="checkoutVoice('${sessionName}',${price})">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Pagar y solicitar tirada
+        </button>`;
+    }
+
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function checkoutSimbolos() {
+    const fields = ['m-nombre','m-apellido','m-dia','m-mes','m-anio','m-hora','m-lugar','m-email'];
+    const vals = fields.map(id => document.getElementById(id)?.value.trim());
+    if (vals.some(v => !v)) { alert('Por favor completa todos los campos requeridos.'); return; }
+    Cart.add({ id:'reporte-simbolos', name:'Reporte Símbolos', price:650, image:'images/sesiones/reporte-simbolos.jpg', sku:'SIMBOLOS', note:`${vals[0]} ${vals[1]} · ${vals[2]} ${vals[3]} ${vals[4]} · ${vals[5]} ${document.getElementById('m-ampm')?.value} · ${vals[6]}`, customerEmail:vals[7] });
+    closeModal();
+    window.location.href = 'checkout.html';
+  }
+
+  function checkoutVoice(sessionName, price) {
+    const nombre = document.getElementById('v-nombre')?.value.trim();
+    const email = document.getElementById('v-email')?.value.trim();
+    const nacimiento = document.getElementById('v-nacimiento')?.value.trim();
+    const formato = document.getElementById('v-formato')?.value;
+    if (!nombre || !email || !nacimiento) { alert('Por favor completa nombre, email y fecha de nacimiento.'); return; }
+    const note = `Formato: ${formato === 'voz' ? 'Nota de voz' : 'Reporte escrito'} · Nacimiento: ${nacimiento} · ${document.getElementById('v-intencion')?.value || 'Sin intención específica'}`;
+    Cart.add({ id:sessionName.toLowerCase().replace(/\s+/g,'-'), name:sessionName, price, image:'images/sesiones/tiradas-estacionales.jpg', sku:'TIRADA-TEMP', note, customerEmail:email });
+    closeModal();
+    window.location.href = 'checkout.html';
+  }
+
+  // ── Reveal ────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); }
+      });
+    }, { threshold:0.07 });
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity='0'; el.style.transform='translateY(18px)';
+      el.style.transition=`opacity 0.6s ${el.dataset.delay||'0ms'} ease,transform 0.6s ${el.dataset.delay||'0ms'} ease`;
+      obs.observe(el);
+    });
+  });
+</script>
+</body>
+</html>

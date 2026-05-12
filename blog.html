@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Forecast Astrológico & Rueda del Año · Lectora de Estrellas</title>
+  <meta name="description" content="Artículos de astrología, forecast mensual, temporadas zodiacales y la rueda del año celta.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .blog-hero {
+      background: var(--grad-warm);
+      padding: 4.5rem 0 3.5rem;
+      border-bottom: 1px solid rgba(155,122,158,0.1);
+    }
+    .blog-hero h1 { font-size: clamp(2.5rem,5vw,3.75rem); margin-bottom: 0.5rem; }
+    .blog-hero p { color: var(--ink-soft); font-size: 1.05rem; max-width: 480px; }
+
+    /* Filter bar */
+    .filter-bar {
+      background: white;
+      border-bottom: 1px solid rgba(155,122,158,0.1);
+      position: sticky; top: 68px; z-index: 80;
+      padding: 0.875rem 0; overflow-x: auto; scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-inner { max-width: 1280px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 0.5rem; white-space: nowrap; }
+    .filter-pill {
+      padding: 0.4rem 1rem; border-radius: var(--radius-full);
+      border: 1.5px solid rgba(155,122,158,0.2);
+      font-family: var(--font-ui); font-size: 0.78rem; font-weight: 500;
+      color: var(--ink-soft); background: white; cursor: pointer;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .filter-pill:hover { border-color: var(--mauve); color: var(--plum); }
+    .filter-pill.active { background: var(--plum); border-color: var(--plum); color: white; }
+
+    /* Blog layout */
+    .blog-layout { max-width: 1280px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    /* Featured post */
+    .featured-post {
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: white; border-radius: var(--radius-lg);
+      overflow: hidden; border: 1px solid rgba(155,122,158,0.1);
+      margin-bottom: 3rem; box-shadow: var(--shadow-sm);
+      text-decoration: none; color: inherit;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .featured-post:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .featured-img { overflow: hidden; min-height: 360px; }
+    .featured-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .featured-post:hover .featured-img img { transform: scale(1.04); }
+
+    .featured-body { padding: 2.5rem 2.75rem; display: flex; flex-direction: column; justify-content: center; }
+    .featured-tag {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: var(--font-ui); font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--rose); margin-bottom: 0.875rem;
+    }
+    .featured-tag::before { content: ''; width: 6px; height: 6px; background: var(--rose); border-radius: 50%; }
+    .featured-body h2 { font-size: clamp(1.5rem,2.5vw,2rem); margin-bottom: 0.75rem; line-height: 1.2; }
+    .featured-body p { font-size: 0.97rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 1.25rem; }
+    .featured-meta { font-family: var(--font-ui); font-size: 0.78rem; color: var(--mauve); }
+
+    /* Blog grid */
+    .blog-section-title {
+      font-family: var(--font-ui); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve);
+      margin-bottom: 1.25rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(155,122,158,0.15);
+    }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-bottom: 3rem; }
+
+    .blog-card {
+      background: white; border-radius: var(--radius-lg);
+      overflow: hidden; border: 1px solid rgba(155,122,158,0.1);
+      text-decoration: none; color: inherit;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+    .blog-card-img { height: 200px; overflow: hidden; background: var(--cream); }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.05); }
+
+    .blog-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-cat {
+      font-family: var(--font-ui); font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mauve); margin-bottom: 0.4rem;
+    }
+    .blog-card-body h3 { font-size: 1.05rem; line-height: 1.3; margin-bottom: 0.5rem; flex: 1; }
+    .blog-card-body p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: 0.875rem; }
+    .blog-meta { font-family: var(--font-ui); font-size: 0.72rem; color: var(--mauve); margin-top: auto; }
+
+    .load-more-btn {
+      display: block; margin: 0 auto;
+      padding: 0.875rem 2.5rem;
+    }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 4rem 1rem; color: var(--ink-soft); }
+    .empty .icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    @media (max-width: 900px) {
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-img { min-height: 240px; }
+      .blog-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-layout { padding: 2rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>✦ Forecast astrológico · Rueda del año</span><span>✦</span>
+  <span>Nuevos artículos cada temporada</span><span>✦</span>
+  <span>✦ Forecast astrológico · Rueda del año</span><span>✦</span>
+  <span>Nuevos artículos cada temporada</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="blog-hero">
+  <div class="container">
+    <span class="eyebrow">Lecturas cósmicas</span>
+    <h1>Blog ✦</h1>
+    <p>Forecast astrológico, temporadas zodiacales y la rueda del año para vivir en sincronía con el cosmos.</p>
+  </div>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-pill active" onclick="filterPosts('all',this)">✦ Todos</button>
+    <button class="filter-pill" onclick="filterPosts('forecast',this)">Forecast astrológico</button>
+    <button class="filter-pill" onclick="filterPosts('rueda',this)">Rueda del año</button>
+  </div>
+</div>
+
+<!-- Blog content -->
+<div class="blog-layout">
+
+  <!-- Featured -->
+  <a href="articulo.html?post=saturno-en-aries-2025-2028" class="featured-post" data-cat="forecast" data-reveal>
+    <div class="featured-img">
+      <img src="images/blog/saturno-aries-2025.jpg" alt="Saturno en Aries" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+    </div>
+    <div class="featured-body">
+      <div class="featured-tag">Más reciente</div>
+      <div style="font-family:var(--font-ui);font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.5rem">Forecast astrológico</div>
+      <h2>Saturno en Aries (2025–2028)</h2>
+      <p>Supérate y realízate con las llamas de Aries para renovar tu confianza en ti. Saturno entra en Aries y trae consigo un llamado a la acción, la valentía y la autodisciplina como nunca antes.</p>
+      <div class="featured-meta">23 mayo 2025 · 10 min de lectura</div>
+    </div>
+  </a>
+
+  <!-- Forecast grid -->
+  <div id="forecast-section">
+    <div class="blog-section-title">Forecast astrológico</div>
+    <div class="blog-grid" id="forecast-grid">
+
+      <a href="articulo.html?post=temporada-geminis-2025" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/temporada-geminis-2025.jpg" alt="Temporada Géminis 2025" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>Temporada Géminis 2025</h3>
+          <p>Llega un tiempo luminoso enfocado en tener una variedad de experiencias y nuevos aprendizajes.</p>
+          <div class="blog-meta">21 mayo 2025 · 13 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=temporada-aries-2025" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/temporada-aries-2025.jpg" alt="Temporada Aries 2025" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>Temporada Aries 2025</h3>
+          <p>Aries llega para traer nueva vida: nos inspira a tomar acción, seguir nuestros deseos y confrontar retos.</p>
+          <div class="blog-meta">26 marzo 2025 · 12 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=venus-retrogrado-2025" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/venus-retrogrado-2025.jpg" alt="Venus retrógrado 2025" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>Venus retrógrado 2025</h3>
+          <p>Se viene una etapa de revaluar nuestras relaciones, trabajar el valor propio y principio femenino.</p>
+          <div class="blog-meta">27 feb 2025 · 4 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=temporada-piscis-2025" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/temporada-piscis-2025.jpg" alt="Temporada Piscis 2025" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>Temporada Piscis 2025</h3>
+          <p>Un tiempo de magia y purificación emocional.</p>
+          <div class="blog-meta">19 feb 2025 · 14 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=temporada-acuario-2025" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/temporada-acuario-2025.jpg" alt="Temporada Acuario 2025" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>Temporada Acuario 2025</h3>
+          <p>Viene un tiempo de nuevas ilusiones, ver hacia el futuro y prepararnos para comenzar a sembrar.</p>
+          <div class="blog-meta">19 ene 2025 · 12 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=cuando-escribir-metas" class="blog-card" data-cat="forecast">
+        <div class="blog-card-img"><img src="images/blog/cuando-escribir-metas.jpg" alt="¿Cuándo escribir mis metas?" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Forecast astrológico</div>
+          <h3>¿Cuándo escribir mis metas de año nuevo?</h3>
+          <p>Una nueva perspectiva del mito de no poner tus propósitos de año nuevo en el invierno.</p>
+          <div class="blog-meta">16 ene 2025 · 16 min</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Rueda del año grid -->
+  <div id="rueda-section" style="margin-top:2rem">
+    <div class="blog-section-title">Rueda del año</div>
+    <div class="blog-grid" id="rueda-grid">
+
+      <a href="articulo.html?post=litha-solsticio-verano" class="blog-card" data-cat="rueda">
+        <div class="blog-card-img"><img src="images/blog/litha-solsticio-verano.jpg" alt="Litha o el Solsticio de Verano" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Rueda del año</div>
+          <h3>Litha o el Solsticio de Verano</h3>
+          <p>Tiempo de empoderamiento, honrar la luz y celebrar el crecimiento de la naturaleza.</p>
+          <div class="blog-meta">15 jun 2024 · 6 min</div>
+        </div>
+      </a>
+
+      <a href="articulo.html?post=magia-imbolc-oraculo" class="blog-card" data-cat="rueda">
+        <div class="blog-card-img"><img src="images/blog/magia-imbolc.jpg" alt="La magia de Imbolc" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="blog-card-body">
+          <div class="blog-cat">Rueda del año</div>
+          <h3>La magia de Imbolc con el oráculo Seasons of the Witch</h3>
+          <p>En este video te cuento de la magia de Imbolc a través de las cartas del oráculo.</p>
+          <div class="blog-meta">1 feb 2025 · 1 min</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Newsletter -->
+<section class="newsletter-strip">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="moon-phases"><span>🌑</span><span>🌒</span><span>🌓</span><span>🌔</span><span>🌕</span><span>🌖</span><span>🌗</span></div>
+    <h2>Sé parte de la comunidad cósmica</h2>
+    <p>Suscríbete para recibir nuevos artículos y avisos de eventos en tu email.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Tu correo electrónico" required>
+      <button type="submit" class="btn btn-gold">Suscribirme</button>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Forecast astrológico y la rueda del año para vivir en sincronía con el cosmos.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Categorías</h4><a href="blog.html">Forecast astrológico</a><a href="blog.html">Rueda del año</a></div>
+      <div class="footer-col"><h4>Más</h4><a href="sesiones.html">Sesiones 1:1</a><a href="tienda.html">Herramientas mágicas</a><a href="eventos.html">Eventos</a><a href="aprende.html">Cursos</a></div>
+      <div class="footer-col"><h4>Contacto</h4><a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Lectora de Estrellas</span><span>Hecho con ✦ en Monterrey, MX</span></div>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/main.js"></script>
+<script>
+  function filterPosts(cat, btn) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+
+    const forecastSection = document.getElementById('forecast-section');
+    const ruedaSection = document.getElementById('rueda-section');
+    const featured = document.querySelector('.featured-post');
+
+    if (cat === 'all') {
+      forecastSection.style.display = 'block';
+      ruedaSection.style.display = 'block';
+      if (featured) featured.style.display = 'grid';
+    } else if (cat === 'forecast') {
+      forecastSection.style.display = 'block';
+      ruedaSection.style.display = 'none';
+      if (featured) featured.style.display = 'grid';
+    } else if (cat === 'rueda') {
+      forecastSection.style.display = 'none';
+      ruedaSection.style.display = 'block';
+      if (featured) featured.style.display = 'none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // URL param filter
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat');
+    if (cat) {
+      const btn = document.querySelector(`[onclick*="${cat}"]`);
+      if (btn) filterPosts(cat, btn);
+    }
+
+    // Reveal
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity='0'; el.style.transform='translateY(18px)';
+      el.style.transition='opacity 0.6s ease,transform 0.6s ease';
+      obs.observe(el);
+    });
+  });
+</script>
+</body>
+</html>

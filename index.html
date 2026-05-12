@@ -590,7 +590,7 @@
           <a href="tienda.html?cat=libretas">Libretas artesanales</a>
           <a href="tienda.html?cat=libretas">Mini libretas</a>
           <div class="dropdown-section">Digitales</div>
-          <a href="tienda.html?cat=digitales">Productos digitales</a>
+          <a href="producto-agenda-lunar-2026-digital.html">Agenda Lunar Digital</a>
           <a href="tienda.html?cat=bundles">Bundles</a>
         </div>
       </div>
@@ -672,7 +672,7 @@
           <h3>Agenda Lunar 2026</h3>
           <p>La agenda que te conecta con los ciclos de la luna mes a mes.</p>
           <div style="display:flex;align-items:center;gap:1rem">
-            <span style="font-family:var(--font-ui);font-size:1rem;color:white;font-weight:600">$899 <s style="opacity:0.5;font-weight:400;font-size:0.85rem">$1,050</s></span>
+            <span style="font-family:var(--font-ui);font-size:1rem;color:white;font-weight:600">$999 <s style="opacity:0.5;font-weight:400;font-size:0.85rem">$1,050</s></span>
             <span class="btn btn-gold btn-sm">Ver producto</span>
           </div>
         </div>
@@ -899,17 +899,124 @@
   </div>
 </section>
 
-<!-- ── Testimonial ────────────────────────────────────── -->
+<!-- ── Testimonial / Phone Mockup ─────────────────────── -->
 <section class="testimonial-strip">
   <div class="container">
-    <div class="testimonial-card" data-reveal>
-      <blockquote>
-        "Me encantó, Andrea es muy talentosa y se expresa fácilmente, además tiene muy buena vibra y magia, te agradezco de corazón"
-      </blockquote>
-      <cite>— Verónica Olmos</cite>
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">testimonios</span>
+      <h2>Lo que dicen mis clientas</h2>
+      <p class="section-desc" style="font-style:italic;color:var(--mauve);margin-top:0.4rem;">Palabras que llegan directo al corazón ✦</p>
     </div>
+
+    <div class="phone-mockup-scene" data-reveal>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+
+          <!-- Stories header -->
+          <div class="stories-bar">
+            <div class="stories-header">
+              <div class="stories-brand-avatar">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+              </div>
+              <div>
+                <div class="stories-brand-name">Lectora de Estrellas</div>
+                <div class="stories-brand-sub">Reseñas de clientas ✦</div>
+              </div>
+            </div>
+            <div class="progress-dots" id="reviewDots"></div>
+          </div>
+
+          <!-- Cards track -->
+          <div class="reviews-viewport" id="reviewsVP">
+            <div class="reviews-track" id="reviewsTrack"></div>
+          </div>
+
+          <!-- Nav -->
+          <div class="phone-nav">
+            <button class="phone-nav-btn" id="reviewPrev" aria-label="Anterior">&#8592;</button>
+            <span class="phone-nav-counter" id="reviewCounter">1 / 8</span>
+            <button class="phone-nav-btn" id="reviewNext" aria-label="Siguiente">&#8594;</button>
+          </div>
+
+        </div><!-- /phone-screen -->
+      </div><!-- /phone-frame -->
+    </div><!-- /scene -->
+
+    <p class="swipe-hint">&#8592; desliza para ver más reseñas &#8594;</p>
   </div>
 </section>
+
+<script>
+(function(){
+  const reviews = [
+    { initials:'L.G.', bg:'#E8D5F0', fg:'#4A2360', name:'Lorena G.', handle:'@lorena_g',
+      text:'Justo era la agenda que buscaba — con anillo metálico, fase lunar y signo por día. Después de muchísimo buscar, al fin la encontré.', stars:5, tag:'Agenda Lunar' },
+    { initials:'E.H.', bg:'#D4E8D4', fg:'#2A5A2A', name:'Eloisa H.', handle:'',
+      text:'Me encantó. Tiene todo para servir de guía de reflexión durante el año. Es muy bonita, con detalles. Muy útil para procesos de bienestar.', stars:4, tag:'Agenda Lunar' },
+    { initials:'A.', bg:'#F0E0D4', fg:'#5A3020', name:'Clienta', handle:'',
+      text:'¡La agenda es espectacular! Diseño precioso, muy didáctica. Andrea no puede ser más linda — súper profesional, empática y comprometida.', stars:5, tag:'Agenda Lunar' },
+    { initials:'A.', bg:'#D4E4F0', fg:'#1A4060', name:'Clienta', handle:'',
+      text:'Hoy recibí la agenda. ¡Qué hermoso trabajo! Amé que ahora incluyeras la parte de finanzas.', stars:5, tag:'Agenda Lunar 2026' },
+    { initials:'A.', bg:'#EDD5F5', fg:'#4A1A60', name:'Clienta', handle:'',
+      text:'Es mi primer agenda con ustedes y wow, sin duda no la última. ¡Felicidades por la calidad!', stars:5, tag:'Agenda Lunar 2026' },
+    { initials:'C.E.', bg:'#F5E0D0', fg:'#5A2A10', name:'Caty E.', handle:'',
+      text:'Estoy encantada con la carta natal. Me dice muchas cosas de mí que concuerdan. ¡Muchas gracias!', stars:5, tag:'Print Carta Natal' },
+    { initials:'A.', bg:'#D5EDE0', fg:'#1A5030', name:'Clienta', handle:'',
+      text:'Desde el momento que abrí el paquete sentí algo bonito, algo mágico. Se nota que te esforzaste en la colección. Quedé impresionada y muy feliz.', stars:5, tag:'Colección Lunar' },
+    { initials:'A.', bg:'#F0D5EA', fg:'#5A1A40', name:'Clienta', handle:'',
+      text:'El taller estuvo muy padre. El acompañamiento es padrísimo, la información muy útil y la actitud de la maestra, excelente.', stars:5, tag:'Taller Astrología' }
+  ];
+
+  const track = document.getElementById('reviewsTrack');
+  const dotsEl = document.getElementById('reviewDots');
+  const counter = document.getElementById('reviewCounter');
+  const btnPrev = document.getElementById('reviewPrev');
+  const btnNext = document.getElementById('reviewNext');
+  let current = 0;
+
+  reviews.forEach(function(r, i){
+    const stars = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+    const starsHtml = stars.split('').map(function(s){ return '<span class="review-star">'+s+'</span>'; }).join('');
+    const handle = r.handle ? '<div class="reviewer-meta-handle">'+r.handle+'</div>' : '';
+    track.innerHTML += '<div class="review-slide">'
+      + '<div class="review-slide-reviewer">'
+      + '<div class="reviewer-initials" style="background:'+r.bg+';color:'+r.fg+'">'+r.initials+'</div>'
+      + '<div><div class="reviewer-meta-name">'+r.name+'</div>'+handle+'</div>'
+      + '</div>'
+      + '<div class="review-bubble">'
+      + '<p class="review-bubble-text">"'+r.text+'"</p>'
+      + '<div class="review-stars">'+starsHtml+'</div>'
+      + '<span class="review-tag">'+r.tag+'</span>'
+      + '</div></div>';
+    dotsEl.innerHTML += '<div class="progress-dot'+(i===0?' active':'')+'" id="rdot-'+i+'"></div>';
+  });
+
+  function goTo(n){
+    var prev = current;
+    current = Math.max(0, Math.min(reviews.length - 1, n));
+    if(current === prev) return;
+    track.style.transform = 'translateX(-'+(current*100)+'%)';
+    document.getElementById('rdot-'+prev).classList.remove('active');
+    document.getElementById('rdot-'+current).classList.add('active');
+    counter.textContent = (current+1)+' / '+reviews.length;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === reviews.length - 1;
+  }
+
+  btnPrev.disabled = true;
+  btnPrev.addEventListener('click', function(){ goTo(current-1); });
+  btnNext.addEventListener('click', function(){ goTo(current+1); });
+
+  var vp = document.getElementById('reviewsVP');
+  var startX = 0;
+  vp.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+  vp.addEventListener('touchend', function(e){
+    var diff = startX - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+  });
+})();
+</script>
 
 <!-- ── Blog Preview ───────────────────────────────────── -->
 <section class="blog-preview">
@@ -1017,7 +1124,8 @@
         <a href="eventos.html">Eventos</a>
         <a href="aprende.html">Cursos</a>
         <a href="blog.html">Blog</a>
-        <a href="index.html#contacto">Contacto</a>
+        <a href="sobre-mi.html">Sobre mí</a>
+        <a href="contacto.html">Contacto</a>
         <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a>
       </div>
     </div>
@@ -1075,6 +1183,18 @@
       observer.observe(el);
     });
   });
+</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
 </script>
 </body>
 </html>

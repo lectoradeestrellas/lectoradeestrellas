@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos Digitales — Lectora de Estrellas</title>
+  <meta name="description" content="Agenda Lunar 2026 Digital Interactiva y Calendario Astrológico Digital 2026. Descarga inmediata al comprar.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/producto.css">
+  <style>
+    .digital-selector { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .digital-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      border: 2px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .digital-card:hover { border-color: var(--mauve); }
+    .digital-card.active { border-color: var(--plum); background: rgba(107,68,113,0.04); }
+    .digital-card img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); }
+    .digital-card-name { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.25rem; }
+    .digital-card-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.45; }
+    .digital-card-price { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; color: var(--plum); white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>💫 Productos digitales — descarga inmediata</span><span>✦</span>
+  <span>Sin envío físico · Acceso permanente al archivo</span><span>✦</span>
+  <span>💫 Productos digitales — descarga inmediata</span><span>✦</span>
+  <span>Sin envío físico · Acceso permanente al archivo</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html" class="active">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a><a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="gallery-main" id="gallery-main" onclick="openZoom()">
+          <img id="main-img" src="images/productos/agenda-digital-1.jpg" alt="Producto digital">
+          <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
+          <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=digitales">Digitales</a> › <span id="breadcrumb-title">Productos digitales</span>
+        </div>
+
+        <div style="margin-bottom:0.75rem">
+          <span class="product-badge-inline badge-digital">💫 Digital</span>
+        </div>
+
+        <span class="eyebrow">Productos digitales</span>
+        <h1 class="product-title" id="product-title">Productos Digitales</h1>
+        <p class="product-subtitle">Descarga inmediata al comprar. Sin envío físico — recibes el link en tu email al confirmar el pago.</p>
+
+        <div class="product-price-block">
+          <div class="product-price" id="product-price"><span style="font-size:1.1rem;font-weight:400;color:var(--ink-soft)">desde</span> $199 <span class="price-currency">MXN</span></div>
+        </div>
+
+        <!-- Digital Selector -->
+        <div class="option-group">
+          <div class="option-label">Producto</div>
+          <div class="digital-selector" id="digital-selector"></div>
+        </div>
+
+        <!-- Download note -->
+        <div class="digital-download-box">
+          <div class="icon">📩</div>
+          <p><strong>Descarga inmediata.</strong> Al confirmar tu pago recibirás un email con el link de descarga del archivo PDF. El acceso es permanente — el archivo es tuyo para siempre.</p>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="add-to-cart-block">
+          <button class="add-btn-main" id="add-btn" onclick="addDigital()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Comprar y descargar
+          </button>
+          <div class="shipping-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Sin envío físico · Link de descarga por email
+          </div>
+        </div>
+
+        <div class="product-details">
+          <div class="detail-accordion">
+            <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
+            <div class="detail-content open" id="detail-desc">
+              <p>Selecciona un producto arriba para ver su descripción.</p>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">¿Cómo funciona la descarga? <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <ul>
+                <li>Completa tu compra con tarjeta o PayPal</li>
+                <li>Recibes un email de confirmación con el link de descarga</li>
+                <li>Descarga el PDF a tu dispositivo</li>
+                <li>Ábrelo con GoodNotes, Notability, Adobe Acrobat o cualquier app de PDF</li>
+                <li>El link es tuyo para siempre — acceso permanente</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Compatibilidad <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Compatible con iPad (GoodNotes, Notability, PDF Expert), tablets Android, computadora (Mac y PC) y cualquier dispositivo que lea archivos PDF.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Productos recomendados -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
+      <div class="grid-4">
+        <a href="producto-agenda-lunar.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026 Física" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Agenda Lunar 2026 Física</div>
+            <div class="product-card-price">$999 MXN</div>
+          </div>
+        </a>
+        <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/libreta-mistica-1.jpg" alt="Libretas Artesanales" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Libretas Artesanales</div>
+            <div class="product-card-price">desde $200 MXN</div>
+          </div>
+        </a>
+        <a href="sesiones.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/sesiones/lectura-natal.jpg" alt="Lectura Natal" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Lectura Natal</div>
+            <div class="product-card-price">$1,000 MXN</div>
+          </div>
+        </a>
+        <a href="producto-print-carta-astral.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/print-carta-astral-normal.jpg" alt="Print Carta Astral" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Print Carta Astral</div>
+            <div class="product-card-price">$650 MXN</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews-section" id="reviews-section"></div>
+  </div>
+</section>
+
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <span class="zoom-close">×</span><img id="zoom-img" src="" alt="Zoom">
+</div>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Productos digitales — sin costo de envío</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script src="js/producto.js"></script>
+<script>
+  const DIGITALES = [
+    {
+      id: 'agenda-lunar-2026-digital',
+      name: 'Agenda Lunar 2026 Digital Interactiva',
+      price: 299,
+      sku: 'AGENDADIGITAL26',
+      images: ['images/productos/agenda-digital-1.jpg', 'images/productos/agenda-digital-2.jpg'],
+      desc: 'La versión digital e interactiva de la Agenda Lunar 2026. PDF con hipervínculos internos, compatible con GoodNotes, Notability y cualquier app de PDF. Fases lunares y eventos astrológicos 2026 incluidos.',
+    },
+    {
+      id: 'calendario-astrologico-digital-2026',
+      name: 'Calendario Astrológico Digital 2026',
+      price: 199,
+      sku: 'CALASTRODIGITAL26',
+      images: ['images/productos/calendario-astro-digital-1.jpg'],
+      desc: 'Todos los eventos astrológicos de 2026 en formato digital. Fases lunares, eclipses, retrógrados planetarios y temporadas zodiacales. PDF de alta resolución listo para imprimir o usar en pantalla.',
+    },
+  ];
+
+  let selectedDigital = null;
+
+  function renderDigitalSelector() {
+    document.getElementById('digital-selector').innerHTML = DIGITALES.map(d => `
+      <div class="digital-card ${selectedDigital?.id === d.id ? 'active' : ''}" onclick="selectDigital('${d.id}')">
+        <img src="${d.images[0]}" alt="${d.name}" onerror="this.src='images/placeholder.jpg'">
+        <div>
+          <div class="digital-card-name">${d.name}</div>
+          <div class="digital-card-desc">PDF interactivo · Descarga inmediata</div>
+        </div>
+        <div class="digital-card-price">$${d.price}</div>
+      </div>`).join('');
+  }
+
+  function selectDigital(id) {
+    selectedDigital = DIGITALES.find(d => d.id === id);
+    if (!selectedDigital) return;
+    document.getElementById('product-title').textContent = selectedDigital.name;
+    document.getElementById('breadcrumb-title').textContent = selectedDigital.name;
+    document.getElementById('product-price').innerHTML = `$${selectedDigital.price} <span class="price-currency">MXN</span>`;
+    document.getElementById('detail-desc').innerHTML = `<p>${selectedDigital.desc}</p>`;
+    initGallery(selectedDigital.images);
+    renderDigitalSelector();
+  }
+
+  function addDigital() {
+    if (!selectedDigital) {
+      document.getElementById('digital-selector').style.outline = '2px solid var(--rose)';
+      document.getElementById('digital-selector').style.borderRadius = '12px';
+      setTimeout(() => document.getElementById('digital-selector').style.outline = '', 2000);
+      return;
+    }
+    Cart.add({
+      id: selectedDigital.id,
+      name: selectedDigital.name,
+      price: selectedDigital.price,
+      image: selectedDigital.images[0],
+      sku: selectedDigital.sku,
+      digital: true,
+    });
+    flashAddBtn();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderDigitalSelector();
+    initGallery([DIGITALES[0].images[0]]);
+    renderReviews('lde_reviews_digitales', 'Producto digital');
+  });
+</script>
+</body>
+</html>

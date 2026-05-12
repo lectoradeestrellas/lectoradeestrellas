@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuadernos de Trabajo — Lectora de Estrellas</title>
+  <meta name="description" content="Cuadernos de trabajo astrológicos para profundizar en tu autoconocimiento.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/producto.css">
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>✦ Cuadernos de trabajo astrológicos</span><span>✦</span>
+  <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+  <span>✦ Cuadernos de trabajo astrológicos</span><span>✦</span>
+  <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html" class="active">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a><a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="gallery-main" id="gallery-main" onclick="openZoom()">
+          <img id="main-img" src="images/productos/workbook-zodiac-1.jpg" alt="Cuaderno de trabajo">
+          <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
+          <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=cuadernos">Cuadernos de trabajo</a> › <span id="breadcrumb-title">Cuadernos de trabajo</span>
+        </div>
+
+        <span class="eyebrow">Cuadernos de trabajo</span>
+        <h1 class="product-title" id="product-title">Cuadernos de Trabajo</h1>
+        <p class="product-subtitle" id="product-subtitle">Cuadernos guiados para profundizar en tu autoconocimiento a través de la astrología. Selecciona el cuaderno que más resuene contigo.</p>
+
+        <div class="product-price-block">
+          <div class="product-price" id="product-price"><span style="font-size:1.1rem;font-weight:400;color:var(--ink-soft)">desde</span> $350 <span class="price-currency">MXN</span></div>
+        </div>
+
+        <!-- Workbook Selector -->
+        <div class="option-group">
+          <div class="option-label">Cuaderno</div>
+          <div class="workbook-options" id="workbook-options"></div>
+        </div>
+
+        <!-- Language selector (only for Emociones) -->
+        <div class="option-group" id="lang-group" style="display:none">
+          <div class="option-label">Idioma</div>
+          <div class="lang-options">
+            <div class="lang-option disabled" onclick="selectLang('es')" id="lang-es">
+              <div class="lang-option-name">🇲🇽 Español</div>
+              <div class="lang-option-note">Próximamente</div>
+            </div>
+            <div class="lang-option active" onclick="selectLang('en')" id="lang-en">
+              <div class="lang-option-name">🇺🇸 English</div>
+              <div class="lang-option-note">Disponible</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="option-group">
+          <div class="option-label">Cantidad</div>
+          <div class="qty-selector">
+            <button class="qty-btn-large" onclick="changeQty(-1)">−</button>
+            <span class="qty-display" id="qty-display">1</span>
+            <button class="qty-btn-large" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <div class="add-to-cart-block">
+          <button class="add-btn-main" id="add-btn" onclick="addWorkbook()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Agregar al carrito
+          </button>
+          <div class="shipping-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Envío a todo el mundo · Costo calculado en checkout
+          </div>
+        </div>
+
+        <div class="product-details" id="product-details">
+          <div class="detail-accordion">
+            <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
+            <div class="detail-content open" id="detail-desc">
+              <p>Selecciona un cuaderno arriba para ver su descripción.</p>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Envío & entrega <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Enviamos a todo el mundo. El costo se calcula en el checkout según tu código postal.</p>
+              <p>México: 3-7 días hábiles · Internacional: 7-20 días hábiles</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Productos recomendados -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
+      <div class="grid-4">
+        <a href="producto-workbook-emociones.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/emociones-ciclos-1.jpg" alt="La Astrología de mis Emociones" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">La Astrología de mis Emociones</div>
+            <div class="product-card-price">$380 MXN</div>
+          </div>
+        </a>
+        <a href="producto-workbook-zodiac.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/workbook-zodiac-1.jpg" alt="Workbook Zodiac Elements Duo" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Workbook Zodiac Elements Duo</div>
+            <div class="product-card-price">$350 MXN</div>
+          </div>
+        </a>
+        <a href="sesiones.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/sesiones/lectura-natal.jpg" alt="Lectura Natal" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Lectura Natal</div>
+            <div class="product-card-price">$1,000 MXN</div>
+          </div>
+        </a>
+        <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/libreta-mistica-1.jpg" alt="Libretas Artesanales" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Libretas Artesanales</div>
+            <div class="product-card-price">desde $200 MXN</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews-section" id="reviews-section"></div>
+  </div>
+</section>
+
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <span class="zoom-close">×</span><img id="zoom-img" src="" alt="Zoom">
+</div>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script src="js/producto.js"></script>
+<script>
+  const WORKBOOKS = [
+    {
+      id: 'workbook-zodiac-elements-duo',
+      name: 'Workbook Zodiac Elements Duo',
+      price: 350,
+      sku: 'WBZODIAC',
+      image: 'images/productos/workbook-zodiac-1.jpg',
+      images: ['images/productos/workbook-zodiac-1.jpg', 'images/productos/workbook-zodiac-2.jpg'],
+      desc: 'Explora los cuatro elementos (Fuego, Tierra, Aire y Agua) a través de los signos zodiacales en este workbook de trabajo profundo. Ejercicios guiados para conectar con tu carta astral.',
+      hasLang: false,
+    },
+    {
+      id: 'workbook-emociones-ciclos',
+      name: 'La Astrología de mis Emociones y Ciclos de Vida',
+      price: 380,
+      sku: 'WBEMOCIONES',
+      image: 'images/productos/emociones-ciclos-1.jpg',
+      images: ['images/productos/emociones-ciclos-1.jpg', 'images/productos/emociones-ciclos-2.jpg'],
+      desc: 'Aprende a usar la astrología para entender tus emociones y los ciclos de tu vida. Un cuaderno de trabajo guiado para conocerte a profundidad a través de la guía cósmica.',
+      hasLang: true,
+    },
+  ];
+
+  let selectedWorkbook = null;
+  let selectedLang = 'en';
+
+  function renderWorkbooks() {
+    document.getElementById('workbook-options').innerHTML = WORKBOOKS.map(w => `
+      <div class="workbook-option ${selectedWorkbook?.id === w.id ? 'active' : ''}" onclick="selectWorkbook('${w.id}')">
+        <img src="${w.image}" alt="${w.name}" onerror="this.src='images/placeholder.jpg'">
+        <div class="workbook-option-info">
+          <div class="workbook-option-name">${w.name}</div>
+          <div class="workbook-option-desc">${w.hasLang ? '🇺🇸 English disponible · 🇲🇽 Español próximamente' : 'Disponible'}</div>
+        </div>
+        <div class="workbook-option-price">$${w.price}</div>
+      </div>`).join('');
+  }
+
+  function selectWorkbook(id) {
+    selectedWorkbook = WORKBOOKS.find(w => w.id === id);
+    if (!selectedWorkbook) return;
+
+    document.getElementById('product-title').textContent = selectedWorkbook.name;
+    document.getElementById('breadcrumb-title').textContent = selectedWorkbook.name;
+    document.getElementById('product-price').innerHTML = `$${selectedWorkbook.price} <span class="price-currency">MXN</span>`;
+    document.getElementById('detail-desc').innerHTML = `<p>${selectedWorkbook.desc}</p>`;
+    document.getElementById('lang-group').style.display = selectedWorkbook.hasLang ? 'block' : 'none';
+
+    initGallery(selectedWorkbook.images);
+    renderWorkbooks();
+  }
+
+  function selectLang(lang) {
+    if (lang === 'es') return; // disabled
+    selectedLang = lang;
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+  }
+
+  function addWorkbook() {
+    if (!selectedWorkbook) {
+      document.getElementById('workbook-options').style.outline = '2px solid var(--rose)';
+      document.getElementById('workbook-options').style.borderRadius = '12px';
+      setTimeout(() => document.getElementById('workbook-options').style.outline = '', 2000);
+      return;
+    }
+    const langSuffix = selectedWorkbook.hasLang ? ` (${selectedLang === 'en' ? 'English' : 'Español'})` : '';
+    for (let i = 0; i < qty; i++) {
+      Cart.add({
+        id: `${selectedWorkbook.id}-${selectedLang}`,
+        name: `${selectedWorkbook.name}${langSuffix}`,
+        price: selectedWorkbook.price,
+        image: selectedWorkbook.image,
+        sku: `${selectedWorkbook.sku}-${selectedLang.toUpperCase()}`,
+      });
+    }
+    flashAddBtn();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderWorkbooks();
+    initGallery([WORKBOOKS[0].image]);
+    renderReviews('lde_reviews_cuadernos', 'Cuaderno de trabajo');
+  });
+</script>
+</body>
+</html>

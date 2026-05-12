@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda — Herramientas Mágicas · Lectora de Estrellas</title>
+  <meta name="description" content="Agendas lunares, libretas artesanales, cuadernos de trabajo y productos digitales para sincronizarte con el cosmos.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .shop-hero {
+      background: var(--grad-warm);
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid rgba(155,122,158,0.12);
+    }
+    .shop-hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 0.5rem;
+    }
+    .shop-hero p { font-size: 1.1rem; color: var(--ink-soft); }
+
+    /* ── Filter Bar ── */
+    .filter-bar {
+      position: sticky;
+      top: 68px;
+      z-index: 50;
+      background: rgba(250,246,240,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(155,122,158,0.1);
+      padding: 1rem 0;
+    }
+
+    .filter-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-inner::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid rgba(155,122,158,0.2);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      background: white;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--mauve); color: var(--plum); }
+    .filter-btn.active {
+      background: var(--plum);
+      border-color: var(--plum);
+      color: white;
+    }
+    .filter-count {
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    /* ── Shop Layout ── */
+    .shop-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+    }
+
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    .results-count strong { color: var(--ink); font-weight: 500; }
+
+    /* ── Product Grid ── */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .shop-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(155,122,158,0.1);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .shop-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .shop-card-img {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--cream);
+    }
+    .shop-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+    .shop-card:hover .shop-card-img img { transform: scale(1.05); }
+
+    .card-badge {
+      position: absolute;
+      top: 0.75rem; left: 0.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+    }
+    .badge-bestseller { background: var(--gold); color: #2a1f00; }
+    .badge-limited    { background: var(--plum); color: white; }
+    .badge-digital    { background: var(--violet); color: white; }
+    .badge-new        { background: var(--rose); color: white; }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26,17,24,0.0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .shop-card:hover .card-overlay { background: rgba(26,17,24,0.15); }
+    .card-overlay .quick-add {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s;
+      font-size: 0.75rem;
+    }
+    .shop-card:hover .card-overlay .quick-add {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .shop-card-body {
+      padding: 1.1rem 1.25rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-cat {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      line-height: 1.3;
+      flex: 1;
+    }
+
+    .card-options-note {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      color: var(--mauve);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+    }
+
+    .card-price {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--plum);
+    }
+    .card-price .original {
+      font-size: 0.8rem;
+      font-weight: 400;
+      text-decoration: line-through;
+      color: var(--blush);
+      margin-right: 0.3rem;
+    }
+    .card-price .from {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--ink-soft);
+      margin-right: 0.2rem;
+    }
+
+    .card-add-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--plum);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .card-add-btn:hover { background: var(--deep-plum); transform: scale(1.1); }
+    .card-add-btn.has-options { background: var(--mauve); }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 1rem;
+      color: var(--ink-soft);
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 1rem; }
+
+    /* ── Digital badge strip ── */
+    .digital-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(123,94,167,0.08);
+      border-radius: var(--radius-full);
+      padding: 0.3rem 0.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      color: var(--violet);
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .shop-hero { padding: 2.5rem 0 2rem; }
+      .shop-layout { padding: 1.5rem 1.25rem 4rem; }
+      .results-bar { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="banner">
+  <div class="banner-track">
+    <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+    <span>Libretas artesanales creadas con intención y magia</span><span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+    <span>Productos digitales — descarga inmediata</span><span>✦</span>
+    <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+    <span>Libretas artesanales creadas con intención y magia</span><span>✦</span>
+    <span>Productos digitales — descarga inmediata</span><span>✦</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html" class="active">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="aprende.html">Aprende</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Shop Hero -->
+<div class="shop-hero">
+  <div class="container">
+    <span class="eyebrow">Herramientas mágicas</span>
+    <h1>La tienda ✦</h1>
+    <p>Agendas, libretas, cuadernos y productos digitales para sincronizarte con el cosmos.</p>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-cat="all">Todo <span class="filter-count" id="count-all"></span></button>
+    <button class="filter-btn" data-cat="agendas">🌙 Agendas & Calendarios</button>
+    <button class="filter-btn" data-cat="cuadernos">📓 Cuadernos de trabajo</button>
+    <button class="filter-btn" data-cat="libretas">✨ Libretas & Bundles</button>
+    <button class="filter-btn" data-cat="prints">🖼️ Prints</button>
+    <button class="filter-btn" data-cat="digitales">💫 Digitales</button>
+  </div>
+</div>
+
+<!-- Shop Content -->
+<div class="shop-layout">
+  <div class="results-bar">
+    <span id="results-text"><strong>0</strong> productos</span>
+  </div>
+  <div class="shop-grid" id="shop-grid"></div>
+  <div class="empty-state" id="empty-state" style="display:none">
+    <div class="icon">✦</div>
+    <p>No hay productos en esta categoría aún.</p>
+  </div>
+</div>
+
+<!-- Newsletter -->
+<section class="newsletter-strip">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="moon-phases">
+      <span>🌑</span><span>🌒</span><span>🌓</span><span>🌔</span><span>🌕</span><span>🌖</span><span>🌗</span>
+    </div>
+    <h2>Sé parte de la comunidad cósmica</h2>
+    <p>Suscríbete para recibir avisos de nuevos productos y ofertas especiales.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Tu correo electrónico" required>
+      <button type="submit" class="btn btn-gold">Suscribirme</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">LECTORA <em style="font-family:var(--font-body);font-style:italic;letter-spacing:0">de</em> ESTRELLAS</span>
+        <p>Herramientas mágicas para tu desarrollo personal y conexión espiritual.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://tiktok.com/@lectoradeestrellas" class="footer-social" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.85 1.56V6.79a4.85 4.85 0 01-1.08-.1z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <a href="tienda.html?cat=agendas">Agendas & Calendarios</a>
+        <a href="tienda.html?cat=cuadernos">Cuadernos de trabajo</a>
+        <a href="tienda.html?cat=libretas">Libretas & Bundles</a>
+        <a href="tienda.html?cat=prints">Prints</a>
+        <a href="tienda.html?cat=digitales">Digitales</a>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="sesiones.html">Sesiones 1:1</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="aprende.html">Cursos</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="mailto:lalectorade.estrellas@gmail.com">lalectorade.estrellas<br>@gmail.com</a>
+        <a href="https://instagram.com/lectoradeestrellas" target="_blank">@lectoradeestrellas</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lectora de Estrellas</span>
+      <span>Hecho con ✦ en Monterrey, MX</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart Sidebar -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h3>Tu carrito ✦</h3>
+    <button class="cart-close" id="cart-close">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="amount" id="cart-subtotal">$0.00 MXN</span>
+    </div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // ── Catalog rendering ─────────────────────────────────
+  const CATALOG = [
+    { key: 'agenda-lunar-2026', cat: 'agendas', image: 'images/productos/agenda-lunar-2026-1.jpg', optionsLabel: null },
+    { key: 'diario-lunar-2026', cat: 'agendas', image: 'images/productos/diario-lunar-2026-1.jpg', optionsLabel: null },
+    { key: 'calendario-mini-lunar-2026', cat: 'agendas', image: 'images/productos/calendario-mini-1.jpg', optionsLabel: null },
+    { key: 'print-calendario-lunar-2026', cat: 'prints', image: 'images/productos/print-calendario-lunar-1.jpg', optionsLabel: null },
+    { key: 'cuadernos-trabajo', cat: 'cuadernos', image: 'images/productos/workbook-zodiac-1.jpg', optionsLabel: '2 cuadernos disponibles' },
+    { key: 'libretas', cat: 'libretas', image: 'images/productos/libreta-mistica-1.jpg', optionsLabel: '6 diseños disponibles' },
+    { key: 'diario-zodiacal', cat: 'libretas', image: 'images/productos/diario-zodiacal-aries.jpg', optionsLabel: '12 signos disponibles' },
+    { key: 'bundles', cat: 'libretas', image: 'images/productos/bundle-mistica-1.jpg', optionsLabel: '6 bundles disponibles' },
+    { key: 'print-carta-astral', cat: 'prints', image: 'images/productos/print-carta-astral-normal.jpg', optionsLabel: '2 diseños · con tus datos' },
+    { key: 'agenda-lunar-2026-digital', cat: 'digitales', image: 'images/productos/agenda-digital-1.jpg', optionsLabel: null },
+    { key: 'calendario-astrologico-digital-2026', cat: 'digitales', image: 'images/productos/calendario-astro-digital-1.jpg', optionsLabel: null },
+  ];
+
+  const CATEGORY_LABELS = {
+    agendas:   'Agendas & Calendarios',
+    cuadernos: 'Cuadernos de trabajo',
+    libretas:  'Libretas & Bundles',
+    prints:    'Prints',
+    digitales: 'Digitales',
+  };
+
+  const HAS_OPTIONS = ['cuadernos-trabajo', 'libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral'];
+
+  function priceLabel(p) {
+    if (!p) return '';
+    const pr = PRODUCTS[p.key];
+    if (!pr) return '';
+    if (p.key === 'cuadernos-trabajo') return '<span class="from">desde</span>$350';
+    if (p.key === 'libretas') return '<span class="from">desde</span>$200';
+    if (p.key === 'bundles') return '$450';
+    if (pr.originalPrice) return `<span class="original">$${pr.originalPrice}</span>$${pr.price}`;
+    if (pr.price) return `$${pr.price}`;
+    return '';
+  }
+
+  function renderCard(p) {
+    const pr = PRODUCTS[p.key];
+    if (!pr) return '';
+    const hasOpts = HAS_OPTIONS.includes(p.key);
+    const badge = pr.badge ? `<span class="card-badge badge-${pr.badgeType}">${pr.badge}</span>` : '';
+    const digitalNote = pr.digital ? `<span class="digital-note">💫 Descarga inmediata</span>` : '';
+    const optNote = p.optionsLabel ? `<div class="card-options-note">✦ ${p.optionsLabel}</div>` : '';
+
+    const addBtn = hasOpts
+      ? `<button class="card-add-btn has-options" onclick="event.stopPropagation();window.location.href='producto-${p.key}.html'" title="Ver opciones">→</button>`
+      : `<button class="card-add-btn" onclick="event.stopPropagation();quickAdd('${p.key}')" title="Agregar al carrito">+</button>`;
+
+    return `
+      <div class="shop-card" onclick="window.location.href='producto-${p.key}.html'" data-cat="${p.cat}">
+        <div class="shop-card-img">
+          <img src="${p.image}" alt="${pr.name}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+          ${badge}
+          <div class="card-overlay">
+            <span class="btn btn-ghost quick-add" style="background:white;font-size:0.72rem">Ver producto</span>
+          </div>
+        </div>
+        <div class="shop-card-body">
+          <div class="card-cat">${CATEGORY_LABELS[p.cat] || ''}</div>
+          ${digitalNote}
+          <div class="card-name">${pr.name}</div>
+          ${optNote}
+          <div class="card-price-row">
+            <div class="card-price">${priceLabel(p)} <span style="font-size:0.72rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
+            ${addBtn}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function quickAdd(key) {
+    const pr = PRODUCTS[key];
+    if (!pr) return;
+    Cart.add({ id: key, name: pr.name, price: pr.price, image: `images/productos/${key}-1.jpg` });
+  }
+
+  let currentCat = 'all';
+
+  function renderGrid(cat) {
+    currentCat = cat;
+    const filtered = cat === 'all' ? CATALOG : CATALOG.filter(p => p.cat === cat);
+    const grid = document.getElementById('shop-grid');
+    const empty = document.getElementById('empty-state');
+    const resultsText = document.getElementById('results-text');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+    } else {
+      grid.innerHTML = filtered.map(renderCard).join('');
+      empty.style.display = 'none';
+    }
+
+    resultsText.innerHTML = `<strong>${filtered.length}</strong> producto${filtered.length !== 1 ? 's' : ''}`;
+
+    // Update active filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.cat === cat);
+    });
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    // Check URL param
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat') || 'all';
+    renderGrid(catParam);
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => renderGrid(btn.dataset.cat));
+    });
+
+    // Reveal animation
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    // Observe cards as they render
+    setTimeout(() => {
+      document.querySelectorAll('.shop-card').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(16px)';
+        el.style.transition = `opacity 0.5s ${i * 40}ms ease, transform 0.5s ${i * 40}ms ease`;
+        obs.observe(el);
+      });
+    }, 50);
+  });
+</script>
+</body>
+</html>
