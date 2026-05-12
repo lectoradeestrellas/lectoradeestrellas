@@ -516,6 +516,180 @@
     }
     .ig-item:hover img { transform: scale(1.06); opacity: 0.85; }
 
+    /* ── Sesiones Preview ───────────────────────────── */
+    .sesiones-preview {
+      background: var(--midnight);
+      padding: var(--space-lg) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sesiones-preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 50%, rgba(155,122,158,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(193,155,96,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .sesiones-preview .section-header .eyebrow { color: var(--gold); }
+    .sesiones-preview .section-header h2 { color: white; }
+    .sesiones-preview .section-header p { color: rgba(250,246,240,0.55); }
+
+    .sesiones-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: var(--space-md);
+    }
+
+    .sesion-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sesion-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(155,122,158,0.07) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease);
+    }
+
+    .sesion-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(193,155,96,0.4);
+      transform: translateY(-4px);
+    }
+
+    .sesion-card:hover::before { opacity: 1; }
+
+    .sesion-icon {
+      font-size: 1.75rem;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+      color: var(--gold);
+      opacity: 0.9;
+    }
+
+    .sesion-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sesion-body h3 {
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 0.6rem;
+      font-weight: 400;
+    }
+
+    .sesion-body p {
+      font-size: 0.9rem;
+      color: rgba(250,246,240,0.6);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .sesion-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(155,122,158,0.15);
+      padding-top: 1rem;
+      margin-top: auto;
+    }
+
+    .sesion-price {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: -0.01em;
+    }
+
+    .sesion-price span {
+      font-size: 0.72rem;
+      font-weight: 400;
+      opacity: 0.7;
+      margin-left: 0.2em;
+    }
+
+    .sesion-cta {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(250,246,240,0.5);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .sesion-card:hover .sesion-cta { color: var(--gold); }
+
+    .sesion-card--highlight {
+      border-color: rgba(193,155,96,0.35);
+      background: rgba(193,155,96,0.06);
+    }
+
+    .sesion-card--highlight .sesion-icon { font-size: 2rem; }
+
+    .sesion-card--ver-todas {
+      border-style: dashed;
+      border-color: rgba(155,122,158,0.25);
+      background: transparent;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 0;
+    }
+
+    .sesion-card--ver-todas:hover {
+      border-color: rgba(193,155,96,0.5);
+      background: rgba(193,155,96,0.05);
+      transform: translateY(-4px);
+    }
+
+    .sesion-ver-todas-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sesion-icon-sm {
+      font-size: 1.4rem;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 0.25rem;
+    }
+
+    .sesion-card--ver-todas h3 {
+      font-size: 1.1rem;
+      color: white;
+      font-weight: 400;
+    }
+
+    .sesion-card--ver-todas p {
+      font-size: 0.85rem;
+      color: rgba(250,246,240,0.5);
+      line-height: 1.55;
+      max-width: 200px;
+    }
+
     /* ── Responsive ──────────────────────────────────── */
     @media (max-width: 1024px) {
       .collection-featured {
@@ -524,6 +698,7 @@
       }
       .collection-main { grid-row: 1; grid-column: 1 / 3; min-height: 360px; }
       .services-grid { grid-template-columns: 1fr 1fr; }
+      .sesiones-grid { grid-template-columns: 1fr 1fr; }
       .about-strip { grid-template-columns: 1fr; }
       .about-img-side { height: 400px; }
       .instagram-grid { grid-template-columns: repeat(3, 1fr); }
@@ -535,6 +710,7 @@
       .collection-featured { grid-template-columns: 1fr; }
       .collection-main { grid-column: 1; min-height: 300px; }
       .services-grid { grid-template-columns: 1fr; }
+      .sesiones-grid { grid-template-columns: 1fr; }
       .event-card { grid-template-columns: 140px 1fr; }
       .about-content-side { padding: 3rem 1.5rem; }
       .instagram-grid { grid-template-columns: repeat(3, 1fr); }
@@ -640,37 +816,110 @@
   <div class="hero-scroll">Scroll</div>
 </section>
 
-<!-- ── About Strip ────────────────────────────────────── -->
+<!-- ── Andrea — quién soy ──────────────────────────────── -->
 <section class="about-strip" data-reveal>
   <div class="about-img-side">
     <img src="images/andrea-portrait.jpg" alt="Andrea - Lectora de Estrellas">
   </div>
   <div class="about-content-side">
-    <span class="eyebrow">Tu mentora cósmica</span>
-    <h2>¡Holi holi! Me llamo Andrea</h2>
+    <span class="eyebrow">Soy Andrea ✦</span>
+    <h2>La astrología es la herramienta más honesta que conozco para conocerte a ti misma.</h2>
     <p>
-      Te doy la bienvenida a mi espacio cósmico, creado con la intención de elevar tu desarrollo personal, bienestar y conexión espiritual a través de la guía astral e intuitiva.
+      Llevo más de cinco años leyendo cartas astrales y una cosa me queda clara: nada está escrito en piedra. Tu carta natal no es tu destino — es tu mapa. Y aprender a leerlo lo cambia todo.
     </p>
     <p>
-      Trabajar con la astrología y con los ángeles ha cambiado mi vida ya que me ha enseñado vivir de forma más alineada a mi fuente y conmigo misma; me ha recordado el poder que tengo para contar mi propia historia.
+      Desde niña la astrología explicaba cosas que de otra forma no tenían nombre. Hoy la comparto a través de sesiones 1:1, herramientas que diseño con intención y eventos donde aprendemos juntas.
     </p>
-    <a href="sesiones.html" class="btn btn-gold" style="margin-top:0.5rem;align-self:flex-start">Hablemos →</a>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.5rem">
+      <a href="sesiones.html" class="btn btn-gold">Reservar sesión →</a>
+      <a href="sobre-mi.html" class="btn btn-ghost">Conoce mi historia</a>
+    </div>
   </div>
 </section>
 
-<!-- ── Category Pills ─────────────────────────────────── -->
-<div class="category-strip">
-  <div class="category-pills">
-    <a href="tienda.html" class="category-pill active">✦ Todo</a>
-    <a href="tienda.html?cat=lunar2026" class="category-pill">🌙 Colección Lunar 2026</a>
-    <a href="tienda.html?cat=agendas" class="category-pill">📓 Agendas</a>
-    <a href="tienda.html?cat=libretas" class="category-pill">📒 Libretas</a>
-    <a href="tienda.html?cat=notepads" class="category-pill">📋 Notepads</a>
-    <a href="tienda.html?cat=bundles" class="category-pill">🎁 Bundles</a>
-    <a href="tienda.html?cat=digitales" class="category-pill">💫 Digitales</a>
-    <a href="sesiones.html" class="category-pill">⭐ Lecturas astrales</a>
+<!-- ── Sesiones Preview ───────────────────────────────── -->
+<section class="sesiones-preview">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Lecturas 1:1</span>
+      <h2>Sesiones personalizadas</h2>
+      <p class="section-desc">Online vía Google Meet · Reserva tu lugar con anticipación</p>
+    </div>
+
+    <div class="sesiones-grid">
+
+      <a href="sesiones.html#natal" class="sesion-card" data-reveal>
+        <div class="sesion-icon">☽</div>
+        <div class="sesion-body">
+          <h3>Lectura Natal</h3>
+          <p>Descubre quién eres a través de tu carta astral. El punto de partida de todo.</p>
+          <div class="sesion-footer">
+            <span class="sesion-price">$1,000 <span>MXN</span></span>
+            <span class="sesion-cta">Reservar →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sesiones.html#karmica" class="sesion-card" data-reveal data-delay="80ms">
+        <div class="sesion-icon">✦</div>
+        <div class="sesion-body">
+          <h3>Lectura Kármica</h3>
+          <p>Patrones del alma, nodos lunares y misión de vida en esta encarnación.</p>
+          <div class="sesion-footer">
+            <span class="sesion-price">$1,000 <span>MXN</span></span>
+            <span class="sesion-cta">Reservar →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sesiones.html#ciclo-anual" class="sesion-card" data-reveal data-delay="160ms">
+        <div class="sesion-icon">◎</div>
+        <div class="sesion-body">
+          <h3>Ciclo Anual</h3>
+          <p>Tu año astrológico desde tu cumpleaños. Qué viene, qué soltar, qué construir.</p>
+          <div class="sesion-footer">
+            <span class="sesion-price">$1,000 <span>MXN</span></span>
+            <span class="sesion-cta">Reservar →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sesiones.html#momento-actual" class="sesion-card" data-reveal data-delay="80ms">
+        <div class="sesion-icon">◈</div>
+        <div class="sesion-body">
+          <h3>Momento Actual</h3>
+          <p>Qué te dicen los tránsitos planetarios de hoy sobre lo que estás viviendo.</p>
+          <div class="sesion-footer">
+            <span class="sesion-price">$1,000 <span>MXN</span></span>
+            <span class="sesion-cta">Reservar →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sesiones.html#encrucijada" class="sesion-card sesion-card--highlight" data-reveal data-delay="160ms">
+        <div class="sesion-icon">⊕</div>
+        <div class="sesion-body">
+          <h3>Encrucijada</h3>
+          <p>Para decisiones importantes. Lectura enfocada en una situación específica.</p>
+          <div class="sesion-footer">
+            <span class="sesion-price">$1,200 <span>MXN</span></span>
+            <span class="sesion-cta">Reservar →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sesiones.html" class="sesion-card sesion-card--ver-todas" data-reveal data-delay="240ms">
+        <div class="sesion-ver-todas-inner">
+          <span class="sesion-icon-sm">✦</span>
+          <h3>Ver todas las sesiones</h3>
+          <p>Tiradas de oráculo, sesiones de temporada y más opciones disponibles.</p>
+          <span class="btn btn-gold btn-sm" style="margin-top:1rem">Ver sesiones →</span>
+        </div>
+      </a>
+
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ── Featured Collection ────────────────────────────── -->
 <section class="collection-section">
@@ -735,62 +984,19 @@
   </div>
 </section>
 
-<!-- ── Services Section ───────────────────────────────── -->
-<section class="services-section">
-  <div class="container">
-    <div class="section-header" data-reveal>
-      <span class="eyebrow">Productos y servicios</span>
-      <h2>Productos y contenido astrológicos<br>para tu desarrollo personal</h2>
-    </div>
-
-    <div class="services-grid">
-      <a href="sesiones.html" class="service-card" data-reveal>
-        <div class="service-img">
-          <img src="images/lecturas-astrales.jpg" alt="Lecturas astrales">
-          <div class="service-img-tag">
-            <span class="btn btn-primary btn-sm">Lecturas astrales</span>
-          </div>
-        </div>
-        <div class="service-body">
-          <span class="eyebrow">Guía cósmica</span>
-          <h3>Sesiones 1:1</h3>
-          <p>Recibe mensajes de los astros para un mejor autoconocimiento y desarrollo personal. Online vía Google Meet.</p>
-          <span class="btn btn-secondary btn-sm">Reservar sesión →</span>
-        </div>
-      </a>
-
-      <a href="tienda.html" class="service-card" data-reveal data-delay="100ms">
-        <div class="service-img">
-          <img src="images/tienda-libretas.jpg" alt="Herramientas mágicas">
-          <div class="service-img-tag">
-            <span class="btn btn-gold btn-sm">Tienda</span>
-          </div>
-        </div>
-        <div class="service-body">
-          <span class="eyebrow">Astrología en tu día a día</span>
-          <h3>Herramientas mágicas</h3>
-          <p>Explora agendas, libretas, notepads y productos digitales para aprender o usar como guía en tu vida.</p>
-          <span class="btn btn-secondary btn-sm">Explorar tienda →</span>
-        </div>
-      </a>
-
-      <a href="aprende.html" class="service-card" data-reveal data-delay="200ms">
-        <div class="service-img">
-          <img src="images/aprende-webinars.jpg" alt="Webinars y talleres">
-          <div class="service-img-tag">
-            <span class="btn btn-primary btn-sm" style="background:var(--violet)">Aprende</span>
-          </div>
-        </div>
-        <div class="service-body">
-          <span class="eyebrow">Aprende astrología</span>
-          <h3>Cursos & Webinars</h3>
-          <p>Participa en talleres y cursos sobre diferentes temas astrológicos. También disponibles en formato digital.</p>
-          <span class="btn btn-secondary btn-sm">Ver cursos →</span>
-        </div>
-      </a>
-    </div>
+<!-- ── Category Pills ─────────────────────────────────── -->
+<div class="category-strip">
+  <div class="category-pills">
+    <a href="tienda.html" class="category-pill active">✦ Todo</a>
+    <a href="tienda.html?cat=lunar2026" class="category-pill">🌙 Colección Lunar 2026</a>
+    <a href="tienda.html?cat=agendas" class="category-pill">📓 Agendas</a>
+    <a href="tienda.html?cat=libretas" class="category-pill">📒 Libretas</a>
+    <a href="tienda.html?cat=notepads" class="category-pill">📋 Notepads</a>
+    <a href="tienda.html?cat=bundles" class="category-pill">🎁 Bundles</a>
+    <a href="tienda.html?cat=digitales" class="category-pill">💫 Digitales</a>
+    <a href="sesiones.html" class="category-pill">⭐ Lecturas astrales</a>
   </div>
-</section>
+</div>
 
 <!-- ── Libretas Section ───────────────────────────────── -->
 <section class="products-section">
@@ -863,38 +1069,6 @@
 
     <div style="text-align:center;margin-top:2.5rem" data-reveal>
       <a href="tienda.html?cat=libretas" class="btn btn-ghost">Ver todas las libretas →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Events Preview ─────────────────────────────────── -->
-<section class="events-preview">
-  <div class="container">
-    <div class="section-header" data-reveal>
-      <span class="eyebrow">Próximos eventos</span>
-      <h2>Próximos eventos y encuentros</h2>
-      <p>Pláticas, talleres y encuentros en Monterrey y online.</p>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:1rem;margin-top:2rem;max-width:780px;margin-left:auto;margin-right:auto">
-      <div class="event-card" data-reveal>
-        <div class="event-card-img">
-          <img src="images/evento-beltane.jpg" alt="Beltane y el deseo" loading="lazy">
-        </div>
-        <div class="event-card-body">
-          <div class="event-date">Vie 08 de mayo · La Mano Oculta · SPGG</div>
-          <h3>Beltane y el deseo</h3>
-          <p>Contágiate del desenfreno, abundancia y pasión que enciende esta festividad para expandir tus deseos y metas.</p>
-          <div style="display:flex;gap:0.75rem;align-items:center">
-            <a href="eventos.html" class="btn btn-primary btn-sm">RSVP</a>
-            <a href="eventos.html" style="font-family:var(--font-ui);font-size:0.8rem;color:var(--mauve)">Leer más →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:2rem" data-reveal>
-      <a href="eventos.html" class="btn btn-ghost">Ver todos los eventos →</a>
     </div>
   </div>
 </section>
@@ -1017,6 +1191,38 @@
   });
 })();
 </script>
+
+<!-- ── Events Preview ─────────────────────────────────── -->
+<section class="events-preview">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Próximos eventos</span>
+      <h2>Próximos eventos y encuentros</h2>
+      <p>Pláticas, talleres y encuentros en Monterrey y online.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem;margin-top:2rem;max-width:780px;margin-left:auto;margin-right:auto">
+      <div class="event-card" data-reveal>
+        <div class="event-card-img">
+          <img src="images/evento-beltane.jpg" alt="Beltane y el deseo" loading="lazy">
+        </div>
+        <div class="event-card-body">
+          <div class="event-date">Vie 08 de mayo · La Mano Oculta · SPGG</div>
+          <h3>Beltane y el deseo</h3>
+          <p>Contágiate del desenfreno, abundancia y pasión que enciende esta festividad para expandir tus deseos y metas.</p>
+          <div style="display:flex;gap:0.75rem;align-items:center">
+            <a href="eventos.html" class="btn btn-primary btn-sm">RSVP</a>
+            <a href="eventos.html" style="font-family:var(--font-ui);font-size:0.8rem;color:var(--mauve)">Leer más →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem" data-reveal>
+      <a href="eventos.html" class="btn btn-ghost">Ver todos los eventos →</a>
+    </div>
+  </div>
+</section>
 
 <!-- ── Blog Preview ───────────────────────────────────── -->
 <section class="blog-preview">
@@ -1183,18 +1389,6 @@
       observer.observe(el);
     });
   });
-</script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
 </script>
 </body>
 </html>
