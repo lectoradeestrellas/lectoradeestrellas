@@ -6,6 +6,7 @@
   <title>Eventos — Lectora de Estrellas</title>
   <meta name="description" content="Pláticas, talleres y encuentros de astrología, ángeles, journaling y bienestar en Monterrey.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/phone-mockup.css">
   <style>
     /* ── Hero ── */
     .events-hero {
@@ -359,10 +360,10 @@
       <p class="section-desc">Pláticas íntimas donde la magia y el conocimiento se encuentran.</p>
     </div>
 
-    <div class="stories-phone-scene" data-reveal>
-      <div class="stories-phone">
-        <div class="stories-phone-notch"></div>
-        <div class="stories-screen" id="storiesScreen">
+    <div class="iphone-wrap" data-reveal>
+      <div class="iphone-frame">
+        <div class="iphone-dynamic-island"></div>
+        <div class="iphone-screen iphone-screen--dark" id="storiesScreen">
 
           <!-- Progress bars -->
           <div class="stories-progress" id="storiesProgress"></div>
@@ -385,8 +386,9 @@
           <div class="stories-tap-prev" id="storiesTapPrev"></div>
           <div class="stories-tap-next" id="storiesTapNext"></div>
 
-        </div><!-- /stories-screen -->
-      </div><!-- /stories-phone -->
+        </div><!-- /iphone-screen -->
+        <div class="iphone-home-bar"></div>
+      </div><!-- /iphone-frame -->
     </div>
 
     <p class="stories-nav-hint">toca para avanzar</p>
