@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diario Zodiacal — Lectora de Estrellas</title>
-  <meta name="description" content="Diario zodiacal con la portada de tu signo. Elige entre los 12 signos del zodiaco.">
+  <title>Agenda Lunar 2026 — Lectora de Estrellas</title>
+  <meta name="description" content="La Agenda Lunar 2026. Tu compañera cósmica para sincronizarte con los ciclos de la luna cada día del año.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/producto.css">
 </head>
 <body>
 
 <div class="banner"><div class="banner-track">
-  <span>✦ Diario Zodiacal — 12 signos disponibles</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo</span><span>✦</span>
-  <span>✦ Diario Zodiacal — 12 signos disponibles</span><span>✦</span>
+  <span>Best Seller · Agenda Lunar 2026</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+  <span>Best Seller · Agenda Lunar 2026</span><span>✦</span>
 </div></div>
 
 <nav class="nav">
@@ -42,7 +42,7 @@
       <!-- Gallery -->
       <div class="gallery">
         <div class="gallery-main" id="gallery-main" onclick="openZoom()">
-          <img id="main-img" src="images/productos/diario-zodiacal-aries.jpg" alt="Diario Zodiacal">
+          <img id="main-img" src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026">
           <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
           <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
         </div>
@@ -53,23 +53,20 @@
       <div class="product-info">
         <div class="breadcrumb">
           <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
-          <a href="tienda.html?cat=libretas">Libretas & Bundles</a> › <span>Diario Zodiacal</span>
+          <a href="tienda.html?cat=agendas">Agendas</a> › <span>Agenda Lunar 2026</span>
         </div>
 
-        <span class="eyebrow">Libretas artesanales</span>
-        <h1 class="product-title" id="product-title">Diario Zodiacal</h1>
-        <p class="product-subtitle">Tu diario con la portada de tu signo zodiacal. Mismo interior mágico para todos los signos — elige la portada que resuene con tu energía.</p>
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <span class="product-badge-inline badge-bestseller">Best Seller</span>
+        </div>
+
+        <span class="eyebrow">Colección Lunar 2026</span>
+        <h1 class="product-title">Agenda Lunar 2026</h1>
+        <p class="product-subtitle">Tu compañera cósmica para sincronizarte con los ciclos de la luna cada día del año. Diseñada con intención y magia.</p>
 
         <div class="product-price-block">
-          <div class="product-price">$200 <span class="price-currency">MXN</span></div>
-        </div>
-
-        <!-- Sign Selector -->
-        <div class="option-group">
-          <div class="option-label">
-            Tu signo: <span class="selected-name" id="selected-sign-name">Elige tu signo</span>
-          </div>
-          <div class="sign-grid" id="sign-grid"></div>
+          <div class="product-price">$999 <span class="price-currency">MXN</span></div>
+          <div class="product-price-original">$1,050</div>
         </div>
 
         <!-- Quantity -->
@@ -83,7 +80,7 @@
         </div>
 
         <div class="add-to-cart-block">
-          <button class="add-btn-main" id="add-btn" onclick="addDiario()">
+          <button class="add-btn-main" id="add-btn" onclick="addToCart()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             Agregar al carrito
           </button>
@@ -97,26 +94,33 @@
           <div class="detail-accordion">
             <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
             <div class="detail-content open">
-              <p>El Diario Zodiacal es tu espacio sagrado para explorar la energía de tu signo solar. Cada portada está ilustrada con los símbolos y colores característicos de cada signo.</p>
-              <p>El interior es idéntico para todos los signos: páginas pautadas para journaling libre, reflexión e introspección.</p>
+              <p>La Agenda Lunar 2026 es tu compañera cósmica para sincronizarte con los ciclos de la luna cada día del año. Diseñada con intención y magia para ayudarte a planear, reflexionar y crecer alineada al cosmos.</p>
+              <p>Cada semana está pensada para que conectes con la energía lunar, establezcas intenciones y celebres tus logros desde la guía de los astros.</p>
             </div>
           </div>
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Características <span class="chevron">▾</span></button>
             <div class="detail-content">
               <ul>
-                <li>Portada ilustrada exclusiva con tu signo zodiacal</li>
-                <li>Interior idéntico para todos los signos</li>
-                <li>Papel de alta calidad 90g sin ácido</li>
-                <li>200 páginas pautadas para journaling libre</li>
-                <li>Espiral dorado · Formato A5 (14.8 × 21 cm)</li>
+                <li>Portada ilustrada edición 2026 con acabados especiales</li>
+                <li>Vista semanal con fases lunares marcadas día a día</li>
+                <li>Secciones de intención mensual y reflexión lunar</li>
+                <li>Calendario de retrógrados y eventos astrológicos 2026</li>
+                <li>Papel de alta calidad 90g, tapa dura con espiral dorado</li>
+                <li>Incluye stickers y separadores exclusivos</li>
               </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Especificaciones <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Tamaño A5 (14.8 × 21 cm) · 380 páginas · Espiral dorado · Tapa dura</p>
             </div>
           </div>
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Envío & entrega <span class="chevron">▾</span></button>
             <div class="detail-content">
-              <p>Enviamos a todo el mundo. El costo se calcula en el checkout según tu código postal.</p>
+              <p>Enviamos a todo el mundo. El costo de envío se calcula automáticamente en el checkout según tu código postal.</p>
               <p>México: 3-7 días hábiles · Internacional: 7-20 días hábiles</p>
             </div>
           </div>
@@ -124,11 +128,19 @@
       </div>
     </div>
 
+    <!-- Reviews -->
 
     <!-- Productos recomendados -->
     <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
-      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">Completa tu colección lunar</h3>
       <div class="grid-4">
+        <a href="producto-digitales.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/agenda-digital-1.jpg" alt="Agenda Lunar 2026 Digital" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Agenda Lunar 2026 Digital</div>
+            <div class="product-card-price">$299 MXN</div>
+          </div>
+        </a>
         <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
           <div class="product-card-img"><img src="images/productos/libreta-mistica-1.jpg" alt="Libretas Artesanales" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
@@ -136,25 +148,18 @@
             <div class="product-card-price">desde $200 MXN</div>
           </div>
         </a>
-        <a href="producto-bundles.html" style="text-decoration:none" class="product-card">
-          <div class="product-card-img"><img src="images/productos/bundle-mistica-1.jpg" alt="Bundles" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
-          <div class="product-card-body">
-            <div class="product-card-name">Bundles</div>
-            <div class="product-card-price">$450 MXN</div>
-          </div>
-        </a>
-        <a href="producto-agenda-lunar-2026.html" style="text-decoration:none" class="product-card">
-          <div class="product-card-img"><img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
-          <div class="product-card-body">
-            <div class="product-card-name">Agenda Lunar 2026</div>
-            <div class="product-card-price">$999 MXN</div>
-          </div>
-        </a>
         <a href="sesiones.html" style="text-decoration:none" class="product-card">
           <div class="product-card-img"><img src="images/sesiones/lectura-natal.jpg" alt="Lectura Natal" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
             <div class="product-card-name">Lectura Natal</div>
             <div class="product-card-price">$1,000 MXN</div>
+          </div>
+        </a>
+        <a href="producto-print-carta-astral.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/print-carta-astral-normal.jpg" alt="Print Carta Astral" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Print Carta Astral</div>
+            <div class="product-card-price">$650 MXN</div>
           </div>
         </a>
       </div>
@@ -165,7 +170,8 @@
 </section>
 
 <div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
-  <span class="zoom-close">×</span><img id="zoom-img" src="" alt="Zoom">
+  <span class="zoom-close">×</span>
+  <img id="zoom-img" src="" alt="Zoom">
 </div>
 
 <div class="cart-overlay" id="cart-overlay"></div>
@@ -184,64 +190,19 @@
 <script src="js/main.js"></script>
 <script src="js/producto.js"></script>
 <script>
-  const SIGNS = [
-    { id: 'aries',       name: 'Aries',       symbol: '♈', image: 'images/productos/diario-zodiacal-aries.jpg' },
-    { id: 'tauro',       name: 'Tauro',       symbol: '♉', image: 'images/productos/diario-zodiacal-tauro.jpg' },
-    { id: 'geminis',     name: 'Géminis',     symbol: '♊', image: 'images/productos/diario-zodiacal-geminis.jpg' },
-    { id: 'cancer',      name: 'Cáncer',      symbol: '♋', image: 'images/productos/diario-zodiacal-cancer.jpg' },
-    { id: 'leo',         name: 'Leo',         symbol: '♌', image: 'images/productos/diario-zodiacal-leo.jpg' },
-    { id: 'virgo',       name: 'Virgo',       symbol: '♍', image: 'images/productos/diario-zodiacal-virgo.jpg' },
-    { id: 'libra',       name: 'Libra',       symbol: '♎', image: 'images/productos/diario-zodiacal-libra.jpg' },
-    { id: 'escorpio',    name: 'Escorpio',    symbol: '♏', image: 'images/productos/diario-zodiacal-escorpio.jpg' },
-    { id: 'sagitario',   name: 'Sagitario',   symbol: '♐', image: 'images/productos/diario-zodiacal-sagitario.jpg' },
-    { id: 'capricornio', name: 'Capricornio', symbol: '♑', image: 'images/productos/diario-zodiacal-capricornio.jpg' },
-    { id: 'acuario',     name: 'Acuario',     symbol: '♒', image: 'images/productos/diario-zodiacal-acuario.jpg' },
-    { id: 'piscis',      name: 'Piscis',      symbol: '♓', image: 'images/productos/diario-zodiacal-piscis.jpg' },
-  ];
-
-  let selectedSign = null;
-
-  function renderSignGrid() {
-    document.getElementById('sign-grid').innerHTML = SIGNS.map(s => `
-      <div class="sign-option ${selectedSign?.id === s.id ? 'active' : ''}" onclick="selectSign('${s.id}')">
-        <span class="sign-symbol">${s.symbol}</span>
-        <span class="sign-name">${s.name}</span>
-      </div>`).join('');
-  }
-
-  function selectSign(id) {
-    selectedSign = SIGNS.find(s => s.id === id);
-    if (!selectedSign) return;
-    document.getElementById('selected-sign-name').textContent = `${selectedSign.symbol} ${selectedSign.name}`;
-    document.getElementById('product-title').textContent = `Diario Zodiacal ${selectedSign.name}`;
-    initGallery([selectedSign.image]);
-    renderSignGrid();
-  }
-
-  function addDiario() {
-    if (!selectedSign) {
-      document.getElementById('sign-grid').style.outline = '2px solid var(--rose)';
-      document.getElementById('sign-grid').style.borderRadius = '8px';
-      setTimeout(() => document.getElementById('sign-grid').style.outline = '', 2000);
-      return;
-    }
-    for (let i = 0; i < qty; i++) {
-      Cart.add({
-        id: `diario-zodiacal-${selectedSign.id}`,
-        name: `Diario Zodiacal ${selectedSign.name} ${selectedSign.symbol}`,
-        price: 200,
-        image: selectedSign.image,
-        sku: `DIARIOZOD-${selectedSign.id.toUpperCase()}`,
-      });
-    }
-    flashAddBtn();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    renderSignGrid();
-    initGallery([SIGNS[0].image]);
-    renderReviews('lde_reviews_diario-zodiacal', 'Diario Zodiacal');
-  });
+  const PRODUCT_DATA = {
+    id: 'agenda-lunar-2026',
+    name: 'Agenda Lunar 2026',
+    price: 999,
+    sku: 'AGENDALUNAR26',
+    reviewsKey: 'lde_reviews_agenda-lunar-2026',
+    images: [
+      'images/productos/agenda-lunar-2026-1.jpg',
+      'images/productos/agenda-lunar-2026-2.jpg',
+      'images/productos/agenda-lunar-2026-3.jpg',
+    ],
+  };
+  initProductPage(PRODUCT_DATA);
 </script>
 </body>
 </html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diario Lunar 2026 · Edición Limitada — Lectora de Estrellas</title>
+  <meta name="description" content="El Diario Lunar 2026 Edición Limitada. Tu espacio sagrado para escritura intuitiva, sueños y conexión con los ciclos de la luna.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/producto.css">
+</head>
+<body>
+
+<div class="banner"><div class="banner-track">
+  <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+  <span>Edición Limitada · Diario Lunar 2026</span><span>✦</span>
+  <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+  <span>Edición Limitada · Diario Lunar 2026</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LECTORA <em>de</em> ESTRELLAS</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
+      <a href="tienda.html" class="active">Herramientas mágicas</a>
+      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a><a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" aria-label="Carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="gallery-main" id="gallery-main" onclick="openZoom()">
+          <img id="main-img" src="images/productos/diario-lunar-2026-1.jpg" alt="Diario Lunar 2026">
+          <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
+          <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <div class="breadcrumb">
+          <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=agendas">Agendas</a> › <span>Diario Lunar 2026</span>
+        </div>
+
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap">
+          <span class="product-badge-inline badge-limited">Edición Limitada</span>
+        </div>
+
+        <span class="eyebrow">Colección Lunar 2026</span>
+        <h1 class="product-title">Diario Lunar 2026 · Edición Limitada</h1>
+        <p class="product-subtitle">Tu espacio sagrado para escritura intuitiva, seguimiento de sueños y conexión profunda con los ciclos de la luna. Edición numerada y limitada.</p>
+
+        <div class="product-price-block">
+          <div class="product-price">$250 <span class="price-currency">MXN</span></div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="option-group">
+          <div class="option-label">Cantidad</div>
+          <div class="qty-selector">
+            <button class="qty-btn-large" onclick="changeQty(-1)">−</button>
+            <span class="qty-display" id="qty-display">1</span>
+            <button class="qty-btn-large" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <div class="add-to-cart-block">
+          <button class="add-btn-main" id="add-btn" onclick="addToCart()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Agregar al carrito
+          </button>
+          <div class="shipping-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Envío a todo el mundo · Costo calculado en checkout
+          </div>
+        </div>
+
+        <div class="product-details">
+          <div class="detail-accordion">
+            <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
+            <div class="detail-content open">
+              <p>El Diario Lunar 2026 Edición Limitada es el espacio sagrado para tu escritura intuitiva, seguimiento de sueños y conexión con los ciclos de la luna. Edición numerada y limitada — una vez agotada, no se repone.</p>
+              <p>Diseñado para acompañar tu práctica de journaling mes a mes, con ilustraciones de las fases lunares y páginas libres para que tu pluma fluya sin límites.</p>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Características <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <ul>
+                <li>Edición limitada numerada</li>
+                <li>Páginas pautadas para journaling libre</li>
+                <li>Fases lunares mensuales ilustradas</li>
+                <li>Tapa ilustrada exclusiva edición 2026</li>
+                <li>Papel de alta calidad 90g</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Especificaciones <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Tamaño A5 (14.8 × 21 cm) · 200 páginas · Espiral</p>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Envío & entrega <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Enviamos a todo el mundo. El costo de envío se calcula automáticamente en el checkout según tu código postal.</p>
+              <p>México: 3-7 días hábiles · Internacional: 7-20 días hábiles</p>
+              <p>También se incluye gratis al comprar la Colección Lunar 2026 completa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productos recomendados -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">Completa tu colección lunar</h3>
+      <div class="grid-4">
+        <a href="producto-agenda-lunar-2026.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Agenda Lunar 2026</div>
+            <div class="product-card-price">$999 MXN</div>
+          </div>
+        </a>
+        <a href="producto-calendario-mini-lunar-2026.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/calendario-mini-1.jpg" alt="Calendario Mini Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Calendario Mini de Escritorio</div>
+            <div class="product-card-price">$120 MXN</div>
+          </div>
+        </a>
+        <a href="producto-print-calendario-lunar-2026.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/print-calendario-lunar-1.jpg" alt="Print Calendario Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Print Calendario Lunar 2026</div>
+            <div class="product-card-price">$250 MXN</div>
+          </div>
+        </a>
+        <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/libreta-mistica-1.jpg" alt="Libretas Artesanales" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Libretas Artesanales</div>
+            <div class="product-card-price">desde $200 MXN</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews-section" id="reviews-section"></div>
+  </div>
+</section>
+
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <span class="zoom-close">×</span>
+  <img id="zoom-img" src="" alt="Zoom">
+</div>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header"><h3>Tu carrito ✦</h3><button class="cart-close" id="cart-close">×</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span class="label">Subtotal</span><span class="amount" id="cart-subtotal">$0 MXN</span></div>
+    <p class="cart-shipping-note">Envío calculado al confirmar dirección</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem" onclick="window.location.href='checkout.html'">Proceder al pago →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="Cart.closeSidebar()">Seguir comprando</button>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+<script src="js/producto.js"></script>
+<script>
+  const PRODUCT_DATA = {
+    id: 'diario-lunar-2026',
+    name: 'Diario Lunar 2026 · Edición Limitada',
+    price: 250,
+    sku: 'DIARIOLUNARLIM26',
+    reviewsKey: 'lde_reviews_diario-lunar-2026',
+    images: [
+      'images/productos/diario-lunar-2026-1.jpg',
+      'images/productos/diario-lunar-2026-2.jpg',
+    ],
+  };
+  initProductPage(PRODUCT_DATA);
+</script>
+</body>
+</html>

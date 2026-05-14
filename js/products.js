@@ -109,41 +109,51 @@ const PRODUCTS = {
 
   /* ── CUADERNOS DE TRABAJO ───────────────────────────── */
 
-  'cuadernos-trabajo': {
-    id: 'cuadernos-trabajo',
-    name: 'Cuadernos de Trabajo',
+  'workbook-zodiac-elements-duo': {
+    id: 'workbook-zodiac-elements-duo',
+    name: 'Workbook Zodiac Elements Duo',
     category: 'cuadernos',
-    price: null, // variable by option
-    sku: 'WORKBOOK',
+    price: 350,
+    sku: 'WBZODIAC',
     digital: false,
     images: [
       'images/productos/workbook-zodiac-1.jpg',
-      'images/productos/emociones-ciclos-1.jpg',
+      'images/productos/workbook-zodiac-2.jpg',
     ],
-    description: `Cuadernos de trabajo astrológicos diseñados para profundizar en tu autoconocimiento. Cada cuaderno es una herramienta guiada para trabajar con la astrología de manera práctica.`,
-    options: [
-      {
-        id: 'workbook-zodiac-elements-duo',
-        name: 'Workbook Zodiac Elements Duo',
-        price: 350,
-        sku: 'WBZODIAC',
-        image: 'images/productos/workbook-zodiac-1.jpg',
-        description: 'Explora los cuatro elementos a través de los signos zodiacales en este workbook de trabajo profundo.',
-        available: true,
-      },
-      {
-        id: 'workbook-emociones-ciclos',
-        name: 'La Astrología de mis Emociones y Ciclos de Vida',
-        price: 380,
-        sku: 'WBEMOCIONES',
-        image: 'images/productos/emociones-ciclos-1.jpg',
-        description: 'Aprende a usar la astrología para entender tus emociones y los ciclos de tu vida.',
-        available: true,
-        languageOptions: [
-          { id: 'es', label: 'Español', available: false, note: 'Próximamente' },
-          { id: 'en', label: 'English', available: true },
-        ],
-      },
+    description: `Explora los cuatro elementos a través de los signos zodiacales en este workbook de trabajo profundo. Una herramienta guiada para profundizar en tu autoconocimiento a través de la astrología práctica.`,
+    features: [
+      'Ejercicios guiados por elemento (fuego, tierra, aire, agua)',
+      'Perfil astrológico de cada signo del zodíaco',
+      'Espacio para reflexión y escritura intuitiva',
+      'Papel de alta calidad 90g',
+    ],
+    specs: 'Tamaño A5 · Espiral dorado · Edición bilingüe',
+    shipping: true,
+    shippingNote: 'Envío a todo el mundo',
+  },
+
+  'workbook-emociones-ciclos': {
+    id: 'workbook-emociones-ciclos',
+    name: 'La Astrología de mis Emociones y Ciclos de Vida',
+    category: 'cuadernos',
+    price: 380,
+    sku: 'WBEMOCIONES',
+    digital: false,
+    images: [
+      'images/productos/emociones-ciclos-1.jpg',
+      'images/productos/emociones-ciclos-2.jpg',
+    ],
+    description: `Aprende a usar la astrología para entender tus emociones y los ciclos de tu vida. Una guía práctica para conectar los tránsitos planetarios con tu mundo emocional y tus etapas de vida.`,
+    features: [
+      'Guía de emociones por signo y elemento',
+      'Mapa de ciclos de vida astrológicos',
+      'Ejercicios de reflexión emocional',
+      'Disponible en inglés · Español próximamente',
+    ],
+    specs: 'Tamaño A5 · Espiral dorado · English version available',
+    languageOptions: [
+      { id: 'es', label: 'Español', available: false, note: 'Próximamente' },
+      { id: 'en', label: 'English', available: true },
     ],
     shipping: true,
     shippingNote: 'Envío a todo el mundo',

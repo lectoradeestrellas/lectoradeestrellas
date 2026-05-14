@@ -292,7 +292,7 @@
       <a href="tienda.html" class="active">Herramientas mágicas</a>
       <a href="eventos.html">Eventos</a>
       <a href="aprende.html">Aprende</a>
-      <a href="blog.html">Blog</a>
+      <a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a>
     </div>
     <div class="nav-actions">
       <button class="cart-btn" aria-label="Carrito">
@@ -424,7 +424,8 @@
     { key: 'diario-lunar-2026', cat: 'agendas', image: 'images/productos/diario-lunar-2026-1.jpg', optionsLabel: null },
     { key: 'calendario-mini-lunar-2026', cat: 'agendas', image: 'images/productos/calendario-mini-1.jpg', optionsLabel: null },
     { key: 'print-calendario-lunar-2026', cat: 'prints', image: 'images/productos/print-calendario-lunar-1.jpg', optionsLabel: null },
-    { key: 'cuadernos-trabajo', cat: 'cuadernos', image: 'images/productos/workbook-zodiac-1.jpg', optionsLabel: '2 cuadernos disponibles' },
+    { key: 'workbook-zodiac-elements-duo', cat: 'cuadernos', image: 'images/productos/workbook-zodiac-1.jpg', optionsLabel: null },
+    { key: 'workbook-emociones-ciclos', cat: 'cuadernos', image: 'images/productos/emociones-ciclos-1.jpg', optionsLabel: 'English · Español próximamente' },
     { key: 'libretas', cat: 'libretas', image: 'images/productos/libreta-mistica-1.jpg', optionsLabel: '6 diseños disponibles' },
     { key: 'diario-zodiacal', cat: 'libretas', image: 'images/productos/diario-zodiacal-aries.jpg', optionsLabel: '12 signos disponibles' },
     { key: 'bundles', cat: 'libretas', image: 'images/productos/bundle-mistica-1.jpg', optionsLabel: '6 bundles disponibles' },
@@ -441,13 +442,12 @@
     digitales: 'Digitales',
   };
 
-  const HAS_OPTIONS = ['cuadernos-trabajo', 'libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral'];
+  const HAS_OPTIONS = ['libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral'];
 
   function priceLabel(p) {
     if (!p) return '';
     const pr = PRODUCTS[p.key];
     if (!pr) return '';
-    if (p.key === 'cuadernos-trabajo') return '<span class="from">desde</span>$350';
     if (p.key === 'libretas') return '<span class="from">desde</span>$200';
     if (p.key === 'bundles') return '$450';
     if (pr.originalPrice) return `<span class="original">$${pr.originalPrice}</span>$${pr.price}`;

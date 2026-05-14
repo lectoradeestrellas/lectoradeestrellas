@@ -4,17 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Astrología de mis Emociones y Ciclos de Vida — Lectora de Estrellas</title>
-  <meta name="description" content="Cuaderno de trabajo guiado para entender tus emociones y ciclos de vida a través de la astrología.">
+  <meta name="description" content="Cuaderno de trabajo: La Astrología de mis Emociones y Ciclos de Vida. Aprende a usar la astrología para entender tus emociones. Disponible en inglés.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/producto.css">
+  <style>
+    .lang-selector { display:flex; gap:0.5rem; margin-bottom:1.5rem; }
+    .lang-btn {
+      padding:0.45rem 1.1rem;
+      border-radius:var(--radius-full);
+      border:1.5px solid rgba(155,122,158,0.25);
+      font-family:var(--font-ui); font-size:0.8rem; font-weight:500;
+      cursor:pointer; background:white; color:var(--ink-soft);
+      transition:all 0.2s;
+    }
+    .lang-btn.active { background:var(--plum); border-color:var(--plum); color:white; }
+    .lang-btn.coming-soon { opacity:0.5; cursor:default; }
+    .lang-badge {
+      font-family:var(--font-ui); font-size:0.65rem; font-weight:500;
+      background:rgba(155,122,158,0.1); color:var(--mauve);
+      border-radius:var(--radius-full); padding:0.2rem 0.5rem; margin-left:0.3rem;
+    }
+  </style>
 </head>
 <body>
 
 <div class="banner"><div class="banner-track">
-  <span>✦ Cuadernos de trabajo astrológicos</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo</span><span>✦</span>
-  <span>✦ Cuadernos de trabajo astrológicos</span><span>✦</span>
+  <span>Disponible en English · Español próximamente</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo</span><span>✦</span>
+  <span>Disponible en English · Español próximamente</span><span>✦</span>
 </div></div>
 
 <nav class="nav">
@@ -30,7 +48,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span class="cart-count">0</span>
       </button>
-      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+      <button class="nav-hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
@@ -42,7 +60,7 @@
       <!-- Gallery -->
       <div class="gallery">
         <div class="gallery-main" id="gallery-main" onclick="openZoom()">
-          <img id="main-img" src="images/productos/emociones-ciclos-1.jpg" alt="La Astrología de mis Emociones y Ciclos de Vida" onerror="this.src='images/placeholder.jpg'">
+          <img id="main-img" src="images/productos/emociones-ciclos-1.jpg" alt="La Astrología de mis Emociones y Ciclos de Vida">
           <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
           <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
         </div>
@@ -52,15 +70,13 @@
       <!-- Info -->
       <div class="product-info">
         <div class="breadcrumb">
-          <a href="index.html">Inicio</a> ›
-          <a href="tienda.html">Tienda</a> ›
-          <a href="tienda.html?cat=cuadernos">Cuadernos de trabajo</a> ›
-          <span>La Astrología de mis Emociones</span>
+          <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
+          <a href="tienda.html?cat=cuadernos">Cuadernos de trabajo</a> › <span>La Astrología de mis Emociones</span>
         </div>
 
         <span class="eyebrow">Cuadernos de trabajo</span>
         <h1 class="product-title">La Astrología de mis Emociones y Ciclos de Vida</h1>
-        <p class="product-subtitle">Un cuaderno de trabajo guiado para aprender a usar la astrología para entender tus emociones y los ciclos de tu vida.</p>
+        <p class="product-subtitle">Aprende a usar la astrología para entender tus emociones y los ciclos de tu vida. Una guía práctica para conectar los tránsitos planetarios con tu mundo emocional.</p>
 
         <div class="product-price-block">
           <div class="product-price">$380 <span class="price-currency">MXN</span></div>
@@ -69,15 +85,9 @@
         <!-- Language selector -->
         <div class="option-group">
           <div class="option-label">Idioma</div>
-          <div class="lang-options">
-            <div class="lang-option disabled" id="lang-es">
-              <div class="lang-option-name">🇲🇽 Español</div>
-              <div class="lang-option-note">Agotado</div>
-            </div>
-            <div class="lang-option active" id="lang-en" onclick="selectLang('en')">
-              <div class="lang-option-name">🇺🇸 English</div>
-              <div class="lang-option-note">Disponible</div>
-            </div>
+          <div class="lang-selector">
+            <button class="lang-btn active">English</button>
+            <button class="lang-btn coming-soon">Español <span class="lang-badge">Próximamente</span></button>
           </div>
         </div>
 
@@ -102,63 +112,60 @@
           </div>
         </div>
 
-        <!-- Also in Aprende -->
-        <div style="background:rgba(123,94,167,0.07);border:1px solid rgba(123,94,167,0.2);border-radius:var(--radius-md);padding:0.875rem 1.1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem">
-          <span style="font-size:1.1rem">📚</span>
-          <p style="font-family:var(--font-ui);font-size:0.8rem;color:var(--ink-soft);margin:0;line-height:1.55">
-            Este cuaderno también forma parte de la sección <a href="aprende.html" style="color:var(--violet);font-weight:500">Aprende</a> — úsalo como herramienta de estudio junto con los cursos y masterclasses.
-          </p>
-        </div>
-
         <div class="product-details">
           <div class="detail-accordion">
             <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
             <div class="detail-content open">
-              <p>Aprende a usar la astrología para entender tus emociones y los ciclos de tu vida. Este cuaderno de trabajo guiado te lleva paso a paso por un proceso profundo de autoconocimiento usando tu carta natal como mapa.</p>
-              <p>Con ejercicios prácticos, preguntas de reflexión y espacio para escribir, este workbook te ayuda a integrar la astrología en tu vida diaria de forma significativa.</p>
+              <p>La Astrología de mis Emociones y Ciclos de Vida es un cuaderno de trabajo guiado para aprender a usar la astrología como herramienta de autoconocimiento emocional.</p>
+              <p>A través de ejercicios prácticos y espacio para la reflexión, explorarás cómo los tránsitos planetarios se relacionan con tus ciclos personales y tu mundo emocional. Actualmente disponible en inglés — la versión en español llegará próximamente.</p>
             </div>
           </div>
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Características <span class="chevron">▾</span></button>
             <div class="detail-content">
               <ul>
-                <li>Guía paso a paso para trabajar con tu carta natal</li>
-                <li>Ejercicios prácticos de autoconocimiento emocional</li>
-                <li>Espacio para journaling y reflexión personal</li>
+                <li>Guía de emociones por signo y elemento</li>
+                <li>Mapa de ciclos de vida astrológicos</li>
+                <li>Ejercicios de reflexión emocional</li>
+                <li>Espacio para escritura intuitiva</li>
                 <li>Papel de alta calidad 90g</li>
-                <li>Diseño exclusivo Lectora de Estrellas</li>
-                <li>Disponible en inglés · Español próximamente</li>
+                <li>Actualmente disponible en inglés</li>
               </ul>
+            </div>
+          </div>
+          <div class="detail-accordion">
+            <button class="detail-toggle" onclick="toggleDetail(this)">Especificaciones <span class="chevron">▾</span></button>
+            <div class="detail-content">
+              <p>Tamaño A5 · Espiral dorado · English version available · Español próximamente</p>
             </div>
           </div>
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Envío & entrega <span class="chevron">▾</span></button>
             <div class="detail-content">
-              <p>Enviamos a todo el mundo. El costo se calcula en el checkout según tu código postal.</p>
+              <p>Enviamos a todo el mundo. El costo de envío se calcula automáticamente en el checkout según tu código postal.</p>
               <p>México: 3-7 días hábiles · Internacional: 7-20 días hábiles</p>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
     <!-- Productos recomendados -->
     <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
-      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
+      <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También podría interesarte</h3>
       <div class="grid-4">
-        <a href="producto-workbook-zodiac.html" style="text-decoration:none" class="product-card">
+        <a href="producto-workbook-zodiac-elements-duo.html" style="text-decoration:none" class="product-card">
           <div class="product-card-img"><img src="images/productos/workbook-zodiac-1.jpg" alt="Workbook Zodiac Elements Duo" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
             <div class="product-card-name">Workbook Zodiac Elements Duo</div>
             <div class="product-card-price">$350 MXN</div>
           </div>
         </a>
-        <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
-          <div class="product-card-img"><img src="images/productos/libreta-mistica-1.jpg" alt="Libretas Artesanales" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+        <a href="aprende.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/aprende/venus-preview.jpg" alt="El Renacer de Venus" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
-            <div class="product-card-name">Libretas Artesanales</div>
-            <div class="product-card-price">desde $200 MXN</div>
+            <div class="product-card-name">Curso El Renacer de Venus</div>
+            <div class="product-card-price">$400 MXN</div>
           </div>
         </a>
         <a href="sesiones.html" style="text-decoration:none" class="product-card">
@@ -183,7 +190,8 @@
 </section>
 
 <div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
-  <span class="zoom-close">×</span><img id="zoom-img" src="" alt="Zoom">
+  <span class="zoom-close">×</span>
+  <img id="zoom-img" src="" alt="Zoom">
 </div>
 
 <div class="cart-overlay" id="cart-overlay"></div>
@@ -202,38 +210,17 @@
 <script src="js/main.js"></script>
 <script src="js/producto.js"></script>
 <script>
-  let selectedLang = 'en';
-
-  function selectLang(lang) {
-    if (lang === 'es') return; // agotado
-    selectedLang = lang;
-  }
-
   const PRODUCT_DATA = {
-    id: 'workbook-emociones-en',
-    name: 'La Astrología de mis Emociones y Ciclos de Vida (English)',
+    id: 'workbook-emociones-ciclos',
+    name: 'La Astrología de mis Emociones y Ciclos de Vida',
     price: 380,
-    sku: 'WBEMOCIONES-EN',
-    reviewsKey: 'lde_reviews_workbook-emociones',
+    sku: 'WBEMOCIONES',
+    reviewsKey: 'lde_reviews_workbook-emociones-ciclos',
     images: [
       'images/productos/emociones-ciclos-1.jpg',
       'images/productos/emociones-ciclos-2.jpg',
     ],
   };
-
-  function addToCart() {
-    for (let i = 0; i < qty; i++) {
-      Cart.add({
-        id: `workbook-emociones-${selectedLang}`,
-        name: `La Astrología de mis Emociones (${selectedLang === 'en' ? 'English' : 'Español'})`,
-        price: 380,
-        image: PRODUCT_DATA.images[0],
-        sku: `WBEMOCIONES-${selectedLang.toUpperCase()}`,
-      });
-    }
-    flashAddBtn();
-  }
-
   initProductPage(PRODUCT_DATA);
 </script>
 </body>
