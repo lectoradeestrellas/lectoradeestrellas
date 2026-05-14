@@ -136,7 +136,7 @@ const PRODUCTS = {
     id: 'workbook-emociones-ciclos',
     name: 'La Astrología de mis Emociones y Ciclos de Vida',
     category: 'cuadernos',
-    price: 380,
+    price: 350,
     sku: 'WBEMOCIONES',
     digital: false,
     images: [
@@ -190,7 +190,7 @@ const PRODUCTS = {
       { id: 'fases-lunares', name: 'Libreta Fases Lunares', price: 200, image: 'images/productos/libreta-fases-1.jpg', sku: 'LIB-FASES' },
       { id: 'as-above', name: 'Libreta As Above So Below', price: 250, image: 'images/productos/libreta-as-above-1.jpg', sku: 'LIB-ASABOVE' },
       { id: 'power-of-your-light', name: 'Libreta Power of Your Light', price: 250, image: 'images/productos/libreta-power-1.jpg', sku: 'LIB-POWER' },
-      { id: 'musa-lunar', name: 'Libreta Musa Lunar', price: 250, image: 'images/productos/libreta-musa-1.jpg', sku: 'LIB-MUSA' },
+      { id: 'musa-lunar', name: 'Libreta Musa Lunar', price: 200, image: 'images/productos/libreta-musa-1.jpg', sku: 'LIB-MUSA' },
     ],
     shipping: true,
     shippingNote: 'Envío a todo el mundo',
@@ -202,7 +202,7 @@ const PRODUCTS = {
     id: 'bundles',
     name: 'Bundles',
     category: 'bundles',
-    price: 450, // base price
+    price: 570, // base price
     sku: 'BUNDLE',
     digital: false,
     images: [
@@ -218,12 +218,12 @@ const PRODUCTS = {
     ],
     specs: 'Libreta A5 + Mini libreta + Notepad · Empaque regalo',
     designs: [
-      { id: 'mistica', name: 'Bundle Mística', price: 450, image: 'images/productos/bundle-mistica-1.jpg', sku: 'BUN-MIST' },
-      { id: 'sol-luna', name: 'Bundle Sol & Luna', price: 450, image: 'images/productos/bundle-sol-luna-1.jpg', sku: 'BUN-SOL' },
-      { id: 'fases-lunares', name: 'Bundle Fases Lunares', price: 450, image: 'images/productos/bundle-fases-1.jpg', sku: 'BUN-FASES' },
-      { id: 'as-above', name: 'Bundle As Above So Below', price: 450, image: 'images/productos/bundle-as-above-1.jpg', sku: 'BUN-ASABOVE' },
-      { id: 'power-of-your-light', name: 'Bundle Power of Your Light', price: 450, image: 'images/productos/bundle-power-1.jpg', sku: 'BUN-POWER' },
-      { id: 'musa-lunar', name: 'Bundle Musa Lunar', price: 450, image: 'images/productos/bundle-musa-1.jpg', sku: 'BUN-MUSA' },
+      { id: 'mistica', name: 'Bundle Mística', price: 570, image: 'images/productos/bundle-mistica-1.jpg', sku: 'BUN-MIST' },
+      { id: 'sol-luna', name: 'Bundle Sol & Luna', price: 570, image: 'images/productos/bundle-sol-luna-1.jpg', sku: 'BUN-SOL' },
+      { id: 'fases-lunares', name: 'Bundle Fases Lunares', price: 500, image: 'images/productos/bundle-fases-1.jpg', sku: 'BUN-FASES' },
+      { id: 'as-above', name: 'Bundle As Above So Below', price: 570, image: 'images/productos/bundle-as-above-1.jpg', sku: 'BUN-ASABOVE' },
+      { id: 'power-of-your-light', name: 'Bundle Power of Your Light', price: 570, image: 'images/productos/bundle-power-1.jpg', sku: 'BUN-POWER' },
+      { id: 'musa-lunar', name: 'Bundle Musa Lunar', price: 500, image: 'images/productos/bundle-musa-1.jpg', sku: 'BUN-MUSA' },
     ],
     shipping: true,
     shippingNote: 'Envío a todo el mundo',
