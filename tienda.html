@@ -429,7 +429,8 @@
     { key: 'libretas', cat: 'libretas', image: 'images/productos/libreta-mistica-1.jpg', optionsLabel: '6 diseños disponibles' },
     { key: 'diario-zodiacal', cat: 'libretas', image: 'images/productos/diario-zodiacal-aries.jpg', optionsLabel: '12 signos disponibles' },
     { key: 'bundles', cat: 'libretas', image: 'images/productos/bundle-mistica-1.jpg', optionsLabel: '6 bundles disponibles' },
-    { key: 'print-carta-astral', cat: 'prints', image: 'images/productos/print-carta-astral-normal.jpg', optionsLabel: '2 diseños · con tus datos' },
+    { key: 'print-carta-astral', cat: 'prints', image: 'images/productos/print-carta-astral-normal.jpg', optionsLabel: 'Con tus datos de nacimiento' },
+    { key: 'print-carta-astral-infantil', cat: 'prints', image: 'images/productos/print-carta-astral-infantil.jpg', optionsLabel: '5 colores · con tus datos' },
     { key: 'agenda-lunar-2026-digital', cat: 'digitales', image: 'images/productos/agenda-digital-1.jpg', optionsLabel: null },
     { key: 'calendario-astrologico-digital-2026', cat: 'digitales', image: 'images/productos/calendario-astro-digital-1.jpg', optionsLabel: null },
   ];
@@ -442,7 +443,7 @@
     digitales: 'Digitales',
   };
 
-  const HAS_OPTIONS = ['libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral'];
+  const HAS_OPTIONS = ['libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral', 'print-carta-astral-infantil'];
 
   function priceLabel(p) {
     if (!p) return '';

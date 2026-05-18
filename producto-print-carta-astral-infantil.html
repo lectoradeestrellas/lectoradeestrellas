@@ -3,17 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Print Carta Astral — Lectora de Estrellas</title>
-  <meta name="description" content="Tu carta astral única, ilustrada y enmarcada. Elige diseño clásico o infantil e ingresa tus datos de nacimiento.">
+  <title>Print Carta Astral Infantil — Lectora de Estrellas</title>
+  <meta name="description" content="La carta astral de tu bebé o niñ@ en diseño ilustrado infantil. Elige el color, ingresa los datos de nacimiento y recibe un print único hecho a mano.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/producto.css">
+  <style>
+    /* ── Color swatches ── */
+    .color-swatches {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .color-swatch {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      outline: 2px solid transparent;
+      transition: border-color 0.18s, outline-color 0.18s, transform 0.18s;
+      position: relative;
+    }
+    .color-swatch:hover { transform: scale(1.1); }
+    .color-swatch.active {
+      border-color: white;
+      outline-color: var(--plum);
+      transform: scale(1.08);
+    }
+    .color-swatch-label {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--mauve);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+      transition: color 0.2s;
+    }
+  </style>
 </head>
 <body>
 
 <div class="banner"><div class="banner-track">
-  <span>✦ Print Carta Astral personalizado</span><span>✦</span>
+  <span>✦ Print Carta Astral Infantil personalizado</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo · Producción 5-7 días hábiles</span><span>✦</span>
-  <span>✦ Print Carta Astral personalizado</span><span>✦</span>
+  <span>✦ Print Carta Astral Infantil personalizado</span><span>✦</span>
   <span>🌍 Envíos a todo el mundo · Producción 5-7 días hábiles</span><span>✦</span>
 </div></div>
 
@@ -42,7 +75,7 @@
       <!-- Gallery -->
       <div class="gallery">
         <div class="gallery-main" id="gallery-main" onclick="openZoom()">
-          <img id="main-img" src="images/productos/print-carta-astral-normal.jpg" alt="Print Carta Astral">
+          <img id="main-img" src="images/productos/print-carta-astral-infantil.jpg" alt="Print Carta Astral Infantil">
           <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
           <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
         </div>
@@ -53,24 +86,35 @@
       <div class="product-info">
         <div class="breadcrumb">
           <a href="index.html">Inicio</a> › <a href="tienda.html">Tienda</a> ›
-          <a href="tienda.html?cat=prints">Prints</a> › <span>Print Carta Astral</span>
+          <a href="tienda.html?cat=prints">Prints</a> › <span>Print Carta Astral Infantil</span>
         </div>
 
         <span class="eyebrow">Prints</span>
-        <h1 class="product-title">Print Carta Astral</h1>
-        <p class="product-subtitle">Tu carta astral única, diseñada e ilustrada a mano. Enmarcada y lista para colgar. El regalo perfecto para ti o alguien especial.</p>
+        <h1 class="product-title">Print Carta Astral Infantil</h1>
+        <p class="product-subtitle">La carta astral de tu bebé o niñ@ en un diseño ilustrado especial. Perfecta como regalo de nacimiento o cumpleaños — única, hecha a mano con sus datos exactos.</p>
 
         <div class="product-price-block">
           <div class="product-price">$650 <span class="price-currency">MXN</span></div>
           <div class="product-price-note" style="font-family:var(--font-ui);font-size:0.8rem;color:var(--ink-soft)">Incluye marco · 30×40 cm</div>
         </div>
 
+        <!-- Color selector -->
+        <div class="option-group">
+          <div class="option-label">Color de fondo: <span id="selected-color-label" style="font-weight:600;color:var(--plum)">Elige un color</span></div>
+          <div class="color-swatches">
+            <button class="color-swatch" id="swatch-azul"     style="background:#7BB8E8" onclick="selectColor('azul','Azul')"          title="Azul"     aria-label="Azul"></button>
+            <button class="color-swatch" id="swatch-rosa"     style="background:#F0A8C0" onclick="selectColor('rosa','Rosa')"          title="Rosa"     aria-label="Rosa"></button>
+            <button class="color-swatch" id="swatch-lila"     style="background:#C4A0D4" onclick="selectColor('lila','Lila')"          title="Lila"     aria-label="Lila"></button>
+            <button class="color-swatch" id="swatch-amarillo" style="background:#F5D87A" onclick="selectColor('amarillo','Amarillo')"  title="Amarillo" aria-label="Amarillo"></button>
+            <button class="color-swatch" id="swatch-verde"    style="background:#8ECFA0" onclick="selectColor('verde','Verde')"        title="Verde"    aria-label="Verde"></button>
+          </div>
+        </div>
 
         <!-- Birth Data Form -->
         <div class="birth-form">
           <div class="birth-form-title">✦ Datos de nacimiento</div>
           <p style="font-family:var(--font-ui);font-size:0.78rem;color:var(--ink-soft);margin-bottom:1rem;line-height:1.55">
-            Necesitamos estos datos para crear tu carta astral única. Entre más precisa sea la hora, más exacta será tu carta.
+            Necesitamos estos datos para crear la carta astral única. Entre más precisa sea la hora, más exacta será la carta.
           </p>
 
           <div class="form-row">
@@ -101,7 +145,7 @@
             </div>
             <div class="form-field">
               <label class="form-label">Año *</label>
-              <input class="form-input" type="number" id="f-anio" placeholder="AAAA" min="1920" max="2015" required>
+              <input class="form-input" type="number" id="f-anio" placeholder="AAAA" min="1920" max="2030" required>
             </div>
           </div>
 
@@ -127,14 +171,14 @@
           </div>
 
           <p style="font-family:var(--font-ui);font-size:0.72rem;color:var(--mauve);margin-top:0.5rem">
-            * Si no conoces tu hora exacta de nacimiento puedes aproximarla. Te recomendamos revisar tu acta de nacimiento o preguntar a tu mamá 🌙
+            * Si no conoces la hora exacta de nacimiento puedes aproximarla. Te recomendamos revisar el acta de nacimiento o preguntar 🌙
           </p>
         </div>
 
         <!-- Production note -->
         <div class="digital-download-box" style="background:rgba(196,162,101,0.08);border-color:rgba(196,162,101,0.25)">
           <div class="icon">⏱️</div>
-          <p><strong style="color:var(--dusty-gold)">Tiempo de producción: 5-7 días hábiles.</strong> Una vez confirmado el pago, recibirás un email con la fecha estimada de entrega. Diseñamos tu carta a mano en Adobe Illustrator.</p>
+          <p><strong style="color:var(--dusty-gold)">Tiempo de producción: 5-7 días hábiles.</strong> Una vez confirmado el pago, recibirás un email con la fecha estimada de entrega. Diseñamos la carta a mano en Adobe Illustrator.</p>
         </div>
 
         <!-- Qty -->
@@ -148,7 +192,7 @@
         </div>
 
         <div class="add-to-cart-block">
-          <button class="add-btn-main" id="add-btn" onclick="addCartaCarta()">
+          <button class="add-btn-main" id="add-btn" onclick="addCarta()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             Agregar al carrito
           </button>
@@ -163,10 +207,10 @@
             <button class="detail-toggle open" onclick="toggleDetail(this)">¿Qué incluye? <span class="chevron">▾</span></button>
             <div class="detail-content open">
               <ul>
-                <li>Diseño único de tu carta astral basado en tus datos de nacimiento</li>
+                <li>Diseño ilustrado infantil exclusivo con los datos de nacimiento</li>
+                <li>5 opciones de color de fondo: azul, rosa, lila, amarillo y verde</li>
                 <li>Impresión de alta resolución en papel premium 250g</li>
                 <li>Marco incluido — listo para colgar</li>
-                <li>Todos los planetas, casas y aspectos de tu carta natal</li>
                 <li>Tamaño 30×40 cm enmarcada</li>
               </ul>
             </div>
@@ -174,7 +218,7 @@
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Sobre el proceso <span class="chevron">▾</span></button>
             <div class="detail-content">
-              <p>Una vez que recibimos tu pedido, calculamos tu carta astral con tus datos exactos de nacimiento y diseñamos tu print manualmente en Adobe Illustrator. Cada carta es única y personalizada.</p>
+              <p>Una vez que recibimos el pedido, calculamos la carta astral con los datos exactos de nacimiento y diseñamos el print manualmente en Adobe Illustrator con el color elegido.</p>
               <p>Te enviamos una vista previa por email para tu aprobación antes de imprimir.</p>
             </div>
           </div>
@@ -190,23 +234,22 @@
       </div>
     </div>
 
-
     <!-- Productos recomendados -->
     <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(155,122,158,0.15)" data-reveal>
       <h3 style="font-size:1.4rem;margin-bottom:1.5rem">También te puede interesar</h3>
       <div class="grid-4">
+        <a href="producto-print-carta-astral.html" style="text-decoration:none" class="product-card">
+          <div class="product-card-img"><img src="images/productos/print-carta-astral-normal.jpg" alt="Print Carta Astral" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
+          <div class="product-card-body">
+            <div class="product-card-name">Print Carta Astral</div>
+            <div class="product-card-price">$650 MXN</div>
+          </div>
+        </a>
         <a href="sesiones.html" style="text-decoration:none" class="product-card">
           <div class="product-card-img"><img src="images/sesiones/lectura-natal.jpg" alt="Lectura Natal" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
             <div class="product-card-name">Lectura Natal</div>
             <div class="product-card-price">$1,000 MXN</div>
-          </div>
-        </a>
-        <a href="producto-digitales.html" style="text-decoration:none" class="product-card">
-          <div class="product-card-img"><img src="images/productos/agenda-digital-1.jpg" alt="Agenda Lunar 2026 Digital" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
-          <div class="product-card-body">
-            <div class="product-card-name">Agenda Lunar 2026 Digital</div>
-            <div class="product-card-price">$299 MXN</div>
           </div>
         </a>
         <a href="producto-libretas.html" style="text-decoration:none" class="product-card">
@@ -220,7 +263,7 @@
           <div class="product-card-img"><img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026" loading="lazy" onerror="this.src='images/placeholder.jpg'"></div>
           <div class="product-card-body">
             <div class="product-card-name">Agenda Lunar 2026</div>
-            <div class="product-card-price">$899 MXN</div>
+            <div class="product-card-price">$999 MXN</div>
           </div>
         </a>
       </div>
@@ -251,7 +294,18 @@
 <script src="js/main.js"></script>
 <script src="js/producto.js"></script>
 <script>
-  const IMAGES = ['images/productos/print-carta-astral-normal.jpg'];
+  const IMAGES = ['images/productos/print-carta-astral-infantil.jpg'];
+
+  let selectedColor = null;
+
+  function selectColor(id, name) {
+    selectedColor = id;
+    document.getElementById('selected-color-label').textContent = name;
+
+    ['azul','rosa','lila','amarillo','verde'].forEach(c => {
+      document.getElementById('swatch-' + c).classList.toggle('active', c === id);
+    });
+  }
 
   function getBirthData() {
     return {
@@ -271,7 +325,7 @@
     const missing = required.filter(k => !data[k]);
     if (missing.length > 0) {
       missing.forEach(k => {
-        const el = document.getElementById(`f-${k}`);
+        const el = document.getElementById('f-' + k);
         if (el) { el.classList.add('error'); setTimeout(() => el.classList.remove('error'), 3000); }
       });
       return false;
@@ -279,29 +333,35 @@
     return true;
   }
 
-  function addCartaCarta() {
+  function addCarta() {
+    if (!selectedColor) {
+      alert('Por favor elige un color de fondo.');
+      return;
+    }
+
     const birthData = getBirthData();
     if (!validateBirthData(birthData)) {
       alert('Por favor completa todos los datos de nacimiento.');
       return;
     }
 
-    const birthStr = `${birthData.nombre} ${birthData.apellido} · ${birthData.dia} ${birthData.mes} ${birthData.anio} · ${birthData.hora} ${birthData.ampm} · ${birthData.lugar}`;
+    const colorName = { azul:'Azul', rosa:'Rosa', lila:'Lila', amarillo:'Amarillo', verde:'Verde' }[selectedColor];
+    const birthStr  = `${birthData.nombre} ${birthData.apellido} · ${birthData.dia} ${birthData.mes} ${birthData.anio} · ${birthData.hora} ${birthData.ampm} · ${birthData.lugar} · Color: ${colorName}`;
 
     for (let i = 0; i < qty; i++) {
       Cart.add({
-        id: 'print-carta-astral',
-        name: 'Print Carta Astral',
+        id: 'print-carta-astral-infantil-' + selectedColor,
+        name: `Print Carta Astral Infantil (${colorName})`,
         price: 650,
         image: IMAGES[0],
-        sku: 'PRINTCARTA',
+        sku: 'PRINTCARTAINF-' + selectedColor.toUpperCase(),
         note: birthStr,
       });
     }
 
     const cartData = JSON.parse(localStorage.getItem('lde_cart') || '[]');
-    const item = cartData.find(i => i.id === 'print-carta-astral');
-    if (item) { item.birthData = birthData; }
+    const item = cartData.find(i => i.id === 'print-carta-astral-infantil-' + selectedColor);
+    if (item) { item.birthData = { ...birthData, color: colorName }; }
     localStorage.setItem('lde_cart', JSON.stringify(cartData));
 
     flashAddBtn();
@@ -309,7 +369,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initGallery(IMAGES);
-    renderReviews('lde_reviews_print-carta-astral', 'Print Carta Astral');
+    renderReviews('lde_reviews_print-carta-astral-infantil', 'Print Carta Astral Infantil');
   });
 </script>
 </body>
