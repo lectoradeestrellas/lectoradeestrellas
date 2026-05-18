@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Renacer de Venus — Lectora de Estrellas</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body { background: var(--parchment); }
+
+    /* ── Header ── */
+    .curso-header {
+      background: var(--midnight);
+      padding: 1.75rem 2rem;
+      text-align: center;
+    }
+    .curso-header-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.4rem;
+      text-decoration: none;
+    }
+    .curso-header-logo em {
+      font-family: var(--font-body);
+      font-style: italic;
+      letter-spacing: 0;
+    }
+    .curso-header-sub {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+    }
+
+    /* ── Hero ── */
+    .curso-hero {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0D0615 0%, #3D1F45 100%);
+      overflow: hidden;
+      padding: 5rem 2rem;
+    }
+    .curso-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 1;
+    }
+    .curso-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13, 6, 21, 0.65);
+    }
+    .curso-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 680px;
+    }
+    .curso-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(212, 168, 83, 0.15);
+      border: 1px solid rgba(212, 168, 83, 0.4);
+      border-radius: 999px;
+      padding: 0.35rem 1.1rem;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .curso-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: white;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .curso-hero-subtitle {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+    .curso-pills {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .curso-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* ── Bienvenida ── */
+    .bienvenida {
+      background: var(--cream);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .bienvenida-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .bienvenida h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.6rem;
+      color: var(--ink);
+    }
+    .bienvenida p {
+      font-size: 0.97rem;
+      color: var(--ink-soft);
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+    }
+
+    /* ── Module separator ── */
+    .module-sep {
+      display: block;
+    }
+    .module-sep img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Lessons ── */
+    .lessons-wrap {
+      padding: 2.5rem 0 1rem;
+    }
+
+    .lesson-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .lesson-label {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      margin-bottom: 0.4rem;
+    }
+    .lesson-title {
+      font-size: 1.2rem;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .lesson-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      color: var(--mauve);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    /* ── Footer ── */
+    .curso-footer {
+      background: var(--midnight);
+      padding: 2rem;
+      text-align: center;
+    }
+    .curso-footer-symbol {
+      font-size: 1.5rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+    .curso-footer p {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--mauve);
+      margin: 0;
+    }
+
+    /* ── Barra de progreso ── */
+    .progreso-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--midnight);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .progreso-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.7rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .progreso-label {
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+      flex-shrink: 0;
+      transition: color 0.4s;
+    }
+    .progreso-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progreso-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--plum), var(--gold));
+      border-radius: 3px;
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .progreso-count {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+      min-width: 7ch;
+      text-align: right;
+    }
+    .progreso-bar.complete .progreso-label { color: var(--gold); }
+    .progreso-bar.complete .progreso-fill  { background: linear-gradient(to right, #b8943c, var(--gold)); }
+
+    /* ── Marcar como vista ── */
+    .lesson-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(155,122,158,0.1);
+    }
+    .mark-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid rgba(155,122,158,0.25);
+      background: white;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .mark-btn:hover { border-color: var(--plum); color: var(--plum); }
+    .mark-btn.done {
+      background: rgba(107,68,113,0.07);
+      border-color: var(--plum);
+      color: var(--plum);
+      font-weight: 600;
+    }
+    .lesson-card.completed { border-left: 3px solid var(--plum); }
+
+    /* ── Module tabs ── */
+    .module-tabs {
+      position: sticky;
+      top: 43px; /* below the progress bar */
+      z-index: 90;
+      background: #0f0818;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .module-tabs-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+    }
+    .module-tab {
+      padding: 0.9rem 1.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--mauve);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    .module-tab:hover { color: rgba(255,255,255,0.8); }
+    .module-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── Module sections (show/hide) ── */
+    .module-section { display: none; }
+    .module-section.active { display: block; }
+
+    @media (max-width: 600px) {
+      .curso-hero { padding: 4rem 1.25rem; }
+      .lesson-card { padding: 1.25rem; }
+      .progreso-inner { padding: 0.6rem 1.25rem; gap: 0.6rem; }
+      .progreso-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="curso-header">
+  <span class="curso-header-logo">LECTORA <em>de</em> ESTRELLAS</span>
+  <span class="curso-header-sub">Acceso exclusivo · Curso grabado</span>
+</header>
+
+<!-- ── Barra de progreso ── -->
+<div class="progreso-bar" id="progreso-bar">
+  <div class="progreso-inner">
+    <span class="progreso-label" id="progreso-label">Mi progreso</span>
+    <div class="progreso-track">
+      <div class="progreso-fill" id="progreso-fill"></div>
+    </div>
+    <span class="progreso-count" id="progreso-count">0 de 11 vistas</span>
+  </div>
+</div>
+
+<!-- ── Hero ── -->
+<section class="curso-hero">
+  <img class="curso-hero-bg" src="images/aprende/venus-portada.jpg" alt="El Renacer de Venus" onerror="this.style.display='none'">
+  <div class="curso-hero-overlay"></div>
+  <div class="curso-hero-content">
+    <div class="curso-badge">✦ Curso grabado</div>
+    <h1 class="curso-hero-title">El Renacer de Venus</h1>
+    <p class="curso-hero-subtitle">Recalibra tu corazón · Redescubre tu valor · Reclama tu paz</p>
+    <div class="curso-pills">
+      <span class="curso-pill">3 Módulos</span>
+      <span class="curso-pill">14 Lecciones</span>
+      <span class="curso-pill">Acceso permanente</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Bienvenida ── -->
+<section class="bienvenida" data-reveal>
+  <div class="bienvenida-icon">📄</div>
+  <h2>Antes de comenzar</h2>
+  <p>Descarga tu guía de bienvenida — incluye tu intención de inicio y cómo sacarle el máximo al curso.</p>
+  <a href="#" class="btn btn-gold">Descargar guía de bienvenida ✦</a>
+</section>
+
+<!-- ── Pestañas de módulos ── -->
+<div class="module-tabs" id="module-tabs">
+  <div class="module-tabs-inner">
+    <button class="module-tab active" onclick="showModule('mod-1', this)">Módulo 1 · Venus, el Arquetipo</button>
+    <button class="module-tab" onclick="showModule('mod-2', this)">Módulo 2 · Tu Sombra Venusiana</button>
+    <button class="module-tab" onclick="showModule('mod-3', this)">Módulo 3 · Integración</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MÓDULO 1 — Venus, el Arquetipo
+══════════════════════════════════════════ -->
+<div class="module-section active" id="mod-1">
+<div class="module-sep">
+  <img src="images/aprende/cartel-modulo1.jpg" alt="Módulo 1" onerror="this.style.background='#1a0e2a'">
+</div>
+
+<div class="lessons-wrap">
+  <div class="container">
+
+    <div class="lesson-card" data-reveal data-lesson-id="m1-l1">
+      <div class="lesson-label">Lección 1</div>
+      <div class="lesson-title">Venus en Astrología</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1nn0AvHozoNGvjUAtpmVVeppA5Ftwtb8X/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m1-l2">
+      <div class="lesson-label">Lección 2</div>
+      <div class="lesson-title">Venus en Sombra</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1Uil_wKv4VM4oG14aZtlyTjYGjiviE3NJ/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m1-l3">
+      <div class="lesson-label">Lección 3</div>
+      <div class="lesson-title">El Mito de Ínana y Barbie — El Descenso y el Renacer</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1Cd3HjQwOO1BifKXlHIGPYCiA0KhD75NL/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /mod-1 -->
+
+<!-- ══════════════════════════════════════════
+     MÓDULO 2 — Tu Sombra Venusiana
+══════════════════════════════════════════ -->
+<div class="module-section" id="mod-2">
+<div class="module-sep">
+  <img src="images/aprende/cartel-modulo2.jpg" alt="Módulo 2" onerror="this.style.background='#1a0e2a'">
+</div>
+
+<div class="lessons-wrap">
+  <div class="container">
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-intro">
+      <div class="lesson-label">Introducción</div>
+      <div class="lesson-title">La Sombra de Venus</div>
+      <div class="lesson-subtitle">Cuándo se activa y cómo trabajarla en cualquier momento</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1TYuqfgUMXFErX67ZOi5JU-3V_koC0xVA/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-b1">
+      <div class="lesson-label">Bloqueo 1</div>
+      <div class="lesson-title">Las Pasiones del Corazón</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1vfVvQJ3TXfAa3ANGi5IzgjJxlHd-SiGy/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-b2">
+      <div class="lesson-label">Bloqueo 2</div>
+      <div class="lesson-title">Pedir lo que Deseas</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/12-_Di97sPXV8qwigtodUqNFSArLDiEgs/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-b3">
+      <div class="lesson-label">Bloqueo 3</div>
+      <div class="lesson-title">El Merecimiento</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1azG2BvISsQuL3Z25hnQ3MsYL6kna_qn8/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-b4">
+      <div class="lesson-label">Bloqueo 4</div>
+      <div class="lesson-title">El Placer</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1miLiCqHqXJLb5UFDIVfDT5M6BaB26MR5/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m2-b5">
+      <div class="lesson-label">Bloqueo 5</div>
+      <div class="lesson-title">Abrir y Sanar el Corazón</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1UkNM4Cg_nt9S36CvtHJXpjhH9cTX_U6F/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /mod-2 -->
+
+<!-- ══════════════════════════════════════════
+     MÓDULO 3 — Integración
+══════════════════════════════════════════ -->
+<div class="module-section" id="mod-3">
+<div class="module-sep">
+  <img src="images/aprende/cartel-modulo3.jpg" alt="Módulo 3" onerror="this.style.background='#1a0e2a'">
+</div>
+
+<div class="lessons-wrap">
+  <div class="container">
+
+    <div class="lesson-card" data-reveal data-lesson-id="m3-l1">
+      <div class="lesson-label">Lección 1</div>
+      <div class="lesson-title">Venus por las Casas</div>
+      <div class="lesson-subtitle">Aplica también a tu Venus natal</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1I7lqTfRFExwG-2OS0lJkLThNB_2hrKW8/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+    <div class="lesson-card" data-reveal data-lesson-id="m3-l2">
+      <div class="lesson-label">Lección 2</div>
+      <div class="lesson-title">Meditación con el Arcángel Haniel</div>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video. Ejemplo de URL de Drive: drive.google.com/file/d/ESTE_ES_EL_ID/view -->
+      <iframe
+        src="https://drive.google.com/file/d/1uQvSHEI0g32CINC9D7_45ffAMk7r5sFF/preview"
+        width="100%"
+        style="aspect-ratio:16/9;border-radius:var(--radius-md);border:none;margin-top:1rem;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+      <div class="lesson-footer"><button class="mark-btn" type="button"><span aria-hidden="true">○</span> Marcar como vista</button></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /mod-3 -->
+
+<!-- ── Footer ── -->
+<footer class="curso-footer">
+  <span class="curso-footer-symbol">♀</span>
+  <p>© 2026 Lectora de Estrellas · Contenido de uso personal · No compartir</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+(function () {
+  // ── Tab navigation ──────────────────────────────
+  window.showModule = function(id, btn) {
+    document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+    var target = document.getElementById(id);
+    if (target) target.classList.add('active');
+    if (btn) btn.classList.add('active');
+    // Scroll so the tabs strip is at the top of the viewport
+    var tabs = document.getElementById('module-tabs');
+    if (tabs) {
+      var rect = tabs.getBoundingClientRect();
+      if (rect.top < 0 || rect.top > 80) {
+        tabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  const STORAGE_KEY = 'lde_venus_progress';
+  const TOTAL = 11;
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch { return {}; }
+  }
+
+  function save(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateBar(state) {
+    const done   = Object.values(state).filter(Boolean).length;
+    const pct    = TOTAL > 0 ? Math.round((done / TOTAL) * 100) : 0;
+    const fill   = document.getElementById('progreso-fill');
+    const count  = document.getElementById('progreso-count');
+    const label  = document.getElementById('progreso-label');
+    const bar    = document.getElementById('progreso-bar');
+
+    fill.style.width  = pct + '%';
+    count.textContent = done + ' de ' + TOTAL + ' vistas';
+
+    if (done === TOTAL) {
+      label.textContent = '✦ Curso completado';
+      bar.classList.add('complete');
+    } else {
+      label.textContent = 'Mi progreso';
+      bar.classList.remove('complete');
+    }
+  }
+
+  function initCard(card, state) {
+    const id  = card.dataset.lessonId;
+    const btn = card.querySelector('.mark-btn');
+    if (!btn) return;
+
+    function applyState(isDone) {
+      if (isDone) {
+        card.classList.add('completed');
+        btn.classList.add('done');
+        btn.innerHTML = '<span aria-hidden="true">✓</span> Vista';
+      } else {
+        card.classList.remove('completed');
+        btn.classList.remove('done');
+        btn.innerHTML = '<span aria-hidden="true">○</span> Marcar como vista';
+      }
+    }
+
+    applyState(!!state[id]);
+
+    btn.addEventListener('click', () => {
+      state[id] = !state[id];
+      save(state);
+      applyState(state[id]);
+      updateBar(state);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const state = load();
+
+    document.querySelectorAll('.lesson-card[data-lesson-id]').forEach(card => {
+      initCard(card, state);
+    });
+
+    updateBar(state);
+
+    // Reveal animation
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.6s ease ${el.dataset.delay || '0ms'}, transform 0.6s ease ${el.dataset.delay || '0ms'}`;
+      obs.observe(el);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -923,68 +923,6 @@
 </section>
 
 <!-- ── Featured Collection ────────────────────────────── -->
-<section class="collection-section">
-  <div class="container">
-    <div class="section-header" data-reveal>
-      <span class="eyebrow">Colección estrella</span>
-      <h2>Guíate con el cosmos y aprende de ti</h2>
-      <p>Herramientas diseñadas para acompañarte en cada ciclo lunar y cada etapa de tu historia.</p>
-    </div>
-
-    <div class="collection-featured">
-      <!-- Main featured -->
-      <a href="tienda.html?producto=agenda-lunar-2026" class="collection-main" data-reveal>
-        <img src="images/agenda-lunar-2026-hero.jpg" alt="Agenda Lunar 2026">
-        <div class="collection-main-overlay">
-          <span class="collection-label">Best Seller · Colección Lunar 2026</span>
-          <h3>Agenda Lunar 2026</h3>
-          <p>La agenda que te conecta con los ciclos de la luna mes a mes.</p>
-          <div style="display:flex;align-items:center;gap:1rem">
-            <span style="font-family:var(--font-ui);font-size:1rem;color:white;font-weight:600">$999 <s style="opacity:0.5;font-weight:400;font-size:0.85rem">$1,050</s></span>
-            <span class="btn btn-gold btn-sm">Ver producto</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Side cards -->
-      <a href="producto-diario-lunar-2026.html" class="collection-card" data-reveal data-delay="100ms">
-        <img src="images/diario-lunar-2026.jpg" alt="Diario Lunar 2026">
-        <div class="collection-card-overlay">
-          <span class="collection-label">Edición limitada</span>
-          <h3>Diario Lunar 2026</h3>
-          <div class="collection-card-price">$250 MXN</div>
-        </div>
-      </a>
-
-      <a href="producto-calendario-mini-lunar-2026.html" class="collection-card" data-reveal data-delay="200ms">
-        <img src="images/calendario-mini-lunar.jpg" alt="Calendario Mini Lunar 2026">
-        <div class="collection-card-overlay">
-          <span class="collection-label">Colección Lunar 2026</span>
-          <h3>Calendario Mini de Escritorio</h3>
-          <div class="collection-card-price">$120 MXN</div>
-        </div>
-      </a>
-
-      <a href="producto-print-calendario-lunar-2026.html" class="collection-card" data-reveal data-delay="150ms">
-        <img src="images/print-calendario-lunar.jpg" alt="Print Calendario Lunar 2026">
-        <div class="collection-card-overlay">
-          <span class="collection-label">Colección Lunar 2026</span>
-          <h3>Print Calendario Lunar 2026</h3>
-          <div class="collection-card-price">$250 MXN</div>
-        </div>
-      </a>
-
-      <a href="tienda.html?cat=lunar2026" class="collection-card" data-reveal data-delay="250ms" style="background:var(--deep-plum);display:flex;align-items:center;justify-content:center;text-decoration:none">
-        <div style="text-align:center;padding:2rem;color:white">
-          <div style="font-size:2rem;margin-bottom:1rem">✦</div>
-          <h3 style="font-size:1.1rem;margin-bottom:0.5rem">Agrega toda la<br>colección y llévate<br>el Diario de regalo</h3>
-          <span class="btn btn-secondary btn-sm" style="margin-top:1rem;border-color:rgba(255,255,255,0.4);color:white">Comprar todo</span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ── Category Pills ─────────────────────────────────── -->
 <div class="category-strip">
   <div class="category-pills">
@@ -1009,8 +947,22 @@
     </div>
 
     <div class="grid-4" style="margin-top:2rem">
-      <!-- Product cards — replace images with your actual photos -->
       <div class="product-card" data-reveal>
+        <span class="product-badge badge-bestseller">Best Seller</span>
+        <div class="product-card-img">
+          <img src="images/productos/agenda-lunar-2026-1.jpg" alt="Agenda Lunar 2026" loading="lazy">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">Agenda Lunar 2026</div>
+          <div class="product-card-price"><s style="opacity:0.5;font-weight:400;font-size:0.85em">$1,050</s> $999.00 MXN</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:calc(100% - 2.5rem);margin:0 1.25rem 1.25rem;justify-content:center"
+          onclick="Cart.add({id:'agenda-lunar-2026',name:'Agenda Lunar 2026',price:999,image:'images/productos/agenda-lunar-2026-1.jpg',sku:'AGENDALUNAR26'})">
+          Agregar al carrito
+        </button>
+      </div>
+
+      <div class="product-card" data-reveal data-delay="80ms">
         <div class="product-card-img">
           <img src="images/libreta-mistica.jpg" alt="Libreta Mística" loading="lazy">
         </div>
@@ -1070,6 +1022,44 @@
 
     <div style="text-align:center;margin-top:2.5rem" data-reveal>
       <a href="tienda.html?cat=libretas" class="btn btn-ghost">Ver todas las libretas →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Aprende Section ────────────────────────────────── -->
+<section style="padding:var(--space-lg) 0;background:var(--cream)">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Contenido gratuito</span>
+      <h2>Aprende astrología a tu ritmo</h2>
+      <p>Cursos, workbooks y videos para conocerte mejor a través de la astrología.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:2.5rem" data-reveal>
+      <!-- YouTube embed -->
+      <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;background:var(--midnight);box-shadow:var(--shadow-md)">
+        <iframe
+          src="https://www.youtube.com/embed?listType=user_uploads&list=lectoradeestrellas&index=1"
+          title="Lectora de Estrellas — YouTube"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="display:block;width:100%;height:100%">
+        </iframe>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:0.75rem">
+          <li style="font-size:1rem;color:var(--ink);line-height:1.55">📹 Videos gratuitos de forecast y lunas</li>
+          <li style="font-size:1rem;color:var(--ink);line-height:1.55">📓 Workbooks de autoconocimiento</li>
+          <li style="font-size:1rem;color:var(--ink);line-height:1.55">✨ Cursos de trabajo personal guiado</li>
+        </ul>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+          <a href="aprende.html" class="btn btn-primary">Ver todos los recursos →</a>
+          <a href="https://www.youtube.com/@lectoradeestrellas" target="_blank" rel="noopener" class="btn btn-secondary">Ver canal de YouTube →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
