@@ -1,0 +1,9 @@
+{
+  "name": "lectoradeestrellas",
+  "version": "1.0.0",
+  "description": "Lectora de Estrellas — sitio web",
+  "private": true,
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
