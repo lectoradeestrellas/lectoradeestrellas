@@ -108,7 +108,7 @@
     .experience-strip {
       background: var(--grad-warm); padding: 4rem 0; text-align: center;
     }
-    .experience-strip h2 { font-size: clamp(1.75rem,3vw,2.5rem); margin-bottom: 2rem; }
+    .experience-strip h2 { font-size: clamp(1.75rem,3vw,2.5rem); margin-bottom: 2rem; color: var(--deep-plum); }
     .ig-carousel {
       display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem;
       scrollbar-width: none; max-width: 900px; margin: 0 auto;
@@ -247,7 +247,7 @@
       <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
       <a href="tienda.html">Herramientas mágicas</a>
       <a href="eventos.html" class="active">Eventos</a>
-      <a href="aprende.html">Aprende</a><a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a>
+      <a href="aprende.html">Aprende</a><a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a><a href="carta-astral.html">Carta Astral</a>
     </div>
     <div class="nav-actions">
       <button class="cart-btn" aria-label="Carrito">
@@ -621,10 +621,7 @@
   function renderPastEvents() {
     const list = document.getElementById('past-events-list');
     list.innerHTML = PAST_EVENTS.map(e => `
-      <div class="past-event-item">
-        <div class="past-event-thumb">
-          <img src="${e.img}" alt="${e.name}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
-        </div>
+      <div class="past-event-item" style="grid-template-columns:1fr">
         <div class="past-event-info">
           <div class="past-event-date">${e.date}</div>
           <div class="past-event-name">${e.name}</div>
