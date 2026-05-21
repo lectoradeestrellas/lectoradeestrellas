@@ -523,9 +523,11 @@
 
   // Init
   document.addEventListener('DOMContentLoaded', () => {
-    // Check URL param
+    // Check URL param — fall back to 'all' for any unknown category (e.g. lunar2026)
+    const VALID_CATS = new Set(['all','agendas','cuadernos','libretas','prints','digitales']);
     const params = new URLSearchParams(window.location.search);
-    const catParam = params.get('cat') || 'all';
+    const raw = params.get('cat') || 'all';
+    const catParam = VALID_CATS.has(raw) ? raw : 'all';
     renderGrid(catParam);
 
     // Filter buttons
