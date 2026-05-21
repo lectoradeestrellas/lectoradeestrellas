@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masterclass — Lectora de Estrellas</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body { background: var(--parchment); }
+
+    /* ── Header ── */
+    .mc-header {
+      background: var(--midnight);
+      padding: 1.75rem 2rem;
+      text-align: center;
+    }
+    .mc-header-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.4rem;
+      text-decoration: none;
+    }
+    .mc-header-logo em {
+      font-family: var(--font-body);
+      font-style: italic;
+      letter-spacing: 0;
+    }
+    .mc-header-sub {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mauve);
+    }
+
+    /* ── Hero ── */
+    .mc-hero {
+      background: linear-gradient(135deg, #0D0615 0%, #3D1F45 100%);
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(212,168,83,0.12);
+      border: 1px solid rgba(212,168,83,0.4);
+      border-radius: 999px;
+      padding: 0.35rem 1.1rem;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .mc-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 400;
+      color: white;
+      letter-spacing: 0.05em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mc-hero-subtitle {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mc-pills {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .mc-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Sala de proyección ── */
+    .mc-projection {
+      background: var(--parchment);
+      padding: 3rem 0;
+    }
+    .mc-info-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-top: 1.75rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .mc-info-title {
+      font-size: 1.3rem;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .mc-info-desc {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── Banner CTA ── */
+    .mc-cta {
+      background: var(--deep-plum);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .mc-cta-symbol {
+      font-size: 1.75rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.75rem;
+      opacity: 0.85;
+    }
+    .mc-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: white;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .mc-cta p {
+      font-size: 0.97rem;
+      color: var(--mauve);
+      margin-bottom: 1.75rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .mc-cta-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    .mc-footer {
+      background: var(--midnight);
+      padding: 2rem;
+      text-align: center;
+    }
+    .mc-footer p {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--mauve);
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .mc-info-card { grid-template-columns: 1fr; }
+      .mc-hero { padding: 3.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="mc-header">
+  <a href="index.html" class="mc-header-logo">LECTORA <em>de</em> ESTRELLAS</a>
+  <span class="mc-header-sub">Acceso exclusivo · Masterclass</span>
+</header>
+
+<!-- ── Hero ── -->
+<section class="mc-hero">
+  <div class="mc-badge">✦ Masterclass</div>
+  <h1 class="mc-hero-title">Herencias astrológicas</h1>
+  <p class="mc-hero-subtitle">Una mirada profunda al mito familiar desde la astrología práctica</p>
+  <div class="mc-pills">
+    <span class="mc-pill">Acceso permanente</span>
+    <span class="mc-pill" id="pill-descargable" style="display:none">Archivo descargable incluido</span>
+  </div>
+</section>
+
+<!-- ── Sala de proyección ── -->
+<section class="mc-projection">
+  <div class="container">
+
+    <!-- Video embebido de Google Drive -->
+    <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;background:#000;box-shadow:var(--shadow-lg)" data-reveal>
+      <!-- Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video -->
+      <iframe
+        src="https://drive.google.com/file/d/1xxYiJ02ECO-yS_PXxSG9yBRA-d3Iwnmt/preview"
+        width="100%"
+        height="100%"
+        style="border:none;display:block"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Tarjeta de info: título + descripción + descarga -->
+    <div class="mc-info-card" data-reveal>
+      <div>
+        <div class="mc-info-title">Herencias astrológicas</div>
+        <p class="mc-info-desc">Exploramos el concepto de heredar ciertos signos o energías en las familias y su significado en el mito familiar. Como ejemplos para interpretación astrológica, se usaron las cartas astrales de la familia real británica.</p>
+      </div>
+      <!-- Reemplaza href="#" con el link de Drive del archivo descargable -->
+      <a href="#" id="btn-descarga" class="btn btn-gold" style="display:none">
+        📄 Descargar material incluido
+      </a>
+    </div>
+
+    <!-- ── Capítulos ── -->
+    <div style="margin-top:2.5rem" data-reveal>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem">
+        <span style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--plum)">Contenido</span>
+        <div style="flex:1;height:1px;background:rgba(155,122,158,0.2)"></div>
+      </div>
+      <div style="background:white;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)">
+
+        <!-- Capítulo 1 — duplica este bloque para agregar más capítulos -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(155,122,158,0.1);transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">01</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">Introducción</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">00:00:00 - 00:06:38</span>
+        </div>
+
+        <!-- Capítulo 2 -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(155,122,158,0.1);transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">02</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">El mito de la dinastía: la metáfora del destino inter generacional</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">00:06:39 - 00:18:02</span>
+        </div>
+
+        <!-- Capítulo 3 -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(155,122,158,0.1);transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">03</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">El retrato familiar: la carta natal en un contexto de la dinámica familiar</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">00:18:03 - 00:36:50</span>
+        </div>
+
+        <!-- Capítulo 4 -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">04</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">El legado parental y ancestral: analizando el linaje en las casas astrológicas</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">00:36:51 - 01:06:58</span>
+        </div>
+
+        <!-- Capítulo 5 -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">05</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">La genealogía astral: tejiendo el tapiz de la familia británica real</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">01:07:09 - 01:56:05</span>
+        </div>
+
+        <!-- Capítulo 6 -->
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;transition:background 0.2s" onmouseover="this.style.background='rgba(155,122,158,0.04)'" onmouseout="this.style.background=''">
+          <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--gold);min-width:1.8rem;flex-shrink:0">06</span>
+          <span style="font-size:0.97rem;color:var(--ink);flex:1;line-height:1.4">Una nueva era: transmutando la maldición a una bendición</span>
+          <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--mauve);flex-shrink:0;background:rgba(155,122,158,0.08);padding:0.2rem 0.65rem;border-radius:999px">01:56:06 - 02:15:01</span>
+        </div>
+        <!-- Agrega más capítulos copiando el bloque anterior y ajustando el número, nombre y tiempo -->
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Contacto ── -->
+<section style="background:var(--cream);padding:3rem 0;border-top:1px solid rgba(155,122,158,0.12)">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem" data-reveal>
+    <div>
+      <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--plum);margin-bottom:0.4rem">¿Preguntas o dudas?</div>
+      <p style="font-size:1.05rem;color:var(--ink-soft);margin:0;line-height:1.5">Estoy aquí para ayudarte — escríbeme directamente.</p>
+    </div>
+    <!-- El asunto del correo refleja el título de esta masterclass — actualiza TITULO_MASTERCLASS -->
+    <a href="mailto:lalectorade.estrellas@gmail.com?subject=HERENCIAS ASTROLOGICAS_MASTERCLASS"
+       class="btn btn-secondary"
+       style="flex-shrink:0">
+      ✉️ Escríbeme aquí
+    </a>
+  </div>
+</section>
+
+<!-- ── Banner CTA ── -->
+<section class="mc-cta">
+  <span class="mc-cta-symbol">♀</span>
+  <h2>¿Quieres profundizar en tu carta astral?</h2>
+  <p>Una lectura 1:1 te da la guía personalizada que ningún curso puede reemplazar.</p>
+  <div class="mc-cta-actions">
+    <a href="sesiones.html" class="btn btn-gold">Agendar Lectura Natal →</a>
+    <a href="curso-venus.html" class="btn btn-ghost" style="color:white;border-color:rgba(255,255,255,0.4)">Ver curso El Renacer de Venus →</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="mc-footer">
+  <p>© 2026 Lectora de Estrellas · Contenido de uso personal · No compartir</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.6s ease ${el.dataset.delay || '0ms'}, transform 0.6s ease ${el.dataset.delay || '0ms'}`;
+      obs.observe(el);
+    });
+  });
+</script>
+
+<!--
+  CÓMO USAR ESTA PLANTILLA PARA OTRA MASTERCLASS:
+  1. Duplica este archivo con el nombre de la masterclass (ej: masterclass-herencias.html)
+  2. Reemplaza TITULO_MASTERCLASS con el título real (en TODOS los lugares donde aparece)
+  3. Reemplaza SUBTITULO_MASTERCLASS con el subtítulo
+  4. Reemplaza DESCRIPCION_MASTERCLASS con la descripción
+  5. Reemplaza ID_DEL_VIDEO con el ID de Google Drive del video
+  6. En la sección de capítulos:
+       - Reemplaza capítulo_1, capítulo_2… con los títulos reales
+       - Reemplaza 00:00 con el tiempo de inicio de cada capítulo (ej: 04:32)
+       - Agrega o elimina bloques de capítulo copiando/borrando los divs
+       - El último capítulo NO tiene border-bottom (quita la propiedad)
+  7. Si NO incluye archivo descargable:
+       agrega style="display:none" al elemento con id="btn-descarga"
+       agrega style="display:none" al elemento con id="pill-descargable"
+  8. El asunto del correo de contacto se actualiza solo si reemplazas TITULO_MASTERCLASS
+-->
+</body>
+</html>

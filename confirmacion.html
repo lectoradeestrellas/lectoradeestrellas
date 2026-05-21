@@ -118,6 +118,33 @@
   if (orderId) {
     document.getElementById('order-id').textContent = `Pedido: ${orderId.slice(0, 20)}...`;
   }
+  // Show "Ir al curso" if a digital course was purchased
+  const _lc = JSON.parse(sessionStorage.getItem('lde_last_cart') || localStorage.getItem('lde_cart') || '[]');
+  const _venus = _lc.some(i => i.id==='curso-venus' || (i.name||'').toLowerCase().includes('venus'));
+  const _mc = _lc.some(i => (i.id||'').startsWith('masterclass-'));
+  if (_venus || _mc) {
+    document.querySelector('.subtitle').textContent = 'Tu compra ha sido confirmada. Recibirás un email con los detalles de acceso en los próximos minutos.';
+    document.querySelector('.confirm-steps').innerHTML =
+      '<div class="confirm-step"><span class="step-num">1</span><span>Recibirás un email de confirmación</span></div>' +
+      '<div class="confirm-step"><span class="step-num">2</span><span>Acceso inmediato al contenido ✨</span></div>' +
+      '<div class="confirm-step"><span class="step-num">3</span><span>Tómalo a tu ritmo — sin fechas límite 🌙</span></div>';
+    const acts = document.querySelector('.confirm-actions');
+    if (_venus) {
+      const b = document.createElement('a');
+      b.href = 'curso-venus.html';
+      b.className = 'btn btn-gold';
+      b.textContent = '✦ Ir al curso: El Renacer de Venus';
+      b.style.cssText = 'background:var(--gold);color:var(--midnight);font-weight:600';
+      acts.insertBefore(b, acts.firstChild);
+    }
+    if (_mc) {
+      const b = document.createElement('a');
+      b.href = 'aprende.html';
+      b.className = 'btn btn-primary';
+      b.textContent = '✦ Ir a mis masterclasses';
+      acts.insertBefore(b, acts.firstChild);
+    }
+  }
 </script>
 </body>
 </html>

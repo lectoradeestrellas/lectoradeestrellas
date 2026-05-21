@@ -410,7 +410,7 @@
     </div>
 
     <!-- 2. Shipping address -->
-    <div class="checkout-panel" style="margin-bottom:1.25rem">
+    <div class="checkout-panel" id="address-panel" style="margin-bottom:1.25rem">
       <div class="panel-section">
         <div class="section-title"><span class="section-num" id="num-address">2</span>Dirección de envío</div>
 
@@ -552,6 +552,15 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     loadCart();
+    const _cart = JSON.parse(localStorage.getItem('lde_cart') || '[]');
+    const _allDig = _cart.length > 0 && _cart.every(i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-'));
+    if (_allDig) {
+      document.getElementById('address-panel')?.style.setProperty('display','none');
+      document.getElementById('shipping-section')?.style.setProperty('display','none');
+      const sh = document.getElementById('summary-shipping');
+      if(sh){sh.textContent='Sin envío (digital)';sh.className='';}
+      sessionStorage.setItem('lde_last_cart', JSON.stringify(_cart));
+    }
     initStripe();
     syncCpFields();
   });
