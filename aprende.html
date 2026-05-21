@@ -628,7 +628,7 @@
                   <div class="panel-body">
                     <div class="panel-price">$200 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
                     <div class="panel-price-note">Acceso permanente · A tu propio ritmo</div>
-                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-fechas','Masterclass: Elige tus estrellas','images/aprende/poster-fechas.jpg','MC-FECHAS')">
+                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-fechas','Masterclass: Elige tus estrellas', '200','images/aprende/poster-fechas.jpg','MC-FECHAS')">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       Unirme a la masterclass
                     </button>
@@ -642,6 +642,25 @@
                   </div>
                 </div>
               </div>
+
+            <!-- ── Reseñas: Elige tus estrellas ── -->
+            <div style="margin-top:3rem;padding-top:2.5rem;border-top:1px solid rgba(155,122,158,0.15)">
+              <div style="display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem">
+                <h3 style="font-size:1.25rem;font-family:var(--font-display);letter-spacing:0.04em">Reseñas</h3>
+                <span style="font-family:var(--font-ui);font-size:0.82rem;color:var(--mauve)" id="mc-fechas-rating-summary">☆☆☆☆☆ · 0 reseñas</span>
+              </div>
+              <div id="mc-fechas-reviews-list"></div>
+              <div style="background:rgba(155,122,158,0.05);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.5rem">
+                <h4 style="font-size:1rem;margin-bottom:0.4rem">Deja tu reseña ✦</h4>
+                <p style="font-family:var(--font-ui);font-size:0.82rem;color:var(--ink-soft);margin-bottom:1rem">¿Ya tomaste esta masterclass? Comparte tu experiencia con la comunidad.</p>
+                <div id="mc-fechas-stars" style="display:flex;gap:0.3rem;font-size:1.6rem;color:var(--gold);margin-bottom:1rem;cursor:pointer;user-select:none">
+                  <span data-v="1">☆</span><span data-v="2">☆</span><span data-v="3">☆</span><span data-v="4">☆</span><span data-v="5">☆</span>
+                </div>
+                <input type="text" id="mc-fechas-name" placeholder="Tu nombre" style="width:100%;padding:0.65rem 1rem;border:1px solid rgba(155,122,158,0.25);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:0.9rem;margin-bottom:0.75rem;background:white;color:var(--ink);box-sizing:border-box">
+                <textarea id="mc-fechas-text" placeholder="Cuéntanos tu experiencia con la masterclass..." style="width:100%;padding:0.65rem 1rem;border:1px solid rgba(155,122,158,0.25);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:0.9rem;min-height:90px;resize:vertical;background:white;color:var(--ink);margin-bottom:0.75rem;box-sizing:border-box"></textarea>
+                <button class="btn btn-primary btn-sm" onclick="submitMcReview('fechas')">Publicar reseña ✦</button>
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -653,7 +672,7 @@
           <div class="mc-acc-thumb"><img src="images/aprende/poster-herencias.jpg" alt="Herencias astrológicas" onerror="this.parentElement.style.background='linear-gradient(135deg,#2a1040,var(--midnight))'"></div>
           <div class="mc-acc-info">
             <div class="mc-acc-title">Herencias astrológicas</div>
-            <div class="mc-acc-price">$200 MXN</div>
+            <div class="mc-acc-price">$450 MXN</div>
             <div class="mc-acc-meta">🎬 Grabación +2h · ♾️ Acceso permanente · 🌙 A tu ritmo</div>
           </div>
           <span class="mc-acc-chevron">▾</span>
@@ -715,9 +734,9 @@
                     <img src="images/aprende/poster-herencias.jpg" alt="Herencias astrológicas" style="width:100%;height:100%;object-fit:cover;opacity:0.85" onerror="this.style.display='none'">
                   </div>
                   <div class="panel-body">
-                    <div class="panel-price">$200 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
+                    <div class="panel-price">$450 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
                     <div class="panel-price-note">Acceso permanente · A tu propio ritmo</div>
-                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-herencias','Masterclass: Herencias astrológicas','images/aprende/poster-herencias.jpg','MC-HERENCIAS')">
+                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-herencias','Masterclass: Herencias astrológicas', '450','images/aprende/poster-herencias.jpg','MC-HERENCIAS')">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       Unirme a la masterclass
                     </button>
@@ -731,6 +750,25 @@
                   </div>
                 </div>
               </div>
+
+            <!-- ── Reseñas: Herencias astrológicas ── -->
+            <div style="margin-top:3rem;padding-top:2.5rem;border-top:1px solid rgba(155,122,158,0.15)">
+              <div style="display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem">
+                <h3 style="font-size:1.25rem;font-family:var(--font-display);letter-spacing:0.04em">Reseñas</h3>
+                <span style="font-family:var(--font-ui);font-size:0.82rem;color:var(--mauve)" id="mc-herencias-rating-summary">☆☆☆☆☆ · 0 reseñas</span>
+              </div>
+              <div id="mc-herencias-reviews-list"></div>
+              <div style="background:rgba(155,122,158,0.05);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.5rem">
+                <h4 style="font-size:1rem;margin-bottom:0.4rem">Deja tu reseña ✦</h4>
+                <p style="font-family:var(--font-ui);font-size:0.82rem;color:var(--ink-soft);margin-bottom:1rem">¿Ya tomaste esta masterclass? Comparte tu experiencia con la comunidad.</p>
+                <div id="mc-herencias-stars" style="display:flex;gap:0.3rem;font-size:1.6rem;color:var(--gold);margin-bottom:1rem;cursor:pointer;user-select:none">
+                  <span data-v="1">☆</span><span data-v="2">☆</span><span data-v="3">☆</span><span data-v="4">☆</span><span data-v="5">☆</span>
+                </div>
+                <input type="text" id="mc-herencias-name" placeholder="Tu nombre" style="width:100%;padding:0.65rem 1rem;border:1px solid rgba(155,122,158,0.25);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:0.9rem;margin-bottom:0.75rem;background:white;color:var(--ink);box-sizing:border-box">
+                <textarea id="mc-herencias-text" placeholder="Cuéntanos tu experiencia con la masterclass..." style="width:100%;padding:0.65rem 1rem;border:1px solid rgba(155,122,158,0.25);border-radius:var(--radius-md);font-family:var(--font-ui);font-size:0.9rem;min-height:90px;resize:vertical;background:white;color:var(--ink);margin-bottom:0.75rem;box-sizing:border-box"></textarea>
+                <button class="btn btn-primary btn-sm" onclick="submitMcReview('herencias')">Publicar reseña ✦</button>
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -1066,6 +1104,72 @@
   });
 
   // ── Masterclass accordion ───────────────────────────────────────────────────
+  // ── Masterclass reviews ───────────────────────────────────────────────────
+  const MC_RATINGS = {};
+
+  function renderMcReviews(key) {
+    const reviews = JSON.parse(localStorage.getItem('lde_reviews_mc_'+key) || '[]');
+    const list = document.getElementById('mc-'+key+'-reviews-list');
+    const summary = document.getElementById('mc-'+key+'-rating-summary');
+    if (!list) return;
+    if (reviews.length === 0) {
+      list.innerHTML = '<p style="color:var(--ink-soft);font-size:0.92rem;margin-bottom:1rem">Aún no hay reseñas. ¡Sé la primera! ✦</p>';
+      if(summary) summary.textContent = '☆☆☆☆☆ · 0 reseñas';
+      return;
+    }
+    const avg = reviews.reduce((s,r)=>s+r.rating,0)/reviews.length;
+    if(summary) summary.textContent = '★'.repeat(Math.round(avg))+'☆'.repeat(5-Math.round(avg))+` · ${avg.toFixed(1)} (${reviews.length} reseña${reviews.length>1?'s':''})`;
+    list.innerHTML = reviews.map(r=>{
+      const ini=r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      return `<div style="background:white;border-radius:var(--radius-md);padding:1.25rem;margin-bottom:0.75rem;box-shadow:0 1px 6px rgba(107,68,113,0.08)">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--plum);color:white;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:0.75rem;font-weight:700;flex-shrink:0">${ini}</div>
+          <div style="flex:1">
+            <div style="font-size:0.9rem;font-weight:500;color:var(--ink)">${r.name}</div>
+            <div style="font-family:var(--font-ui);font-size:0.72rem;color:var(--mauve)">${r.date}</div>
+          </div>
+          <div style="color:var(--gold);font-size:0.9rem">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        </div>
+        <p style="font-size:0.92rem;color:var(--ink-soft);line-height:1.6;margin:0">${r.text}</p>
+      </div>`;
+    }).join('');
+  }
+
+  function submitMcReview(key) {
+    const name = document.getElementById('mc-'+key+'-name').value.trim();
+    const text = document.getElementById('mc-'+key+'-text').value.trim();
+    const rating = MC_RATINGS[key] || 0;
+    if (!name || !text || !rating) { alert('Completa tu nombre, calificación y reseña.'); return; }
+    const reviews = JSON.parse(localStorage.getItem('lde_reviews_mc_'+key) || '[]');
+    reviews.unshift({ name, text, rating, date: new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'}) });
+    localStorage.setItem('lde_reviews_mc_'+key, JSON.stringify(reviews));
+    document.getElementById('mc-'+key+'-name').value = '';
+    document.getElementById('mc-'+key+'-text').value = '';
+    MC_RATINGS[key] = 0;
+    document.querySelectorAll('#mc-'+key+'-stars span').forEach(s=>s.textContent='☆');
+    renderMcReviews(key);
+  }
+
+  function initMcStars(key) {
+    const container = document.getElementById('mc-'+key+'-stars');
+    if (!container) return;
+    container.querySelectorAll('span').forEach(star => {
+      star.addEventListener('mouseenter',()=>{
+        const v=parseInt(star.dataset.v);
+        container.querySelectorAll('span').forEach((s,i)=>s.textContent=i<v?'★':'☆');
+      });
+      star.addEventListener('click',()=>{ MC_RATINGS[key]=parseInt(star.dataset.v); });
+      star.addEventListener('mouseleave',()=>{
+        const r=MC_RATINGS[key]||0;
+        container.querySelectorAll('span').forEach((s,i)=>s.textContent=i<r?'★':'☆');
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    ['fechas','herencias'].forEach(k=>{ renderMcReviews(k); initMcStars(k); });
+  });
+
   function toggleMc(btn) {
     const body = btn.nextElementSibling;
     const isOpen = btn.classList.contains('open');
@@ -1081,8 +1185,8 @@
     }
   }
 
-  function addMcToCart(id, name, img, sku) {
-    Cart.add({ id, name, price: 200, image: img, sku, digital: true });
+  function addMcToCart(id, name, price, img, sku) {
+    Cart.add({ id, name, price, image: img, sku, digital: true });
     try {
       sessionStorage.setItem('lde_last_cart',
         JSON.stringify(JSON.parse(localStorage.getItem('lde_cart') || '[]')));
