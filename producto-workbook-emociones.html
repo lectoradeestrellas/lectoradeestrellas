@@ -23,7 +23,7 @@
     <div class="nav-links">
       <a href="index.html">Inicio</a><a href="sesiones.html">Sesiones 1:1</a>
       <a href="tienda.html" class="active">Herramientas mágicas</a>
-      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a><a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a><a href="carta-astral.html">Carta Astral</a>
+      <a href="eventos.html">Eventos</a><a href="aprende.html">Aprende</a><a href="blog.html">Blog</a><a href="sobre-mi.html">Sobre mí</a>
     </div>
     <div class="nav-actions">
       <button class="cart-btn" aria-label="Carrito">
@@ -63,7 +63,7 @@
         <p class="product-subtitle">Un cuaderno de trabajo guiado para aprender a usar la astrología para entender tus emociones y los ciclos de tu vida.</p>
 
         <div class="product-price-block">
-          <div class="product-price">$380 <span class="price-currency">MXN</span></div>
+          <div class="product-price">350 <span class="price-currency">MXN</span></div>
         </div>
 
         <!-- Language selector -->
@@ -212,7 +212,7 @@
   const PRODUCT_DATA = {
     id: 'workbook-emociones-en',
     name: 'La Astrología de mis Emociones y Ciclos de Vida (English)',
-    price: 380,
+    price: 350,
     sku: 'WBEMOCIONES-EN',
     reviewsKey: 'lde_reviews_workbook-emociones',
     images: [
@@ -226,7 +226,7 @@
       Cart.add({
         id: `workbook-emociones-${selectedLang}`,
         name: `La Astrología de mis Emociones (${selectedLang === 'en' ? 'English' : 'Español'})`,
-        price: 380,
+        price:350,
         image: PRODUCT_DATA.images[0],
         sku: `WBEMOCIONES-${selectedLang.toUpperCase()}`,
       });
