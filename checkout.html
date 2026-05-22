@@ -757,6 +757,7 @@
     script.onload = () => {
       paypal.Buttons({
         createOrder: (data, actions) => {
+          if (!validateForm()) return Promise.reject(new Error('Validation failed'));
           const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0) + (selectedShipping?.price || 0);
           return actions.order.create({
             purchase_units: [{
@@ -784,18 +785,34 @@
   }
 
   // ── Submit ────────────────────────────────────────────────
+  function isDigitalOnly() {
+    return cartItems.length > 0 && cartItems.every(
+      i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-')
+    );
+  }
+
   function validateForm() {
-    const required = {
+    // Always required: contact info
+    const alwaysRequired = {
       'contact-name':  'Nombre de contacto',
       'contact-email': 'Email',
-      'addr-street':   'Dirección',
-      'addr-city':     'Ciudad',
-      'addr-state':    'Estado',
-      'addr-cp':       'Código postal',
     };
 
+    // Only required for physical products (address panel visible)
+    const shippingRequired = {
+      'addr-street': 'Dirección',
+      'addr-city':   'Ciudad',
+      'addr-state':  'Estado',
+      'addr-cp':     'Código postal',
+    };
+
+    const digital = isDigitalOnly();
+    const fieldsToCheck = digital
+      ? alwaysRequired
+      : { ...alwaysRequired, ...shippingRequired };
+
     let valid = true;
-    for (const [id, label] of Object.entries(required)) {
+    for (const [id] of Object.entries(fieldsToCheck)) {
       const el = document.getElementById(id);
       if (!el?.value.trim()) {
         el?.classList.add('error');
@@ -809,7 +826,8 @@
       return false;
     }
 
-    if (!selectedShipping) {
+    // Shipping only required for physical orders
+    if (!digital && !selectedShipping) {
       alert('Por favor calcula y selecciona un método de envío.');
       return false;
     }
