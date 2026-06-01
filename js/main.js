@@ -123,19 +123,30 @@ const Nav = (() => {
       }, { passive: true });
     }
 
-    // Hamburger
-    const hamburger = document.querySelector('.nav-hamburger');
-    const links = document.querySelector('.nav-links');
-    if (hamburger && links) {
-      hamburger.addEventListener('click', () => {
-        links.classList.toggle('mobile-open');
-        document.body.style.overflow = links.classList.contains('mobile-open') ? 'hidden' : '';
-      });
+    // Mobile menu
+    function openMobileMenu() {
+      document.getElementById('mobile-menu')?.classList.add('open');
+      document.getElementById('mobile-overlay')?.classList.add('open');
+      document.querySelector('.nav-hamburger')?.classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
+    function closeMobileMenu() {
+      document.getElementById('mobile-menu')?.classList.remove('open');
+      document.getElementById('mobile-overlay')?.classList.remove('open');
+      document.querySelector('.nav-hamburger')?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelector('.nav-hamburger')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.contains('open')
+        ? closeMobileMenu() : openMobileMenu();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
+    window.openMobileMenu = openMobileMenu;
+    window.closeMobileMenu = closeMobileMenu;
 
     // Active link
     const current = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-links a').forEach(a => {
+    document.querySelectorAll('.nav-links a, .mobile-menu-nav a').forEach(a => {
       const href = a.getAttribute('href');
       if (href === current || (current === '' && href === 'index.html')) {
         a.classList.add('active');
