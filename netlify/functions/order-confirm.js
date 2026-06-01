@@ -55,8 +55,9 @@ exports.handler = async (event) => {
       notes:      metadata.birthData || '', // For carta astral orders
     };
 
-    // 1. Write to Google Sheets
-    await writeToSheets(orderData);
+    // 1. Write to Google Sheets (tab según tipo de producto)
+    const productIds = (metadata.productIds || '').split(',').map(s => s.trim()).filter(Boolean);
+    await routeToSheets(orderData, productIds);
 
     // 2. Send confirmation email to customer
     await sendConfirmationEmail(orderData);
@@ -79,27 +80,72 @@ exports.handler = async (event) => {
 };
 
 // ── Google Sheets ─────────────────────────────────────────
-async function writeToSheets(order) {
+
+// Detecta el tipo de cada product ID y escribe en la pestaña correspondiente
+async function routeToSheets(order, productIds) {
+  const isMasterclass = id => id.startsWith('masterclass-');
+  const isCurso       = id => id.startsWith('curso-');
+  const isSesion      = id => ['reporte-simbolos','tiradas-estacionales','tiradas-zodiacales'].includes(id);
+  const isPhysical    = id => !isMasterclass(id) && !isCurso(id) && !isSesion(id);
+
+  const writes = [];
+
+  if (productIds.length === 0 || productIds.some(isPhysical)) {
+    writes.push(writeToTab(order, 'Pedidos', [
+      order.orderId, order.date, order.customer, order.email, order.phone,
+      order.products, order.subtotal, order.shipping, order.total,
+      order.address, order.postalCode, order.city, order.state, order.country,
+      order.carrier, order.status, order.notes,
+    ]));
+  }
+
+  if (productIds.some(isMasterclass)) {
+    const items = order.products.split(',').filter(p => p.toLowerCase().includes('masterclass'));
+    writes.push(writeToTab(order, 'Masterclasses', [
+      order.date, order.orderId, order.customer, order.email, order.phone,
+      items.join(', ') || order.products, order.total, order.status,
+    ]));
+  }
+
+  if (productIds.some(isCurso)) {
+    const items = order.products.split(',').filter(p => p.toLowerCase().includes('curso') || p.toLowerCase().includes('venus') || p.toLowerCase().includes('renacer'));
+    writes.push(writeToTab(order, 'Cursos', [
+      order.date, order.orderId, order.customer, order.email, order.phone,
+      items.join(', ') || order.products, order.total, order.status,
+    ]));
+  }
+
+  if (productIds.some(isSesion)) {
+    writes.push(writeToTab(order, 'Sesiones', [
+      order.date,
+      order.orderId,
+      order.customer,
+      order.email,
+      order.products,
+      '',           // fechaSesion — no aplica para sesiones asíncronas
+      order.total,
+      order.notes,
+      order.status,
+      'Checkout',   // origen
+    ]));
+  }
+
+  await Promise.all(writes);
+}
+
+async function writeToTab(order, tabName, row) {
   const sheetsId = process.env.GOOGLE_SHEETS_ID;
   const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY || '{}');
 
   if (!sheetsId || !serviceAccountKey.client_email) {
-    console.warn('Google Sheets not configured — skipping');
+    console.warn('Google Sheets no configurado — omitiendo');
     return;
   }
 
-  // Get access token using service account JWT
   const token = await getGoogleToken(serviceAccountKey);
 
-  const row = [
-    order.orderId, order.date, order.customer, order.email, order.phone,
-    order.products, order.subtotal, order.shipping, order.total,
-    order.address, order.postalCode, order.city, order.state, order.country,
-    order.carrier, order.status, order.notes,
-  ];
-
   const response = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${sheetsId}/values/Pedidos!A:Q:append?valueInputOption=USER_ENTERED`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${sheetsId}/values/${encodeURIComponent(tabName)}!A1:append?valueInputOption=USER_ENTERED`,
     {
       method: 'POST',
       headers: {
@@ -112,7 +158,7 @@ async function writeToSheets(order) {
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Sheets error: ${err}`);
+    throw new Error(`Sheets error en ${tabName}: ${err}`);
   }
 }
 
