@@ -877,6 +877,7 @@
           carrier:         selectedShipping?.carrier || '',
           shippingCost:    String(selectedShipping?.price || 0),
           products:        cartItems.map(i => `${i.qty}x ${i.name}`).join(', '),
+          productIds:      cartItems.map(i => i.id).join(','),
           birthData:       JSON.stringify(cartItems.filter(i => i.birthData).map(i => ({ name: i.name, ...i.birthData }))),
         },
       }),

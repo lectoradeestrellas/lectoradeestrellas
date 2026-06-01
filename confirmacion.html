@@ -118,17 +118,37 @@
   if (orderId) {
     document.getElementById('order-id').textContent = `Pedido: ${orderId.slice(0, 20)}...`;
   }
-  // Show "Ir al curso" if a digital course was purchased
+
   const _lc = JSON.parse(sessionStorage.getItem('lde_last_cart') || localStorage.getItem('lde_cart') || '[]');
-  const _venus = _lc.some(i => i.id==='curso-venus' || (i.name||'').toLowerCase().includes('venus'));
-  const _mc = _lc.some(i => (i.id||'').startsWith('masterclass-'));
-  if (_venus || _mc) {
-    document.querySelector('.subtitle').textContent = 'Tu compra ha sido confirmada. Recibirás un email con los detalles de acceso en los próximos minutos.';
-    document.querySelector('.confirm-steps').innerHTML =
+  const _venus = _lc.some(i => i.id === 'curso-venus' || (i.name||'').toLowerCase().includes('venus'));
+  const _mc    = _lc.some(i => (i.id||'').startsWith('masterclass-'));
+  const _simb  = _lc.some(i => i.id === 'reporte-simbolos');
+  const _voz   = _lc.some(i => i.id === 'tiradas-estacionales' || i.id === 'tiradas-zodiacales');
+
+  const subtitle = document.querySelector('.subtitle');
+  const steps    = document.querySelector('.confirm-steps');
+  const acts     = document.querySelector('.confirm-actions');
+
+  if (_simb) {
+    document.querySelector('h1').textContent = '¡Solicitud confirmada!';
+    subtitle.textContent = 'Tu reporte Símbolos ha sido confirmado. Me pondré a trabajar en él con dedicación.';
+    steps.innerHTML =
+      '<div class="confirm-step"><span class="step-num">1</span><span>Recibirás un email de confirmación en los próximos minutos</span></div>' +
+      '<div class="confirm-step"><span class="step-num">2</span><span>Analizo tu carta natal y redacto tu reporte personalizado ✨</span></div>' +
+      '<div class="confirm-step"><span class="step-num">3</span><span>Entrega de tu PDF por email en <strong>5-7 días hábiles</strong> 🌙</span></div>';
+  } else if (_voz) {
+    document.querySelector('h1').textContent = '¡Solicitud confirmada!';
+    subtitle.textContent = 'Tu tirada ha sido confirmada. La prepararé con intención para ti.';
+    steps.innerHTML =
+      '<div class="confirm-step"><span class="step-num">1</span><span>Recibirás un email de confirmación en los próximos minutos</span></div>' +
+      '<div class="confirm-step"><span class="step-num">2</span><span>Realizo tu tirada con intención y la preparo para ti ✨</span></div>' +
+      '<div class="confirm-step"><span class="step-num">3</span><span>Recibes tu nota de voz o reporte escrito por email en <strong>1-3 días hábiles</strong> 🌙</span></div>';
+  } else if (_venus || _mc) {
+    subtitle.textContent = 'Tu compra ha sido confirmada. Recibirás un email con los detalles de acceso en los próximos minutos.';
+    steps.innerHTML =
       '<div class="confirm-step"><span class="step-num">1</span><span>Recibirás un email de confirmación</span></div>' +
       '<div class="confirm-step"><span class="step-num">2</span><span>Acceso inmediato al contenido ✨</span></div>' +
       '<div class="confirm-step"><span class="step-num">3</span><span>Tómalo a tu ritmo — sin fechas límite 🌙</span></div>';
-    const acts = document.querySelector('.confirm-actions');
     if (_venus) {
       const b = document.createElement('a');
       b.href = 'curso-venus.html';

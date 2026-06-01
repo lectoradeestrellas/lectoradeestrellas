@@ -669,23 +669,36 @@
     localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(rsvps));
 
     try {
-      // Send to Formspree (confirmation to you + auto-reply to them)
-      await fetch(FORMSPREE, {
+      // Guardar en Google Sheets vía Netlify function
+      fetch('/.netlify/functions/rsvp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          _subject: `✦ RSVP Litha 2026 — ${nombre} ${apellido}`,
-          _replyto: email,
           nombre, apellido, email,
           evento: 'Litha y el Solsticio de Verano',
-          fecha_evento: 'Jueves 19 de junio 2026 · 7:00 pm',
+          fechaEvento: 'Jueves 19 de junio 2026 · 7:00 pm',
           lugar: 'La Mano Oculta Café · SPGG',
-          mensaje: `Nueva confirmación de asistencia para Litha 2026.\n\nNombre: ${nombre} ${apellido}\nEmail: ${email}`,
         }),
-      });
+      }).catch(e => console.warn('RSVP function error:', e));
+
+      // Notificación por email vía Formspree
+      if (FORMSPREE && !FORMSPREE.includes('YOUR_FORM_ID')) {
+        await fetch(FORMSPREE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: `✦ RSVP Litha 2026 — ${nombre} ${apellido}`,
+            _replyto: email,
+            nombre, apellido, email,
+            evento: 'Litha y el Solsticio de Verano',
+            fecha_evento: 'Jueves 19 de junio 2026 · 7:00 pm',
+            lugar: 'La Mano Oculta Café · SPGG',
+            mensaje: `Nueva confirmación de asistencia para Litha 2026.\n\nNombre: ${nombre} ${apellido}\nEmail: ${email}`,
+          }),
+        });
+      }
     } catch (e) {
-      // Even if email fails, show success (data is saved locally)
-      console.warn('Formspree error:', e);
+      console.warn('RSVP submit error:', e);
     }
 
     // Show success
