@@ -543,7 +543,7 @@
 <script>
   // ── Init ─────────────────────────────────────────────────
   const STRIPE_PK = document.currentScript?.getAttribute('data-pk') ||
-    (typeof STRIPE_PUBLISHABLE_KEY !== 'undefined' ? STRIPE_PUBLISHABLE_KEY : 'pk_live_YOUR_KEY');
+    (typeof STRIPE_PUBLISHABLE_KEY !== 'undefined' ? STRIPE_PUBLISHABLE_KEY : 'pk_live_51KNmHfA75QzRA5YyzeCPwTpeHWo5gxswMgQzty2lvMHPpeshdaXg8IZAgdj4Ttjdo3K0KlQRxW8pVPI4zg8LuKIn00Md4neVLL');
 
   let stripe, cardNumber, cardExpiry, cardCvc;
   let selectedShipping = null;
@@ -781,7 +781,7 @@
 
   function getPayPalId() {
     // Replace with your PayPal Client ID or read from meta tag
-    return document.querySelector('meta[name="paypal-client-id"]')?.content || 'YOUR_PAYPAL_CLIENT_ID';
+    return document.querySelector('meta[name="paypal-client-id"]')?.content || 'AT5RPbJI7oUA_Y7CmaSkhxumgC59xTUjaMChZlzrajwa7BNlihRXJW_YogrYQCjxYtKglyrPobXOHz54';
   }
 
   // ── Submit ────────────────────────────────────────────────

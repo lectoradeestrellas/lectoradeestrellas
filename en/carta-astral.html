@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Natal Chart — Lectora de Estrellas</title>
+<meta name="description" content="Genera tu carta astral personalizada con tus datos de nacimiento.">
+<link rel="stylesheet" href="../css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#6B4471;--deep-plum:#3D1F45;--mauve:#9B7A9E;--gold:#D4A853;--midnight:#150D1E;--cream:#FAF6F0;--ink:#2A1A2E;--ink-soft:#6B5A72}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh}
+.site-header{background:var(--midnight);border-bottom:1px solid rgba(212,168,83,.15);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.header-logo{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.header-logo em{font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:0}
+.header-nav{display:flex;gap:1.5rem}
+.header-nav a{font-size:.8rem;color:var(--mauve);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.header-nav a:hover{color:var(--gold)}
+.form-section{background:linear-gradient(to bottom,var(--midnight),var(--deep-plum));padding:4rem 1.5rem 5rem;text-align:center}
+.form-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--mauve);margin-bottom:.75rem}
+.form-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--cream);font-weight:400;letter-spacing:.08em;margin-bottom:.5rem}
+.form-title em{font-style:italic;color:var(--gold)}
+.form-subtitle{font-family:'Cormorant Garamond',serif;color:rgba(250,246,240,.6);font-size:1.05rem;margin-bottom:2.5rem}
+.form-card{background:rgba(250,246,240,.04);border:1px solid rgba(212,168,83,.15);border-radius:20px;padding:2.5rem 2rem;max-width:620px;margin:0 auto;backdrop-filter:blur(8px)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.form-group{text-align:left}.form-group.full{grid-column:1/-1}
+.form-label{display:block;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mauve);margin-bottom:.4rem}
+.form-input,.form-select{width:100%;background:rgba(250,246,240,.07);border:1px solid rgba(212,168,83,.2);border-radius:10px;padding:.75rem 1rem;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.9rem;transition:border-color .2s;-webkit-appearance:none}
+.form-input::placeholder{color:rgba(250,246,240,.35)}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--gold)}
+.form-select option{background:#2a1a2e}
+.btn-generate{width:100%;padding:1rem;background:var(--gold);color:var(--midnight);border:none;border-radius:999px;font-family:'Cinzel',serif;font-size:.85rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;margin-top:.5rem;transition:opacity .2s,transform .2s}
+.btn-generate:hover{opacity:.88;transform:translateY(-1px)}.btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.form-error{color:#e06060;font-size:.82rem;margin-top:.75rem;min-height:1.2rem}
+.form-note{font-size:.75rem;color:rgba(250,246,240,.35);margin-top:1rem;font-family:'Cormorant Garamond',serif;font-style:italic}
+#results{display:none}#results.visible{display:block;animation:fadeUp .6s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.wheel-section{background:var(--cream);padding:3rem 1rem 2rem}
+.wheel-name{font-family:'Cinzel',serif;font-size:1.4rem;color:var(--midnight);text-align:center;letter-spacing:.1em;margin-bottom:.3rem}
+.wheel-date{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--plum);text-align:center;margin-bottom:1.5rem}
+#chart-wrap{max-width:800px;margin:0 auto}#chart-wrap svg{width:100%;height:auto;display:block}
+.legend-section{background:var(--cream);padding:1.5rem 1rem 3rem}
+.legend-inner{max-width:800px;margin:0 auto}
+.legend-title{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);text-align:center;margin-bottom:1.25rem}
+.legend-grid{display:flex;flex-wrap:wrap;gap:.75rem 2rem;justify-content:center}
+.legend-item{display:flex;align-items:center;gap:.55rem}
+.legend-line{width:32px;height:2px;border-radius:1px;flex-shrink:0}
+.legend-label{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--ink-soft)}
+.table-section{background:#faf6f0;padding:2rem 1rem 3rem}
+.table-inner{max-width:800px;margin:0 auto}
+.table-title{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);text-align:center;margin-bottom:1.25rem}
+.positions-table{width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;font-size:.82rem}
+.positions-table th{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mauve);padding:.5rem .75rem;text-align:left;border-bottom:1px solid rgba(107,68,113,.15)}
+.positions-table td{padding:.65rem .75rem;color:var(--ink);border-bottom:1px solid rgba(107,68,113,.08);vertical-align:middle}
+.positions-table tr:last-child td{border-bottom:none}.positions-table tr:hover td{background:rgba(107,68,113,.04)}
+.planet-badge-sm{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--midnight);border:1px solid var(--gold);border-radius:50%;flex-shrink:0}
+.rx-badge{display:inline-block;background:rgba(155,122,158,.15);color:var(--mauve);border-radius:4px;padding:.1rem .4rem;font-size:.7rem;font-family:'Cormorant Garamond',serif;font-style:italic}
+.sign-name{color:var(--plum);font-weight:500}
+.cta-section{background:linear-gradient(135deg,var(--deep-plum) 0%,var(--midnight) 100%);padding:4rem 1.5rem;text-align:center}
+.cta-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--mauve);font-size:.9rem;margin-bottom:.75rem}
+.cta-title{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--cream);font-weight:400;letter-spacing:.06em;margin-bottom:1.5rem;line-height:1.4}
+.cta-title em{color:var(--gold);font-style:italic}
+.btn-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:var(--midnight);padding:.9rem 2.2rem;border-radius:999px;font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;letter-spacing:.12em;text-decoration:none;text-transform:uppercase;transition:opacity .2s,transform .2s}
+.btn-cta:hover{opacity:.88;transform:translateY(-2px)}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.header-nav{display:none}}
+</style>
+</head>
+<body>
+<div class="banner"><div class="banner-track">
+  <span>✦ Carta Astral Personalizada</span><span>✦</span>
+  <span>Ingresa tus datos de nacimiento</span><span>✦</span>
+  <span>✦ Carta Astral Personalizada</span><span>✦</span>
+  <span>Ingresa tus datos de nacimiento</span><span>✦</span>
+</div></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/en/index.html" class="nav-logo">
+      LECTORA <em>de</em> ESTRELLAS
+    </a>
+    <div class="nav-links">
+      <a href="/en/index.html">Home</a>
+      <a href="/en/sesiones.html">1:1 Sessions</a>
+      <div class="has-dropdown">
+        <a href="tienda.html">Magical Tools</a>
+        <div class="dropdown">
+          <div class="dropdown-section">Lunar Collection 2026</div>
+          <a href="producto-agenda-lunar-2026.html">Lunar Planner 2026</a>
+          <a href="producto-print-calendario-lunar-2026.html">Lunar Calendar Print</a>
+          <a href="producto-calendario-mini-lunar-2026.html">Calendario Mini</a>
+          <div class="dropdown-section">Libretas</div>
+          <a href="producto-libretas.html">Handcrafted Notebooks</a>
+          <a href="producto-bundles.html">Bundles</a>
+          <div class="dropdown-section">Digitales</div>
+          <a href="producto-agenda-lunar-2026-digital.html">Digital Lunar Planner</a>
+          <a href="producto-calendario-astrologico-digital-2026.html">Digital Calendar</a>
+        </div>
+      </div>
+      <a href="eventos.html">Events</a>
+      <a href="aprende.html">Learn</a>
+      <a href="blog.html">Blog</a>
+      <a href="sobre-mi.html">About</a>
+      <a href="/en/carta-astral.html" class="active">Natal Chart</a>
+    </div>
+    <div class="nav-actions">
+      <a href="tienda.html" class="nav-search" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </a>
+      <button class="nav-hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<section class="form-section">
+  <p class="form-eyebrow">✦ Cosmic tool</p>
+  <h1 class="form-title">Tu <em>Natal Chart</em></h1>
+  <p class="form-subtitle">Enter your birth data to generate your natal map</p>
+  <div class="form-card">
+    <form id="chart-form" onsubmit="handleSubmit(event)">
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label" for="f-name">Full name</label><input class="form-input" id="f-name" type="text" placeholder="Your name" required autocomplete="name"></div>
+        <div class="form-group"><label class="form-label" for="f-date">Date of birth</label><input class="form-input" id="f-date" type="text" placeholder="DD/MM/YYYY" maxlength="10" inputmode="numeric" required></div>
+        <div class="form-group"><label class="form-label" for="f-time">Time of birth</label><input class="form-input" id="f-time" type="time" required></div>
+        <div class="form-group full"><label class="form-label" for="f-place">Place of birth</label><input class="form-input" id="f-place" type="text" placeholder="City, Country  ·  or  ·  lat, lng" required autocomplete="off"></div>
+      </div>
+      <p class="form-error" id="form-error"></p>
+      <button class="btn-generate" id="btn-gen" type="submit">✦ Generate my chart</button>
+      <p class="form-note">The exact time determines the Ascendant and the houses</p>
+      <script>
+        document.getElementById('f-date').addEventListener('input',function(e){
+          let v=e.target.value.replace(/[^0-9]/g,'');
+          if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+          if(v.length>5) v=v.slice(0,5)+'/'+v.slice(5);
+          e.target.value=v.slice(0,10);
+        });
+      </script>
+    </form>
+  </div>
+</section>
+
+<div id="results">
+  <section class="wheel-section">
+    <p class="wheel-name" id="res-name"></p>
+    <p class="wheel-date" id="res-date"></p>
+    <div id="chart-wrap">
+      <svg id="chart" viewBox="0 0 1020 1100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+
+<!-- ══════════════════════════════════════════
+     SIGNOS ZODIACALES  (viewBox 0 0 100 100)
+     stroke="currentColor" para recolorear
+══════════════════════════════════════════ -->
+
+<symbol id="z-aries" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M48.96,88.11c-.55-20.22-3-36.81-7.37-49.75-4.36-12.95-8.93-19.38-13.7-19.29-3.6.07-5.72,2.84-6.37,8.33-.65,5.48.6,10.94,3.76,16.35l-5.69.1c-2.7-4.42-4.13-9.32-4.27-14.72-.13-4.47.92-8.31,3.12-11.51,2.2-3.19,5.33-4.84,9.4-4.92,10.44-.19,17.87,12.72,22.3,38.73.24,1.65.46,3.15.65,4.5.09-1.35.19-2.86.34-4.52,3.01-26.15,9.72-39.32,20.16-39.52,4.11-.07,7.34,1.45,9.69,4.56,2.35,3.12,3.59,6.91,3.71,11.38.15,5.4-1.01,10.35-3.47,14.86l-5.69.11c2.86-5.52,3.82-11.02,2.89-16.47-.93-5.45-3.21-8.16-6.85-8.08-4.73.09-8.91,6.68-12.57,19.78-3.65,13.09-5.2,29.75-4.65,49.97l-5.39.1Z"/>
+</symbol>
+
+<symbol id="z-tauro" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M50.33,37.89c3.94-.26,7.02-1.39,9.28-3.41,2.56-2.17,4.55-4.71,5.96-7.63,1.4-2.91,3.3-5.78,5.68-8.61,2.39-2.83,6.37-4.32,11.91-4.47l.1,5.12c-3.7.1-6.77,2.68-9.2,7.72-2.42,5.04-5.59,9.35-9.47,12.91-.62.6-1.28,1.17-1.98,1.69,1.39.89,2.75,1.99,4.08,3.27,4.48,4.62,6.8,10.27,6.92,16.95.12,6.68-2.01,12.44-6.37,17.26-4.37,4.83-9.72,7.33-16.06,7.51-6.3.17-11.71-2.02-16.24-6.6-4.54-4.58-6.86-10.21-6.98-16.89-.12-6.68,2.01-12.46,6.36-17.32,1.24-1.36,2.57-2.54,3.96-3.55-.71-.44-1.39-.95-2.04-1.52-3.96-3.35-7.27-7.47-9.93-12.37-2.66-4.9-5.83-7.3-9.49-7.2l-.08-5.13c5.55-.15,9.75,1.11,12.62,3.79,2.85,2.68,4.85,5.44,6,8.29,1.12,2.85,2.99,5.28,5.59,7.3,2.36,1.88,5.48,2.84,9.38,2.88ZM50.46,45.06c-4.45.13-8.21,1.89-11.25,5.27-3.05,3.4-4.55,7.43-4.46,12.11.08,4.68,1.71,8.61,4.88,11.82,3.16,3.2,6.97,4.73,11.4,4.61,4.43-.12,8.17-1.87,11.24-5.24,3.07-3.37,4.57-7.39,4.49-12.08-.09-4.68-1.71-8.63-4.85-11.85-3.15-3.22-6.97-4.76-11.46-4.64Z"/>
+</symbol>
+
+<symbol id="z-geminis" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M66.41,72.29c4.76.57,9.56,1.56,14.41,2.96l-.02,6.3c-9.86-2.43-20.18-3.58-30.99-3.44-10.8.14-21.09,1.55-30.86,4.23l.03-6.4c5-1.43,9.87-2.51,14.59-3.24l.18-44.94c-4.72-.6-9.58-1.54-14.57-2.81l.02-6.51c9.75,2.47,20.02,3.63,30.83,3.49,10.81-.14,21.15-1.57,31.02-4.28l-.02,6.29c-4.87,1.61-9.68,2.74-14.44,3.39l-.18,44.95ZM60.08,27.9c-6.62.82-13.23.9-19.84.26l-.18,44c6.61-.81,13.23-.9,19.83-.25l.18-44Z"/>
+</symbol>
+
+<symbol id="z-cancer" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M34.52,82.69c-7.84-5.61-13.85-10.34-18.01-14.19-4.16-3.85-7.72-7.76-10.66-11.72l3.93-5.44c4.59,6.96,10.22,13.17,16.89,18.63,6.67,5.46,10.26,7.56,10.77,6.28-1.06-5.49.16-10.65,3.65-15.48,3.09-4.27,7.01-6.99,11.76-8.17,4.75-1.17,8.98-.45,12.7,2.19,3.75,2.67,5.83,6.42,6.26,11.27.42,4.84-.91,9.4-3.98,13.66-3.08,4.26-7.01,6.97-11.79,8.11-3.45.93-7.13.84-11.02-.27-3.89-1.1-7.39-2.73-10.48-4.87ZM65.62,67.51c-.28-3.1-1.6-5.5-3.99-7.2-2.4-1.7-5.13-2.18-8.19-1.45-3.06.73-5.58,2.48-7.57,5.23-2,2.76-2.85,5.69-2.57,8.8.29,3.1,1.63,5.51,4.03,7.21,2.36,1.68,5.08,2.15,8.14,1.43,3.06-.73,5.58-2.48,7.58-5.24,1.99-2.75,2.85-5.68,2.58-8.78ZM65.5,17.22c7.85,5.67,13.85,10.43,18,14.3,4.15,3.86,7.71,7.78,10.65,11.74l-3.86,5.34c-4.59-6.96-10.23-13.16-16.91-18.61-6.68-5.44-10.27-7.53-10.78-6.25,1.05,5.49-.17,10.65-3.65,15.48-3.11,4.31-7.04,7.05-11.79,8.23-4.75,1.17-8.99.43-12.7-2.21-3.74-2.66-5.83-6.41-6.25-11.25-.43-4.85.92-9.43,4.03-13.73,3.07-4.25,6.98-6.93,11.74-8.05,3.47-.95,7.16-.89,11.05.18,3.89,1.08,7.38,2.69,10.47,4.84ZM38.41,39.69c2.36,1.68,5.08,2.15,8.16,1.43,3.07-.72,5.61-2.46,7.6-5.22,1.99-2.75,2.84-5.7,2.54-8.81-.31-3.12-1.63-5.51-4-7.2-2.37-1.68-5.09-2.15-8.16-1.43-3.08.72-5.61,2.46-7.6,5.22-1.99,2.76-2.84,5.69-2.56,8.8.29,3.11,1.63,5.51,4.03,7.22Z"/>
+</symbol>
+
+<symbol id="z-leo" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M41.7,27.75c.6-5.29,2.91-9.38,6.92-12.25,4.01-2.86,8.94-3.94,14.8-3.21,5.59.7,9.96,3.1,13.1,7.19,3.15,4.09,4.39,9.04,3.72,14.86-.71,6.2-3.89,13.15-9.56,20.84-5.66,7.69-8.83,14.5-9.5,20.44-.35,4.1,1.64,6.49,6.01,7.14,2.34.29,5.27-.82,8.84-3.35l2.81,3.95c-4.59,3.43-8.71,4.91-12.35,4.45-3.22-.4-5.88-1.74-7.99-4.03-2.11-2.28-2.96-5.26-2.54-8.95.75-6.57,3.91-13.53,9.48-20.88,5.57-7.34,8.73-14.22,9.45-20.65.5-4.43-.42-8.17-2.78-11.23-2.36-3.06-5.69-4.86-9.99-5.39-4.15-.52-7.59.34-10.33,2.59-2.74,2.25-4.34,5.52-4.83,9.8-.23,1.99-.1,4.23.38,6.72.49,2.48,1.03,4.78,1.61,6.91.81,3.42,1.14,6.94,1,10.58-.15,3.65-1.01,6.72-2.57,9.23-2.1,3.58-5.12,5.89-9.08,6.92-3.95,1.03-7.69.49-11.23-1.61-3.54-2.11-5.85-5.22-6.92-9.36-.53-1.9-.7-3.77-.49-5.6.23-1.99.9-3.91,2.01-5.75,2.09-3.55,5.14-5.85,9.12-6.91,4.49-1.16,8.68-.29,12.56,2.6.79.07.63-1.84-.45-5.68-1.08-3.86-1.49-6.98-1.22-9.39ZM29.72,63.2c2.25,1.36,4.65,1.72,7.2,1.08,2.56-.65,4.5-2.15,5.84-4.47,1.33-2.34,1.67-4.77,1.03-7.33-.69-2.56-2.17-4.54-4.45-5.93-2.28-1.39-4.71-1.75-7.26-1.09-2.56.67-4.5,2.15-5.81,4.45-1.31,2.29-1.63,4.72-.94,7.28.68,2.63,2.14,4.64,4.39,6.01Z"/>
+</symbol>
+
+<symbol id="z-virgo" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M41.23,13.02c1.55.01,3.05,1.34,4.49,3.96,1.45,2.63,2.19,5.63,2.21,9,.97-3.12,2.65-6.03,5.02-8.75,2.37-2.72,4.46-4.06,6.29-4.04,1.52.02,2.77,1.12,3.77,3.34,1,2.21,1.52,6.2,1.55,11.99l.06,7.95c1.14-3.26,2.5-5.67,4.08-7.21,1.58-1.55,3.19-2.32,4.85-2.3,1.48,0,2.83,1.55,4.06,4.6,1.23,3.05,1.87,8.18,1.92,15.37.08,10.77-4.46,20.31-13.63,28.65.02,2.48,1.82,6.28,5.4,11.4l-6.09-.06c-1.14-1.08-2.62-3.76-4.44-8.04-4.01,2.65-8.15,4.03-12.42,4.16l-.03-4.58c4.64-.69,8.45-2.16,11.43-4.44l-.37-8.56-.24-33.74c0-8.33-.58-12.51-1.75-12.56-1.41.02-2.91,1.45-4.51,4.3-1.6,2.84-3.13,6.88-4.61,12.13l.27,36.64-5.53-.05-.27-36.43c-.06-8.46-.29-13.39-.68-14.81-.39-1.41-1.02-2.1-1.88-2.07-.99-.05-2.58,1.42-4.74,4.39-2.16,2.97-3.45,7.27-3.85,12.91l.26,35.91-5.42-.05-.32-43.03c-.04-5.02-1.92-10.06-5.64-15.12l5.17.05c2.87,2.12,4.77,5.5,5.71,10.11.53-2.43,1.89-4.88,4.1-7.34,2.21-2.46,4.14-3.67,5.79-3.66ZM64.71,47.91l.17,22.14c6.22-6.52,9.59-14.22,10.1-23.12-.03-5.09-.35-8.59-.92-10.48-.59-1.9-1.23-2.78-1.96-2.65-.72,0-1.94,1.35-3.66,4.05-1.72,2.7-2.96,6.05-3.73,10.07Z"/>
+</symbol>
+
+<symbol id="z-libra" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M18.86,72.73l61.8.64-.02,7.62-61.8-.64.02-7.62ZM41.91,60.6l-23.02-.24v-7.68s14.66.16,14.66.16c-1.85-3.46-2.77-7.39-2.76-11.78.02-6.19,1.8-11.43,5.35-15.73,3.56-4.3,7.9-6.42,13.02-6.37,5.12.05,9.46,2.26,13.01,6.64,3.56,4.38,5.33,9.65,5.31,15.84,0,4.4-.94,8.3-2.81,11.73l16.05.17-.02,7.67-24.54-.26.02-7.67h-.06c.5-.42.99-.9,1.46-1.48,2.36-2.8,3.56-6.22,3.57-10.27.01-4.09-1.16-7.57-3.5-10.44-2.33-2.88-5.18-4.32-8.53-4.36-3.36-.03-6.21,1.36-8.56,4.18-2.35,2.81-3.52,6.27-3.54,10.36,0,4.05,1.16,7.5,3.52,10.35.43.58.89,1.08,1.38,1.51v7.68Z"/>
+</symbol>
+
+<symbol id="z-escorpio" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M62.54,66.22c-.05,3.15.54,5.61,1.74,7.38,1.19,1.78,2.84,2.68,4.93,2.72h3.19s.07-5.03.07-5.03h.1s7.14,7.43,7.14,7.43l-7.34,7.43-.1-.16.07-5.05h-3.2c-4.78-.02-7.96-1.75-9.51-5.18-1.03-2.11-1.62-4.84-1.75-8.2l-.29-33.66c.2-8.99-.29-13.51-1.47-13.55-1.35.03-2.83,1.59-4.45,4.66-1.61,3.07-3.21,7.46-4.77,13.16l-.53,39.54-5.33-.02.53-39.32c.12-9.14,0-14.46-.33-15.99-.35-1.52-.95-2.27-1.82-2.23-.96-.04-2.51,1.55-4.69,4.76-2.17,3.21-3.53,7.88-4.07,14l-.52,38.75h-5.27s.63-46.48.63-46.48c.07-5.39-1.66-10.82-5.2-16.29l5.05.02c2.77,2.28,4.55,5.93,5.34,10.94.56-2.66,1.95-5.33,4.15-8,2.2-2.67,4.11-4.01,5.75-3.99,1.48,0,2.91,1.41,4.27,4.24,1.36,2.82,2.02,6.05,1.98,9.69.99-3.36,2.69-6.51,5.07-9.46,2.38-2.95,4.46-4.42,6.23-4.42,1.45,0,2.65,1.2,3.6,3.58.94,2.39,1.37,6.7,1.28,12.92l-.12,8.61-.37,27.15v.06Z"/>
+</symbol>
+
+<symbol id="z-sagitario" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M22.13,29.77l.61,23.6-6.95.07-.9-34.65,4.81-.05h.06s32.68-.3,32.68-.3l.17,6.45-25.72.23,12.1,10.76,32.68-.3.17,6.45-25.67.24,38.96,34.69-4.81,4.57-38.95-34.68.61,23.66-6.95.06-.78-30.05-12.1-10.76Z"/>
+</symbol>
+
+<symbol id="z-capricornio" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M47.2,9.67c3.8.06,6.23,7.89,7.28,23.49,1.04,15.59,2.01,23.33,2.87,23.22,4.1-7.87,9.59-11.75,16.45-11.64,4.33.08,7.8,1.84,10.41,5.28,2.62,3.45,3.88,7.03,3.78,10.76-.13,5.22-1.51,9.35-4.11,12.37-2.61,3.03-6.44,4.5-11.5,4.41-5.49-.09-10.34-2.56-14.54-7.42-1.7,5.73-3.71,10.51-6.04,14.35-2.33,3.84-5.93,5.8-10.83,5.85l-8.94-.16.17-6.38,8.17.07c4.33-.05,8.52-6.81,12.58-20.26-1.75-.59-3.01-8-3.76-22.23-.77-14.23-2.18-21.38-4.26-21.4-1.26-.02-3.43,4.29-6.5,12.95-3.07,8.66-4.6,16.72-4.57,24.18l-8.37-.02c.24-9.13-.8-18.16-3.07-27.13-2.29-8.97-5.75-13.61-10.42-13.9l.13-5.2c5.19.09,9.15,2.15,11.91,6.19,2.76,4.04,4.72,11.03,5.89,20.97,1.82-7.21,3.58-12.38,5.26-15.51,1.56-3.27,3.45-6.22,5.68-8.89,2.24-2.67,4.34-3.97,6.33-3.94ZM61.08,63.15c3.14,5.28,7.03,7.95,11.66,8.03,5.71.1,8.81-3.4,9.3-10.51-.07-5.66-2.93-8.87-8.59-9.63-5.4-.09-9.53,3.94-12.37,12.11Z"/>
+</symbol>
+
+<symbol id="z-acuario" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M14.83,41.63c10.58-8.36,17.71-12.48,21.39-12.35,1.39.05,2.29.72,2.7,2,1.45,4.61,5,4.73,10.63.37,2.79-2.22,5.07-3.3,6.84-3.24,1.77.07,2.98,1.27,3.64,3.61,1.59,4.61,5.2,4.74,10.83.39,1.37-1.09,2.72-1.61,4.01-1.57,3.99.14,7.6,5.38,10.85,15.68l-4.57,2.29c-2.86-9.29-7.09-11.58-12.69-6.87-2.84,2.4-5.14,3.58-6.89,3.52-1.79-.07-3.09-1.34-3.88-3.82-1.53-4.93-5.12-5.21-10.75-.86-2.79,2.22-5.08,3.3-6.88,3.24-1.76-.06-2.98-1.29-3.68-3.68-1.46-4.65-4.96-4.77-10.53-.37-5.57,4.4-8.43,6.6-8.61,6.59l-2.45-4.79v-.14ZM14.26,64.41c10.58-8.36,17.71-12.48,21.39-12.35,1.44.06,2.33.72,2.7,2.01,1.45,4.64,5,4.76,10.63.37,2.79-2.18,5.08-3.23,6.88-3.17,1.75.06,2.97,1.25,3.68,3.54,1.55,4.65,5.13,4.78,10.76.38,1.43-1.08,2.78-1.61,4.09-1.56,3.95.14,7.54,5.36,10.79,15.67l-4.57,2.29c-2.87-9.25-7.1-11.51-12.69-6.8-2.85,2.36-5.15,3.51-6.93,3.44-1.77-.06-3.03-1.33-3.77-3.82-1.59-4.92-5.17-5.2-10.75-.86-2.85,2.17-5.14,3.24-6.89,3.17-1.79-.06-3.04-1.27-3.75-3.61-1.46-4.61-4.97-4.72-10.53-.33-5.57,4.37-8.43,6.55-8.61,6.55l-2.45-4.8v-.13Z"/>
+</symbol>
+
+<symbol id="z-piscis" viewBox="0 0 100 100">
+  <path fill="currentColor" d="M44.25,46.1l11.37-.16c.83-10.61,5.53-20.96,14.09-31.04l7.81-.11c-9.48,11.02-14.57,21.39-15.27,31.15h13.96s.14,8.12.14,8.12h-13.97c1.06,9.72,6.51,20.1,16.32,31.15l-7.82-.16c-8.9-10.04-13.95-20.37-15.14-30.98h-11.43c-.8,10.62-5.49,20.95-14.09,30.99l-7.76.16c9.45-11.05,14.52-21.43,15.21-31.15h-13.91s-.08-8.12-.08-8.12h13.97c-1.1-9.76-6.56-20.14-16.38-31.15l7.83.11c8.94,10.08,13.98,20.42,15.13,31.04v.16Z"/>
+</symbol>
+
+<!-- ══════════════════════════════════════════
+     PLANETAS  (viewBox 0 0 100 100)
+     stroke/fill="currentColor"
+══════════════════════════════════════════ -->
+
+<symbol id="p-sun" viewBox="0 0 100 100">
+  <circle fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="50" cy="50" r="40.37"/>
+  <circle fill="currentColor" cx="50" cy="50" r="6.5"/>
+</symbol>
+
+<symbol id="p-moon" viewBox="0 0 100 100">
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M25.92,86.47c10.37,2.6,21.84,1.04,31.34-5.33,17.57-11.74,22.09-35.13,10.16-52.36-9.19-13.22-25.44-18.85-40.43-15.5,8.68,2.26,16.61,7.41,22.04,15.26,11.99,17.22,7.46,40.62-10.1,52.36-4.03,2.74-8.44,4.56-13,5.57Z"/>
+</symbol>
+
+<symbol id="p-mercury" viewBox="0 0 100 100">
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M64.09,5.14c-.38,8.43-7.99,14.45-15.44,13.48-6.4-.83-11.7-6.68-11.73-13.81"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M28.57,44.15c-.46-12.04,8.76-22.36,20.59-23.06,11.83-.7,21.8,8.5,22.26,20.53.46,12.04-8.76,22.36-20.59,23.06-11.83.7-21.8-8.5-22.26-20.53Z"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="49.72" y1="64.65" x2="49.32" y2="95.19"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="62.2" y1="82.63" x2="36.77" y2="82.28"/>
+</symbol>
+
+<symbol id="p-venus" viewBox="0 0 100 100">
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M26.57,34.95c-.73-13.29,9.27-24.87,22.34-25.85,13.06-.98,24.25,9,24.97,22.3.73,13.29-9.27,24.87-22.34,25.85-13.06.98-24.25-9-24.97-22.3Z"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="50.31" y1="57.23" x2="50.42" y2="90.98"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="64.43" y1="76.87" x2="36.32" y2="76.94"/>
+</symbol>
+
+<symbol id="p-mars" viewBox="0 0 100 100">
+  <ellipse fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="39.75" cy="57.93" rx="23.45" ry="23.79"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="57.8" y1="42.91" x2="83.7" y2="18.28"/>
+  <path fill="currentColor" d="M80.5,34.57c-.54-.13-.86-.68-.73-1.21l3.69-14.85-15.02,2.94c-.54.11-1.07-.25-1.17-.79-.11-.54.25-1.07.79-1.17l16.56-3.24c.34-.07.68.04.92.29s.33.6.25.93l-4.07,16.37c-.05.19-.15.36-.28.48-.24.23-.59.33-.93.25Z"/>
+</symbol>
+
+<symbol id="p-jupiter" viewBox="0 0 100 100">
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="63.21" y1="82.68" x2="63.21" y2="18.88"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="28.56" y1="68.84" x2="81.05" y2="68.04"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M58.09,68.39c-2.73.03-6.88.09-11.96.18-4.01.07-8.03.12-12.04.18-12.24.19-13.2.23-13.59-.53-1.67-3.29,13.9-9.26,19.18-24.89.24-.72,5.07-15.69-2.16-22.64-1.49-1.43-3.13-2.19-4.38-2.61-.92-.38-2.61-.92-4.73-.73-3.04.27-5.02,1.85-5.43,2.2-1.33,1.1-2.01,2.28-2.41,2.99-1.35,2.39-1.61,4.74-1.63,6.22"/>
+</symbol>
+
+<symbol id="p-saturn" viewBox="0 0 100 100">
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="39.64" y1="75.23" x2="39.64" y2="3.64"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="27.12" y1="22.78" x2="52.15" y2="22.78"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M39.64,75.19c.27-12.71.68-22.09.97-24.91.09-.85.26-2.06.72-3.47.63-1.94,1.47-3.27,1.78-3.75,1.06-1.61,2.17-2.59,2.45-2.83,1.32-1.15,2.55-1.75,3.39-2.15.61-.29,1.32-.63,2.31-.9.77-.21,2.22-.6,4.11-.39.41.05,2.17.27,4.12,1.4.3.18,1.13.68,2.09,1.57.68.63,3.2,3.01,4.23,6.97.53,2.06.46,3.78.38,4.84-.28,3.81-.61,9.28-3.86,15.25-3.91,7.18-7.81,7.38-9.73,14.27-.79,2.82-.68,4.74-.44,6.1.15.8,1.06,5.85,5.49,8.13,4.39,2.27,9.98.66,12.9-2.92,2.39-2.93,2.36-6.44,2.35-6.98-.05-2.2-.76-3.88-1.22-4.77"/>
+</symbol>
+
+<symbol id="p-uranus" viewBox="0 0 100 100">
+  <ellipse fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="49.97" cy="76.26" rx="10.75" ry="10.91"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="49.97" y1="65.36" x2="49.97" y2="17.93"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="39.24" y1="44.75" x2="60.69" y2="44.75"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M15.49,13.65c12.54,0,22.7,13.92,22.7,31.1s-10.16,31.1-22.7,31.1"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M84.51,75.85c-12.54,0-22.7-13.92-22.7-31.1s10.16-31.1,22.7-31.1"/>
+</symbol>
+
+<symbol id="p-neptune" viewBox="0 0 100 100">
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M85.07,37.14c-.86,17.62-14.84,31.52-31.75,31.27-16.91-.25-30.48-14.55-30.83-32.2"/>
+  <path fill="currentColor" d="M79.82,43.66c.22.16.54.11.7-.11l4.5-6.18,3.7,6.7c.13.24.44.33.68.2.24-.13.33-.44.2-.68l-4.08-7.38c-.08-.15-.24-.25-.41-.26-.17-.01-.33.07-.44.2l-4.97,6.82c-.06.08-.09.17-.09.26-.01.16.06.33.2.44Z"/>
+  <path fill="currentColor" d="M27.56,42.88c-.23.16-.54.1-.7-.13l-4.32-6.31-3.89,6.59c-.14.24-.45.32-.68.18-.24-.14-.32-.45-.18-.68l4.29-7.26c.09-.15.24-.24.41-.25.17,0,.33.08.43.22l4.77,6.96c.06.08.08.17.09.27,0,.16-.07.33-.22.43Z"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="41.37" y1="82.56" x2="64.86" y2="82.9"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="52.7" y1="92.6" x2="53.92" y2="8.6"/>
+  <path fill="currentColor" d="M58.62,15.5c-.23.15-.54.07-.69-.16l-4.02-6.51-4.2,6.39c-.15.23-.46.3-.69.14-.23-.15-.29-.46-.14-.69l4.63-7.05c.09-.14.25-.23.43-.23.17,0,.33.09.42.24l4.43,7.18c.05.08.08.18.07.27,0,.17-.09.33-.24.42Z"/>
+</symbol>
+
+<symbol id="p-pluto" viewBox="0 0 100 100">
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="50.4" y1="93.27" x2="50.4" y2="50.99"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M75.78,23.7c0,14.98-11.54,27.12-25.78,27.12s-25.78-12.14-25.78-27.12"/>
+  <ellipse fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="50" cy="24.28" rx="17.3" ry="17.55"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="40.73" y1="69.75" x2="60.07" y2="69.75"/>
+</symbol>
+
+<symbol id="p-node" viewBox="0 0 100 100">
+  <circle fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="62.35" cy="70.85" r="7.89"/>
+  <circle fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="38" cy="70.85" r="7.89"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M31.84,65.08c-6.9-6.7-9.63-16.56-7.01-25.53,3.01-10.29,12.55-17.69,23.71-18.24"/>
+  <path fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M48.54,21.31c10.23-.65,19.89,4.6,24.62,13.37,5.26,9.76,3.49,22.14-4.49,30.4"/>
+</symbol>
+
+<symbol id="p-chiron" viewBox="0 0 100 100">
+  <circle fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" cx="50" cy="68.47" r="20.42"/>
+  <line stroke="currentColor" stroke-width="3.5" stroke-linecap="round" x1="50" y1="11.11" x2="50" y2="48.05"/>
+  <polyline fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" points="65.96 12.63 51.21 22.51 65.96 35.12"/>
+</symbol>
+
+</defs>
+      <g id="chart-root"></g>
+      </svg>
+    </div>
+  </section>
+  <section class="legend-section">
+    <div class="legend-inner">
+      <p class="legend-title">Aspects</p>
+      <div class="legend-grid">
+        <div class="legend-item"><div class="legend-line" style="background:#D4A853"></div><span class="legend-label">Conjunction 0°</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#4A7FB5"></div><span class="legend-label">Trine 120°</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#C05040"></div><span class="legend-label">Square 90°</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#5A9E6A"></div><span class="legend-label">Sextile 60°</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#C88030"></div><span class="legend-label">Opposition 180°</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#9B7A9E"></div><span class="legend-label">Quincunx 150°</span></div>
+      </div>
+      <p style="text-align:center;margin-top:.75rem;font-size:.75rem;color:var(--ink-soft);font-family:'Cormorant Garamond',serif;font-style:italic">Dashed line = near the orb limit</p>
+      <div style="display:flex;justify-content:center;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap">
+        <button id="btn-asc-asp" onclick="toggleAxisAspects('asc')"
+          style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:999px;border:1.5px solid rgba(107,68,113,.3);background:white;color:var(--mauve);cursor:pointer;transition:all .2s">
+          Aspects to ASC
+        </button>
+        <button id="btn-mc-asp" onclick="toggleAxisAspects('mc')"
+          style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:999px;border:1.5px solid rgba(107,68,113,.3);background:white;color:var(--mauve);cursor:pointer;transition:all .2s">
+          Aspects to MC
+        </button>
+      </div>
+    </div>
+  </section>
+  <section class="table-section">
+    <div class="table-inner">
+      <p class="table-title">Planetary positions</p>
+      <div style="overflow-x:auto">
+        <table class="positions-table" id="pos-table">
+          <thead><tr><th>Planet</th><th>Symbol</th><th>Sign</th><th>Position</th><th>House</th><th>Retr.</th></tr></thead>
+          <tbody id="pos-tbody"></tbody>
+        </table>
+      </div>
+      <p class="table-title" style="margin-top:2.5rem">Aspectos</p>
+      <div style="overflow-x:auto">
+        <table class="positions-table" id="asp-table">
+          <thead><tr><th>Planet</th><th>Aspecto</th><th>Planet</th><th>Orbe</th></tr></thead>
+          <tbody id="asp-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="cta-section">
+    <p class="cta-eyebrow">✦ Da el siguiente paso</p>
+    <h2 class="cta-title">¿Quieres entender tu carta?<br><em>Agenda una Lectura Natal</em></h2>
+    <a href="/en/sesiones.html" class="btn-cta">Book session →</a>
+  </section>
+</div>
+
+<script>
+const D2R=Math.PI/180,R2D=180/Math.PI;
+const SIGN_NAMES=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+const SIGN_IDS=['z-aries','z-tauro','z-geminis','z-cancer','z-leo','z-virgo','z-libra','z-escorpio','z-sagitario','z-capricornio','z-acuario','z-piscis'];
+const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const GOLD='#D4A853',PLUM='#6B4471',MAUVE='#9B7A9E',MIDNIGHT='#150D1E',CREAM='#FAF6F0';
+const ZOD_BG='#EDE7D8',PLA_BG='#F5F0E8',DIV_CLR='#C4A050';
+const ASPECT_COLORS={conjunction:'#D4A853',trine:'#4A7FB5',square:'#C05040',sextile:'#5A9E6A',opposition:'#C88030',quincunx:'#9B7A9E'};
+
+// ── Astronomical helpers ──────────────────────────────────────────────────────
+function obliquity(T){return 23.439291111-0.013004167*T-1.64e-7*T*T+5.04e-7*T*T*T;}
+
+// ── Pure-JS planetary positions (Jean Meeus, Astronomical Algorithms) ──────
+// Elements at J2000.0, rates per Julian century
+const PELEMS = {
+  // [L0, dL, a, e0, de, i0, di, w0, dw, O0, dO]  (angles in degrees)
+  Mercury:[252.2509,149474.0714,0.387098,0.20563,-0.000059, 7.005, 0.0015, 77.456,0.1590, 48.331,1.1861],
+  Venus:  [181.9798, 58519.2115,0.723330,0.00677,-0.000047, 3.395, 0.0008,131.563,0.0172, 76.680,0.9167],
+  Mars:   [355.4330, 19141.6964,1.523688,0.09341, 0.000090, 1.850,-0.0081,336.059,0.4438, 49.558,0.7722],
+  Jupiter:[ 34.3515,  3034.9057,5.202561,0.04850,-0.000164, 1.303,-0.0019, 14.332,0.2181,100.454,1.0167],
+  Saturn: [ 50.0774,  1222.1138,9.554747,0.05551,-0.000346, 2.489, 0.0067, 93.057,0.5765,113.663,0.8702],
+  Uranus: [314.0550,   429.8640,19.21814,0.04630,-0.000026, 0.773,-0.0034,172.722,0.0401, 73.978,0.4461],
+  Neptune:[304.3488,   219.8833,30.11039,0.00899, 0.000006, 1.770,-0.0097, 48.120,0.3687,131.781,-1.021],
+  Pluto:  [238.9290,   145.2080,39.48168,0.24883,-0.000001,17.142,-0.0039,224.069,0.0000,110.299,1.3673],
+  // Chiron: perihelion Feb-1996, Δt=3.88yr → M(J2000)=27.7°, L0=ω̃+M=188.95+27.7=216.65
+  Chiron: [216.65,    713.60, 13.648,0.38323, 0.000000, 6.924, 0.000,188.95,0.0000,209.37,0.0000],
+};
+// Earth's elements (for geocentric conversion)
+const EARTH_ELEM=[100.4665,36000.7698,1.000000,0.01671,-0.000042,0.0000,0,102.9373,0.3198,0,0];
+
+function keplerE(M,e){
+  // Solve M = E - e*sin(E) by Newton's method
+  let E=M;
+  for(let i=0;i<50;i++){
+    const dE=(M-(E-e*Math.sin(E)))/(1-e*Math.cos(E));
+    E+=dE;if(Math.abs(dE)<1e-8)break;
+  }
+  return E;
+}
+
+function helioXYZ(elem,T){
+  // Returns heliocentric ecliptic (x,y) in AU, ecliptic plane
+  const[L0,dL,a,e0,de,i0,di,w0,dw,O0,dO]=elem;
+  const L=((L0+dL*T)%360+360)%360;    // mean longitude
+  const e=e0+de*T;
+  const i=(i0+di*T)*D2R;
+  const w=(w0+dw*T)*D2R;              // longitude of perihelion
+  const O=(O0+dO*T)*D2R;              // ascending node
+  const M=((L-(w0+dw*T))%360+360)%360; // mean anomaly
+  const E=keplerE(M*D2R,e);
+  // Heliocentric in orbital plane
+  const xp=a*(Math.cos(E)-e);
+  const yp=a*Math.sqrt(1-e*e)*Math.sin(E);
+  // Rotate to ecliptic (simplified, ignoring inclination for lon)
+  // Full rotation:
+  const cosO=Math.cos(O),sinO=Math.sin(O),cosi=Math.cos(i),sini=Math.sin(i);
+  const cosw=Math.cos(w-O),sinw=Math.sin(w-O); // argument of perihelion
+  const Px= cosO*cosw - sinO*sinw*cosi;
+  const Py= sinO*cosw + cosO*sinw*cosi;
+  const Qx=-cosO*sinw - sinO*cosw*cosi;
+  const Qy=-sinO*sinw + cosO*cosw*cosi;
+  return{x:Px*xp+Qx*yp, y:Py*xp+Qy*yp};
+}
+
+function getPlanetLon(bodyName,date){
+  const elem=PELEMS[bodyName];
+  if(!elem)return null;
+  const jd=dateToJD(date);
+  const T=(jd-2451545)/36525;
+  const p=helioXYZ(elem,T);
+  const e=helioXYZ(EARTH_ELEM,T);
+  // Geocentric ecliptic longitude
+  const dx=p.x-e.x, dy=p.y-e.y;
+  let lon=Math.atan2(dy,dx)*R2D;
+  return((lon%360)+360)%360;
+}
+
+function dateToJD(date){
+  let y=date.getUTCFullYear(),mo=date.getUTCMonth()+1,d=date.getUTCDate();
+  const h=date.getUTCHours()+date.getUTCMinutes()/60+date.getUTCSeconds()/3600;
+  if(mo<=2){y--;mo+=12;}
+  const A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(mo+1))+d+B-1524.5+h/24;
+}
+
+function sunLonFromT(T){
+  // Meeus Ch.25 — accurate to ~0.01°
+  const M=((357.52911+35999.05029*T-0.0001537*T*T)%360+360)%360;
+  const L0=((280.46646+36000.76983*T+0.0003032*T*T)%360+360)%360;
+  const Mr=M*D2R;
+  const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(Mr)
+          +(0.019993-0.000101*T)*Math.sin(2*Mr)+0.000289*Math.sin(3*Mr);
+  const O=(125.04-1934.136*T)*D2R;
+  return((L0+C-0.00569-0.00478*Math.sin(O))%360+360)%360;
+}
+
+function moonLonFromT(T){
+  // Meeus Ch.47 (55-term reduction)
+  const D =(297.85036+445267.11148*T-0.0019142*T*T)*D2R;
+  const M =(357.52772+ 35999.05034*T-0.0001603*T*T)*D2R;
+  const Mp=(134.96298+477198.867398*T+0.0086972*T*T)*D2R;
+  const F =(93.27191+483202.017538*T-0.0036825*T*T)*D2R;
+  const L0=218.3165+481267.8813*T;
+  const sl=6288774*Math.sin(Mp)
+    +1274027*Math.sin(2*D-Mp)+658314*Math.sin(2*D)
+    +213618*Math.sin(2*Mp)-185116*Math.sin(M)
+    -114332*Math.sin(2*F)+58793*Math.sin(2*D-2*Mp)
+    +57066*Math.sin(2*D-M-Mp)+53322*Math.sin(2*D+Mp)
+    +45758*Math.sin(2*D-M)-40923*Math.sin(M-Mp)
+    -34720*Math.sin(D)-30383*Math.sin(M+Mp)
+    +15327*Math.sin(2*D-2*F)-12528*Math.sin(Mp+2*F)
+    +10980*Math.sin(Mp-2*F)+10675*Math.sin(4*D-Mp)
+    +10034*Math.sin(3*Mp)+8548*Math.sin(4*D-2*Mp)
+    -7888*Math.sin(2*D+M-Mp)-6766*Math.sin(2*D+M)
+    -5163*Math.sin(D-Mp)+4987*Math.sin(D+M)
+    +4036*Math.sin(2*D-M+Mp)-3994*Math.sin(2*D+2*Mp)
+    -3988*Math.sin(4*D);
+  const O=(125.04452-1934.136261*T)*D2R;
+  return((L0+sl/1e6-0.00478*Math.sin(O))%360+360)%360;
+}
+
+function isRetrograde(bodyName,date){
+  try{
+    const d1=new Date(date.getTime()-2*86400000);
+    const d2=new Date(date.getTime()+2*86400000);
+    const get=(d)=>bodyName==='Sun'?sunLonFromT((dateToJD(d)-2451545)/36525):
+                    bodyName==='Moon'?moonLonFromT((dateToJD(d)-2451545)/36525):
+                    getPlanetLon(bodyName,d);
+    const l1=get(d1),l2=get(d2);
+    if(l1==null||l2==null)return false;
+    let d=l2-l1;while(d>180)d-=360;while(d<-180)d+=360;
+    return d<0;
+  }catch(e){return false;}
+}
+
+function northNodeLon(T){
+  const O=125.04452-1934.136261*T+0.0020708*T*T+T*T*T/450000;
+  return((O%360)+360)%360;
+}
+
+function julianDay(y,mo,d,uth){
+  if(mo<=2){y--;mo+=12;}
+  const A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(mo+1))+d+B-1524.5+uth/24;
+}
+
+function isRetrograde(bodyName,date){
+  try{
+    const dt1=new Date(date.getTime()-2*86400000),dt2=new Date(date.getTime()+2*86400000);
+    const l1=getPlanetLon(bodyName,dt1),l2=getPlanetLon(bodyName,dt2);
+    if(l1==null||l2==null)return false;
+    let d=l2-l1;while(d>180)d-=360;while(d<-180)d+=360;
+    return d<0;
+  }catch(e){return false;}
+}
+
+// ── Placidus houses (correct trisection-of-semiarcs method) ─────────────────
+// Cusp H11: RA(λ) = RAMC + DS(λ)/3     — 1/3 diurnal arc from MC
+// Cusp H12: RA(λ) = RAMC + 2*DS(λ)/3  — 2/3 diurnal arc from MC
+// Cusp H2:  RA(λ) = RAIC − 2*NS(λ)/3  — 1/3 nocturnal arc from IC
+// Cusp H3:  RA(λ) = RAIC − NS(λ)/3    — 2/3 nocturnal arc from IC
+// DS=90+AD, NS=90−AD, AD=arcsin(tan(φ)·tan(δ))
+function solvePlacidus(frac, nocturnal, ramc, eps_d, lat_d){
+  const eps=eps_d*D2R, lat=lat_d*D2R;
+  const raic=(ramc+180)%360;
+  let lon = nocturnal ? (raic - frac*90 + 360)%360 : (ramc + frac*90)%360;
+  for(let i=0;i<60;i++){
+    const l=lon*D2R;
+    const dec=Math.asin(Math.sin(eps)*Math.sin(l));
+    let ra=Math.atan2(Math.cos(eps)*Math.sin(l),Math.cos(l))*R2D;
+    ra=((ra%360)+360)%360;
+    const ad=Math.asin(Math.min(1,Math.max(-1,Math.tan(lat)*Math.tan(dec))))*R2D;
+    const DS=90+ad, NS=90-ad;
+    const target=nocturnal?((raic-frac*NS)%360+360)%360:((ramc+frac*DS)%360+360)%360;
+    let diff=target-ra;
+    while(diff>180)diff-=360; while(diff<-180)diff+=360;
+    lon=((lon+diff)%360+360)%360;
+    if(Math.abs(diff)<0.001)break;
+  }
+  return((lon%360)+360)%360;
+}
+
+function calcPlacidus(ramc,eps_d,lat_d){
+  const eps=eps_d*D2R, ramcR=ramc*D2R, lat=lat_d*D2R;
+  // MC
+  let mc=Math.atan2(Math.tan(ramcR),Math.cos(eps))*R2D;
+  if(Math.cos(ramcR)<0)mc+=180;
+  mc=((mc%360)+360)%360;
+  const ic=(mc+180)%360;
+  // ASC: direct horizon formula (quadrant-safe)
+  let asc=Math.atan2(Math.cos(ramcR),-(Math.sin(eps)*Math.tan(lat)+Math.cos(eps)*Math.sin(ramcR)))*R2D;
+  asc=((asc%360)+360)%360;
+  const desc=(asc+180)%360;
+  // Intermediate cusps via Placidus
+  const h11=solvePlacidus(1/3,false,ramc,eps_d,lat_d);
+  const h12=solvePlacidus(2/3,false,ramc,eps_d,lat_d);
+  const h2 =solvePlacidus(2/3,true, ramc,eps_d,lat_d);
+  const h3 =solvePlacidus(1/3,true, ramc,eps_d,lat_d);
+  return[asc,h2,h3,ic,(h11+180)%360,(h12+180)%360,desc,(h2+180)%360,(h3+180)%360,mc,h11,h12];
+}
+
+function houseOf(lon,houses){
+  for(let i=0;i<12;i++){
+    const a=houses[i],b=houses[(i+1)%12];
+    const diff=((b-a)+360)%360,dLon=((lon-a)+360)%360;
+    if(dLon<diff)return i+1;
+  }
+  return 1;
+}
+
+// ── Geocoding (Nominatim) ──────────────────────────────────────────────────────
+async function geocode(place){
+  const m=place.match(/^(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)$/);
+  if(m)return{lat:parseFloat(m[1]),lng:parseFloat(m[2]),display:place};
+  const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json&limit=1`;
+  const res=await fetch(url,{headers:{'Accept-Language':'es','User-Agent':'LectoraEstrellas/1.0'}});
+  const data=await res.json();
+  if(!data.length)throw new Error(`Location not found "${place}". Try: City, Country or lat,lng coordinates`);
+  return{lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon),display:data[0].display_name.split(',').slice(0,2).join(',')};
+}
+
+// ── Main calculation ──────────────────────────────────────────────────────────
+async function calcChart(name,dateStr,timeStr,placeStr){
+  const _dp=dateStr.split('/');
+  const d=parseInt(_dp[0]||0), mo=parseInt(_dp[1]||0), y=parseInt(_dp[2]||0);
+  if(!d||!mo||!y||mo<1||mo>12||d<1||d>31) throw new Error('Invalid date. Use the format DD/MM/YYYY');
+  const[h,mi]=timeStr.split(':').map(Number);
+  const tzOffset=-(new Date().getTimezoneOffset())/60;
+  let utH=h+mi/60-tzOffset;
+  const geo=await geocode(placeStr);
+  let adjY=y,adjMo=mo,adjD=d;
+  if(utH<0){utH+=24;const p=new Date(y,mo-1,d-1);adjY=p.getFullYear();adjMo=p.getMonth()+1;adjD=p.getDate();}
+  if(utH>=24){utH-=24;const n=new Date(y,mo-1,d+1);adjY=n.getFullYear();adjMo=n.getMonth()+1;adjD=n.getDate();}
+  const jd=julianDay(adjY,adjMo,adjD,utH);
+  const T=(jd-2451545)/36525;
+  const eps=obliquity(T);
+  const birthUTC=new Date(Date.UTC(adjY,adjMo-1,adjD,Math.floor(utH),Math.round((utH%1)*60)));
+  const nameMap={sun:'Sun',moon:'Moon',mercury:'Mercury',venus:'Venus',mars:'Mars',jupiter:'Jupiter',saturn:'Saturn',uranus:'Uranus',neptune:'Neptune',pluto:'Pluto',node:'North Node ☊',chiron:'Chiron'};
+  const planets=[];
+  // Sun and Moon use dedicated high-accuracy formulas
+  planets.push({id:'sun',    name:nameMap.sun,    lon:sunLonFromT(T), rx:isRetrograde('Sun',birthUTC)});
+  planets.push({id:'moon',   name:nameMap.moon,   lon:moonLonFromT(T),rx:false});
+  // Other planets via Kepler
+  const outerMap={mercury:'Mercury',venus:'Venus',mars:'Mars',jupiter:'Jupiter',saturn:'Saturn',uranus:'Uranus',neptune:'Neptune',pluto:'Pluto'};
+  for(const[id,bName]of Object.entries(outerMap)){
+    const lon=getPlanetLon(bName,birthUTC);
+    if(lon!==null)planets.push({id,name:nameMap[id],lon,rx:isRetrograde(bName,birthUTC)});
+  }
+  planets.push({id:'node',name:nameMap.node,lon:northNodeLon(T),rx:false});
+  const chLon=getPlanetLon('Chiron',birthUTC);
+  if(chLon!==null)planets.push({id:'chiron',name:nameMap.chiron,lon:chLon,rx:isRetrograde('Chiron',birthUTC)});
+  // GMST (Greenwich Mean Sidereal Time) — Meeus Ch.12
+  const jd0=julianDay(adjY,adjMo,adjD,0);
+  const T0=(jd0-2451545)/36525;
+  const gmst0=100.4606184+36000.77004*T0+0.000387933*T0*T0;
+  const gmst=(gmst0+360.98564724*(utH/24))%360;
+  const ramc=((gmst+geo.lng)%360+360)%360;
+  const houses=calcPlacidus(ramc,eps,geo.lat);
+  const ascLon=houses[0],mcLon=houses[9];
+  const fmt=(n)=>String(n).padStart(2,'0');
+  return{name,planets,houses,ascLon,mcLon,
+    dateLabel:`${d}/${mo}/${y} ${h}:${fmt(mi)} · ${geo.display}`};
+}
+
+// ── SVG wheel rendering ───────────────────────────────────────────────────────
+const CX=510,CY=550,R_OUT=408,R_ZOD=330,R_PLA=178,PL_R=19,G_SZ=24,P_SZ=29;
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,text){const e=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,String(v));if(text!==undefined)e.textContent=text;return e;}
+function useEl(href,cx,cy,sz,color){return el('use',{href,x:cx-sz/2,y:cy-sz/2,width:sz,height:sz,color});}
+function textEl(x,y,str,opts={}){return el('text',{x,y,'text-anchor':opts.anchor||'middle','dominant-baseline':'central','font-family':opts.font||"'Cormorant Garamond',serif",'font-size':opts.size||11,fill:opts.color||GOLD,'font-weight':opts.weight||'400'},str);}
+function zodInfo(lon){const l=((lon%360)+360)%360,idx=Math.floor(l/30),dF=l%30,deg=Math.floor(dF),min=Math.round((dF-deg)*60);return{idx,signId:SIGN_IDS[idx],signName:SIGN_NAMES[idx],deg,min};}
+function toRad(lon,asc){return Math.PI-((lon-asc)*Math.PI/180);}
+function pt(lon,r,asc){const t=toRad(lon,asc);return[CX+r*Math.cos(t),CY+r*Math.sin(t)];}
+function f(n){return(+n).toFixed(2);}
+function sP(s,rO,rI,asc){
+  const e=s+30,[x1o,y1o]=pt(s,rO,asc),[x2o,y2o]=pt(e,rO,asc),[x2i,y2i]=pt(e,rI,asc),[x1i,y1i]=pt(s,rI,asc);
+  return `M${f(x1o)} ${f(y1o)} A${rO} ${rO} 0 0 0 ${f(x2o)} ${f(y2o)} L${f(x2i)} ${f(y2i)} A${rI} ${rI} 0 0 1 ${f(x1i)} ${f(y1i)}Z`;
+}
+function calcAspects(pl){
+  const D=[{n:'conjunction',a:0,o:8,c:ASPECT_COLORS.conjunction},{n:'opposition',a:180,o:8,c:ASPECT_COLORS.opposition},{n:'trine',a:120,o:8,c:ASPECT_COLORS.trine},{n:'square',a:90,o:8,c:ASPECT_COLORS.square},{n:'sextile',a:60,o:6,c:ASPECT_COLORS.sextile},{n:'quincunx',a:150,o:2,c:ASPECT_COLORS.quincunx}];
+  const res=[];
+  for(let i=0;i<pl.length;i++)for(let j=i+1;j<pl.length;j++){
+    let sep=Math.abs(pl[i].lon-pl[j].lon)%360;if(sep>180)sep=360-sep;
+    const isLuminary=pl[i].id==='sun'||pl[i].id==='moon'||pl[j].id==='sun'||pl[j].id==='moon';
+    for(const d of D){
+      // Sol, Luna y ASC: orbe 10° en conjunción/oposición; resto 8°
+      const o=(d.n==='conjunction'||d.n==='opposition')&&isLuminary?10:d.o;
+      const df=Math.abs(sep-d.a);
+      if(df<=o){res.push({i,j,color:d.c,dashed:df>o*0.75,name:d.n,orbe:df,
+        fromId:pl[i].id,toId:pl[j].id});break;}
+    }
+  }
+  return res;
+}
+// ── Planet interactivity ─────────────────────────────────────────────────────
+let _selectedPlanet = null;
+function highlightPlanet(pid, svg) {
+  if (!svg) return;
+  const toggling = pid === _selectedPlanet;
+  _selectedPlanet = toggling ? null : pid;
+
+  // All planet groups
+  svg.querySelectorAll('[data-pg]').forEach(g => {
+    g.style.opacity = '1';
+    g.querySelector('circle') && (g.querySelector('circle').setAttribute('stroke-width', '1.1'));
+  });
+  // All aspect lines
+  svg.querySelectorAll('#asp-group line').forEach(l => { l.style.opacity = '0.78'; });
+
+  if (!_selectedPlanet) return; // reset done
+
+  // Collect planets connected via aspects
+  const connected = new Set([_selectedPlanet]);
+  (window._chartAsp||[]).forEach(a => {
+    if (a.fromId===_selectedPlanet||a.toId===_selectedPlanet) {
+      connected.add(a.fromId); connected.add(a.toId);
+    }
+  });
+
+  // Dim unconnected planets
+  svg.querySelectorAll('[data-pg]').forEach(g => {
+    if (!connected.has(g.dataset.pg)) { g.style.opacity='0.1'; }
+    else if (g.dataset.pg===_selectedPlanet) {
+      // Highlight selected planet
+      const circ=g.querySelector('circle');
+      if(circ) circ.setAttribute('stroke-width','2.5');
+    }
+  });
+
+  // Dim unrelated aspect lines
+  svg.querySelectorAll('#asp-group line').forEach(l => {
+    const rel=l.dataset.from===_selectedPlanet||l.dataset.to===_selectedPlanet;
+    l.style.opacity = rel ? '1' : '0.04';
+  });
+}
+
+function render(cd){
+  const{planets:pl,houses:hs,ascLon:asc,mcLon:mc}=cd;
+  const root=document.getElementById('chart-root');root.innerHTML='';
+  root.appendChild(el('rect',{x:0,y:0,width:900,height:960,fill:'#FAF6F0'}));
+  root.appendChild(el('circle',{cx:CX,cy:CY,r:R_ZOD,fill:PLA_BG,stroke:'none'}));
+  for(let i=0;i<12;i++)root.appendChild(el('path',{d:sP(i*30,R_OUT,R_ZOD,asc),fill:ZOD_BG,stroke:GOLD,'stroke-width':'0.4'}));
+  root.appendChild(el('circle',{cx:CX,cy:CY,r:R_OUT,fill:'none',stroke:GOLD,'stroke-width':'1.4'}));
+  root.appendChild(el('circle',{cx:CX,cy:CY,r:R_ZOD,fill:'none',stroke:GOLD,'stroke-width':'0.7'}));
+  for(let i=0;i<12;i++){const[ox,oy]=pt(i*30,R_OUT,asc),[ix,iy]=pt(i*30,R_ZOD,asc);root.appendChild(el('line',{x1:ox,y1:oy,x2:ix,y2:iy,stroke:DIV_CLR,'stroke-width':'0.7'}));}
+  // Zodiac ring: show sign only if it has ≥1 house cusp; skip intercepted signs.
+  // Multiple cusps in same sign → show sign once + each cusp's degree.
+  {
+    const cuspsBySign = Array.from({length:12},()=>[]);
+    hs.forEach(h=>{ const idx=Math.floor(((h%360+360)%360)/30); cuspsBySign[idx].push(h); });
+    for(let s=0;s<12;s++){
+      const cusps=cuspsBySign[s];
+      if(cusps.length===0) continue; // intercepted sign — omit entirely
+      // Sort cusps by L within the sector
+      cusps.sort((a,b)=>((a%360+360)%360)-((b%360+360)%360));
+      // Sign glyph at midpoint between first and last cusp (or at single cusp)
+      const sLon=s*30;
+      const glyphL = cusps.length===1 ? cusps[0]
+        : (cusps[0]+((cusps[cusps.length-1]-cusps[0]+360)%360)/2+360)%360;
+      let gPos=((glyphL-sLon)%360+360)%360;
+      if(gPos<4) gPos=4; if(gPos>26) gPos=26;
+      const finalGlyph=(sLon+gPos+360)%360;
+      const[gx,gy]=pt(finalGlyph,R_OUT-18,asc);
+      root.appendChild(useEl('#'+SIGN_IDS[s],gx,gy,G_SZ,GOLD));
+      // Degree label for each cusp in this sign
+      cusps.forEach(cusp=>{
+        const info=zodInfo(cusp);
+        const label=`${info.deg}°${String(info.min).padStart(2,'0')}'`;
+        let cPos=((cusp-sLon)%360+360)%360;
+        if(cPos<4) cPos=4; if(cPos>26) cPos=26;
+        const[tx,ty]=pt((sLon+cPos+360)%360,R_ZOD+26,asc);
+        root.appendChild(textEl(tx,ty,label,{size:15,color:GOLD,weight:'700'}));
+      });
+    }
+  }
+  root.appendChild(el('circle',{cx:CX,cy:CY,r:R_PLA,fill:CREAM,stroke:GOLD,'stroke-width':'0.5'}));
+  // House lines: span the planet ring only (R_ZOD → R_PLA)
+  // Center circle stays clean for aspect lines
+  [[0,6],[3,9]].forEach(([a,b])=>{
+    const[x1,y1]=pt(hs[a],R_ZOD,asc),[x2,y2]=pt(hs[b],R_ZOD,asc);
+    const[x3,y3]=pt(hs[a],R_PLA,asc),[x4,y4]=pt(hs[b],R_PLA,asc);
+    root.appendChild(el('line',{x1,y1,x2:x3,y2:y3,stroke:PLUM,'stroke-width':'1.5',opacity:'0.95'}));
+    root.appendChild(el('line',{x1:x2,y1:y2,x2:x4,y2:y4,stroke:PLUM,'stroke-width':'1.5',opacity:'0.95'}));
+  });
+  hs.forEach((h,i)=>{
+    if(i===0||i===3||i===6||i===9)return;
+    const[x1,y1]=pt(h,R_ZOD,asc),[x2,y2]=pt(h,R_PLA,asc);
+    root.appendChild(el('line',{x1,y1,x2,y2,stroke:PLUM,'stroke-width':'0.55',opacity:'0.9'}));
+  });
+  const asp=calcAspects(pl);
+  const gA=el('g',{id:'asp-group'});
+  asp.forEach(a=>{
+    const[ax,ay]=pt(pl[a.i].lon,R_PLA-4,asc),[bx,by]=pt(pl[a.j].lon,R_PLA-4,asc);
+    const ln=el('line',{x1:ax,y1:ay,x2:bx,y2:by,stroke:a.color,'stroke-width':'1',
+      'stroke-dasharray':a.dashed?'4 3':'none',opacity:'0.78',
+      'data-from':a.fromId,'data-to':a.toId});
+    gA.appendChild(ln);
+  });
+  root.appendChild(gA);
+  // ── Planet positioning ──────────────────────────────────────────────────────
+  // Each planet placed at its exact ecliptic longitude.
+  // Planets within 10° of each other are spread side-by-side (tangentially).
+  // All planets stay at the same radius R_BADGE.
+
+  const R_BADGE = R_ZOD - PL_R - 7; // fixed radius for all planets
+
+  // Convert ecliptic lon to SVG angle (same math as pt()):
+  // da = (ASC - L + 180 + 360) mod 360  →  x=CX+R·cos(da·π/180), y=CY+R·sin(da·π/180)
+  const toDA  = lon => ((asc - lon + 180 + 360) % 360);
+  const toXY  = (da, r) => { const θ=da*Math.PI/180; return [CX+r*Math.cos(θ), CY+r*Math.sin(θ)]; };
+  const angGap = (a,b) => { const d=Math.abs(a-b)%360; return d>180?360-d:d; };
+
+  // Sort by ecliptic longitude (sign → degree → minute)
+  const plByL = [...pl].sort((a,b)=>{
+    const la=((a.lon%360)+360)%360, lb=((b.lon%360)+360)%360; return la-lb;
+  });
+
+  // Build clusters: chain-link — Q joins if within 10° of ANY current member
+  const seen = new Set();
+  const clusters = [];
+  plByL.forEach(P => {
+    if(seen.has(P)) return;
+    const g=[P]; seen.add(P);
+    let grew=true;
+    while(grew){ grew=false;
+      plByL.forEach(Q=>{
+        if(seen.has(Q)) return;
+        if(g.some(M=>angGap(toDA(M.lon),toDA(Q.lon))<10)){
+          g.push(Q); seen.add(Q); grew=true;
+        }
+      });
+    }
+    clusters.push(g);
+  });
+
+  // Assign display angle to each planet
+  const finalDA = new Map();
+  const SEP = 5; // 5° tangential separation between planets in a cluster
+
+  clusters.forEach(g => {
+    if(g.length===1){
+      // Single planet: also keep ≥4.5° from house cusp lines
+      const SL = ((g[0].lon%360)+360)%360;
+      const shIdx  = houseOf(SL,hs)-1;
+      const shSt   = ((hs[shIdx]%360)+360)%360;
+      const shW    = ((((hs[(shIdx+1)%12]%360)+360)%360 - shSt)+360)%360;
+      let sRel     = ((SL-shSt)+360)%360;
+      sRel = Math.min(Math.max(sRel, 4.5), shW-4.5);
+      finalDA.set(g[0], toDA((shSt+sRel+360)%360));
+      return;
+    }
+
+    // Sort cluster by ecliptic lon ascending (sign+degree+minute order)
+    g.sort((a,b)=>((a.lon%360+360)%360)-((b.lon%360+360)%360));
+
+    const N = g.length;
+    const halfSpan = (N - 1) * SEP / 2; // half the total angular span
+
+    // Natural center: average of true L values → convert to da
+    const ctrL = g.reduce((s,p)=>s+((p.lon%360+360)%360),0) / N;
+    let adjCtrL = ctrL; // will be adjusted for house containment
+
+    // ── House containment ──────────────────────────────────────────────────
+    // Find which house this cluster belongs to (use planet nearest center)
+    const hIdx  = houseOf(ctrL, hs) - 1;         // 0-indexed
+    const hSt   = ((hs[hIdx] % 360) + 360) % 360;
+    const hEn   = ((hs[(hIdx+1)%12] % 360) + 360) % 360;
+    const hW    = ((hEn - hSt) + 360) % 360;     // house width in ecliptic degrees
+
+    // Cluster position relative to house start (in L space)
+    const relCtr = ((ctrL - hSt) + 360) % 360;   // 0..hW within house
+
+    // MARGIN: keep badge edge (≈4.5° at this radius) clear of house cusp lines
+    const MARGIN = 4.5;
+    const lo = halfSpan + MARGIN, hi = hW - halfSpan - MARGIN;
+    if (lo <= hi) {
+      // Cluster fits with margins — clamp center
+      const clamped = Math.min(Math.max(relCtr, lo), hi);
+      adjCtrL = (hSt + clamped + 360) % 360;
+    } else {
+      // Cluster too wide for house with margins — center it, margins as best-effort
+      adjCtrL = (hSt + hW / 2 + 360) % 360;
+    }
+    // ──────────────────────────────────────────────────────────────────────
+
+    const ctr = toDA(adjCtrL); // final center in display-angle space
+
+    // Assign: smallest L (most CW) → largest da. Negate offset.
+    g.forEach((p,i)=>{ finalDA.set(p, (ctr - (i-(N-1)/2)*SEP + 360)%360); });
+  });
+
+  // Render each planet at its display angle — wrapped in <g> for interactivity
+  plByL.forEach(p => {
+    const info = zodInfo(p.lon);
+    const da   = finalDA.get(p);
+    const [px,py] = toXY(da, R_BADGE);
+
+    const pg = el('g',{'data-pg':p.id,style:'cursor:pointer'});
+    pg.appendChild(el('circle',{cx:px,cy:py,r:PL_R,fill:MIDNIGHT,stroke:GOLD,'stroke-width':'1.1'}));
+    pg.appendChild(useEl('#p-'+p.id,px,py,P_SZ,CREAM));
+    const rD=R_BADGE-PL_R-14, rS=rD-20, rM=rS-20;
+    const [dx,dy]=toXY(da,rD),[sx,sy]=toXY(da,rS),[mx,my]=toXY(da,rM);
+    pg.appendChild(textEl(dx,dy,`${info.deg}°`,{size:14,color:GOLD,weight:'700'}));
+    pg.appendChild(useEl('#'+info.signId,sx,sy,18,GOLD));
+    pg.appendChild(textEl(mx,my,`${String(info.min).padStart(2,'0')}'`,{size:14,color:GOLD,weight:'700'}));
+    if(p.rx){
+      const [rx,ry]=toXY(da,rM-16);
+      pg.appendChild(textEl(rx,ry,'ℛ',{size:15,color:MAUVE,weight:'500',font:"'Cormorant Garamond',serif",italic:true}));
+    }
+    root.appendChild(pg);
+  });
+  hs.forEach((h,i)=>{const nH=hs[(i+1)%12],df=((nH-h)+360)%360,mid=(h+df/2)%360,[nx,ny]=pt(mid,R_PLA+14,asc);root.appendChild(textEl(nx,ny,ROMAN[i],{font:"'Cinzel',serif",size:10.5,color:MAUVE,weight:'400'}));});
+  [{lon:asc,label:'ASC',side:'left'},{lon:asc+180,label:'DESC',side:'right'},{lon:mc,label:'MC',side:'top'},{lon:mc+180,label:'IC',side:'bottom'}].forEach(ax=>{
+    const[lx,ly]=pt(ax.lon,R_OUT+22,asc);
+    const anchor=ax.side==='left'?'end':ax.side==='right'?'start':'middle';
+    root.appendChild(textEl(lx,ly,ax.label,{font:"'Cinzel',serif",size:25,color:MAUVE,weight:'600',anchor}));
+  });
+  root.appendChild(el('circle',{cx:CX,cy:CY,r:2.5,fill:GOLD,opacity:'0.5'}));
+  // Store aspect data for highlight and attach click handler
+  window._chartAsp = asp;
+  const svg = document.getElementById('chart');
+  svg.onclick = e => {
+    const pg = e.target.closest('[data-pg]');
+    highlightPlanet(pg ? pg.dataset.pg : null, svg);
+  };
+}
+
+function makeBadgeSVG(id){
+  const S='http://www.w3.org/2000/svg';
+  const wrap=document.createElement('div');
+  wrap.className='planet-badge-sm';
+  const svg=document.createElementNS(S,'svg');
+  svg.setAttribute('viewBox','0 0 100 100');
+  svg.setAttribute('width','28');svg.setAttribute('height','28');
+  const u=document.createElementNS(S,'use');
+  u.setAttribute('href','#p-'+id);
+  u.setAttribute('width','100');u.setAttribute('height','100');
+  u.style.color=CREAM;
+  svg.appendChild(u);wrap.appendChild(svg);
+  return wrap;
+}
+
+function renderTable(pl, hsObj){
+  const hs = Array.isArray(hsObj) ? hsObj : (hsObj.houses||hsObj);
+  const tbody=document.getElementById('pos-tbody');tbody.innerHTML='';
+  // Fixed order: Sol, Luna, Mercurio, Venus, Marte, Júpiter,
+  //              Saturno, Urano, Neptuno, Plutón, Quirón, Nodo Norte
+  const ORDER=['sun','moon','mercury','venus','mars','jupiter',
+               'saturn','uranus','neptune','pluto','chiron','node'];
+  const sorted=[...pl].sort((a,b)=>{
+    const ia=ORDER.indexOf(a.id), ib=ORDER.indexOf(b.id);
+    if(ia>=0&&ib>=0) return ia-ib;
+    if(ia>=0) return -1; if(ib>=0) return 1;
+    return 0;
+  });
+  sorted.forEach(p=>{
+    const info=zodInfo(p.lon),hNum=houseOf(p.lon, Array.isArray(hsObj)?hsObj:hsObj.houses);
+    const row=document.createElement('tr');
+    const tdN=document.createElement('td');
+    tdN.style.cssText="font-family:'Cormorant Garamond',serif;font-size:1rem";
+    tdN.textContent=p.name;
+    const tdB=document.createElement('td');
+    tdB.appendChild(makeBadgeSVG(p.id));
+    const tdS=document.createElement('td');
+    const sp=document.createElement('span');sp.className='sign-name';sp.textContent=info.signName;tdS.appendChild(sp);
+    const tdP=document.createElement('td');
+    tdP.style.cssText="font-family:'Cormorant Garamond',serif";
+    tdP.textContent=`${info.deg}°${String(info.min).padStart(2,'0')}'`;
+    const tdH=document.createElement('td');
+    tdH.style.cssText=`font-family:'Cinzel',serif;font-size:.82rem;color:${MAUVE}`;
+    tdH.textContent=ROMAN[hNum-1];
+    const tdR=document.createElement('td');
+    if(p.rx){const b=document.createElement('span');b.className='rx-badge';b.textContent='ℛ';tdR.appendChild(b);}
+    row.append(tdN,tdB,tdS,tdP,tdH,tdR);
+    tbody.appendChild(row);
+  });
+  // Add ASC and MC rows (sign+degree only, no house)
+  if (hs && hs.ascLon !== undefined) {
+    [['ASC', hs.ascLon], ['MC', hs.mcLon]].forEach(([label, lon])=>{
+      const info = zodInfo(lon);
+      const tr = document.createElement('tr');
+      const mkT = (txt, style='') => { const td=document.createElement('td'); td.textContent=txt; td.style.cssText=style; return td; };
+      tr.append(
+        mkT(label, "font-family:'Cinzel',serif;font-size:.85rem;color:var(--mauve);font-weight:600"),
+        mkT('—', "text-align:center;color:var(--ink-soft)"),
+        mkT(info.signName, "font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--plum);font-weight:500"),
+        mkT(`${info.deg}°${String(info.min).padStart(2,'0')}'`, "font-family:'Cormorant Garamond',serif;font-size:1rem"),
+        mkT('—', "color:var(--ink-soft)"),
+        mkT('')
+      );
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+// Shared aspect-row builder
+function _aspRow(nameA, nameB, aspName, orbe, dashed, aspColor) {
+  const ASP_NAMES = {conjunction:'Conjunción',opposition:'Oposición',trine:'Trígono',
+    square:'Cuadratura',sextile:'Sextil',quincunx:'Quíncunce'};
+  const mkTd=(txt,style='')=>{const td=document.createElement('td');td.textContent=txt;
+    td.style.cssText="font-family:'Cormorant Garamond',serif;font-size:1rem"+(style?';'+style:'');return td;};
+  const aspTd=document.createElement('td');
+  aspTd.style.cssText=`font-family:'Cinzel',serif;font-size:.78rem;color:${aspColor};font-weight:600`;
+  const sw=document.createElement('span');
+  sw.style.cssText=`display:inline-block;width:18px;height:2px;background:${aspColor};margin-right:6px;vertical-align:middle;`
+    +(dashed?`background:repeating-linear-gradient(to right,${aspColor} 0,${aspColor} 4px,transparent 4px,transparent 7px)`:'');
+  aspTd.appendChild(sw);
+  aspTd.appendChild(document.createTextNode(ASP_NAMES[aspName]||aspName));
+  const d=Math.floor(orbe),m=Math.round((orbe-d)*60);
+  const row=document.createElement('tr');
+  row.append(mkTd(nameA),aspTd,mkTd(nameB),
+    mkTd(d+"°"+String(m).padStart(2,"0")+"'","font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink-soft)"));
+  return row;
+}
+
+function renderAspects(pl, hs) {
+  const tbody = document.getElementById('asp-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  const ASP_COLORS_MAP = {conjunction:'#D4A853',trine:'#4A7FB5',square:'#C05040',
+    sextile:'#5A9E6A',opposition:'#C88030',quincunx:'#9B7A9E'};
+
+  // Planet-planet aspects, sorted by orbe asc
+  const aspects = calcAspects(pl).sort((a,b)=>a.orbe-b.orbe);
+
+  // Axis aspects (ASC/MC) if active
+  const cd = window._chartData;
+  const axisAspects = [];
+  if (cd) {
+    ['asc','mc'].forEach(ax => {
+      if (!_axisActive[ax]) return;
+      const axLon = ax==='asc' ? cd.ascLon : cd.mcLon;
+      const axLabel = ax==='asc' ? 'ASC' : 'MC';
+      pl.forEach(p => {
+        let sep=Math.abs(p.lon-axLon)%360; if(sep>180)sep=360-sep;
+        for(const d of AXIS_ORBS){
+          const df=Math.abs(sep-d.a);
+          if(df<=d.o){
+            axisAspects.push({nameA:axLabel,nameB:p.name,name:d.n,orbe:df,dashed:df>d.o*0.75});
+            break;
+          }
+        }
+      });
+    });
+    axisAspects.sort((a,b)=>a.orbe-b.orbe);
+  }
+
+  const total = aspects.length + axisAspects.length;
+  if (total === 0) {
+    const tr=document.createElement('tr');const td=document.createElement('td');
+    td.colSpan=4;td.style.cssText="text-align:center;color:var(--mauve);font-style:italic;padding:1rem";
+    td.textContent='Sin aspectos mayores';tr.appendChild(td);tbody.appendChild(tr);return;
+  }
+
+  // Merge and sort all by orbe
+  const allRows = [
+    ...aspects.map(a=>({nameA:pl[a.i].name,nameB:pl[a.j].name,name:a.name,orbe:a.orbe,dashed:a.dashed})),
+    ...axisAspects
+  ].sort((a,b)=>a.orbe-b.orbe);
+
+  allRows.forEach(a=>{
+    const color=ASP_COLORS_MAP[a.name]||'#9B7A9E';
+    tbody.appendChild(_aspRow(a.nameA,a.nameB,a.name,a.orbe,a.dashed,color));
+  });
+}
+
+
+// ── ASC / MC aspect overlay ──────────────────────────────────────────────────
+const _axisActive = {asc:false, mc:false};
+const AXIS_COLORS = {asc:'#9B7A9E', mc:'#D4A853'};
+const AXIS_ORBS   = [{n:'conjunction',a:0,o:10},{n:'opposition',a:180,o:10},
+                     {n:'trine',a:120,o:8},{n:'square',a:90,o:8},
+                     {n:'sextile',a:60,o:6},{n:'quincunx',a:150,o:2}];
+const AXIS_ASP_COLORS = {conjunction:'#D4A853',opposition:'#C88030',trine:'#4A7FB5',
+                          square:'#C05040',sextile:'#5A9E6A',quincunx:'#9B7A9E'};
+
+function toggleAxisAspects(axis){
+  _axisActive[axis] = !_axisActive[axis];
+  const btn = document.getElementById('btn-'+axis+'-asp');
+  if(btn){
+    btn.style.background = _axisActive[axis] ? 'var(--plum)' : 'white';
+    btn.style.color      = _axisActive[axis] ? 'white' : 'var(--mauve)';
+    btn.style.borderColor= _axisActive[axis] ? 'var(--plum)' : 'rgba(107,68,113,.3)';
+  }
+  drawAxisAspects();
+}
+
+function drawAxisAspects(){
+  const svg = document.getElementById('chart');
+  if(!svg) return;
+  ['asc','mc'].forEach(ax=>{
+    const old = svg.getElementById('asp-'+ax+'-group');
+    if(old) old.remove();
+  });
+  const cd = window._chartData;
+  if(!cd) return;
+  const {planets:pl, ascLon:asc, mcLon:mc} = cd;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  ['asc','mc'].forEach(ax=>{
+    if(!_axisActive[ax]) return;
+    const axLon = ax==='asc' ? asc : mc;
+    const g = document.createElementNS(NS,'g');
+    g.setAttribute('id','asp-'+ax+'-group');
+
+    pl.forEach(p=>{
+      let sep=Math.abs(p.lon - axLon)%360; if(sep>180)sep=360-sep;
+      for(const d of AXIS_ORBS){
+        const df=Math.abs(sep-d.a);
+        if(df<=d.o){
+          const col = AXIS_ASP_COLORS[d.n]||'#9B7A9E';
+          const da  = df > d.o*0.75 ? '4 3' : 'none';
+          // Draw from axis point on inner circle to planet point
+          const [ax1,ay1] = pt(axLon, 178-4, asc);
+          const [bx1,by1] = pt(p.lon,  178-4, asc);
+          const ln = document.createElementNS(NS,'line');
+          ['x1','y1','x2','y2'].forEach((a,i)=>ln.setAttribute(a,[ax1,ay1,bx1,by1][i]));
+          ln.setAttribute('stroke',col); ln.setAttribute('stroke-width','1.2');
+          ln.setAttribute('stroke-dasharray',da); ln.setAttribute('opacity','0.85');
+          g.appendChild(ln); break;
+        }
+      }
+    });
+
+    // Insert before asp-group so it's beneath planet lines
+    const aspG = svg.getElementById('asp-group');
+    if(aspG) svg.querySelector('#chart-root').insertBefore(g, aspG);
+    else svg.querySelector('#chart-root').appendChild(g);
+  });
+  // Refresh aspect table to include/exclude axis aspects
+  if(cd) renderAspects(cd.planets, cd.houses);
+}
+
+async function handleSubmit(e){
+  e.preventDefault();
+  const btn=document.getElementById('btn-gen'),errEl=document.getElementById('form-error');
+  errEl.textContent='';btn.disabled=true;btn.textContent='⌛ Calculating…';
+  try{
+    const cd=await calcChart(
+      document.getElementById('f-name').value.trim(),
+      document.getElementById('f-date').value,
+      document.getElementById('f-time').value,
+      document.getElementById('f-place').value.trim()
+    );
+    document.getElementById('res-name').textContent=cd.name;
+    document.getElementById('res-date').textContent=cd.dateLabel;
+    window._chartData = cd;
+    _axisActive.asc=false;_axisActive.mc=false;
+    ['asc','mc'].forEach(ax=>{const b=document.getElementById('btn-'+ax+'-asp');if(b){b.style.background='white';b.style.color='var(--mauve)';b.style.borderColor='rgba(107,68,113,.3)';};});
+    render(cd);
+    renderTable(cd.planets, {houses:cd.houses, ascLon:cd.ascLon, mcLon:cd.mcLon});
+    renderAspects(cd.planets,cd.houses);
+    const r=document.getElementById('results');r.classList.add('visible');
+    setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }catch(err){errEl.textContent=err.message||'Calculation error. Please check your data.';}
+  finally{btn.disabled=false;btn.textContent='✦ Generate my chart';}
+}
+</script>
+</body>
+</html>

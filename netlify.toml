@@ -44,3 +44,31 @@
   from = "/eventos"
   to = "/eventos.html"
   status = 200
+
+# ── Language detection: redirect English-preferring visitors to /en/ ──────────
+# Netlify reads Accept-Language header and matches the primary language.
+# Only the 3 high-impact pages have English versions.
+
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  conditions = {Language = ["en"]}
+
+[[redirects]]
+  from = "/index.html"
+  to = "/en/index.html"
+  status = 302
+  conditions = {Language = ["en"]}
+
+[[redirects]]
+  from = "/sesiones.html"
+  to = "/en/sesiones.html"
+  status = 302
+  conditions = {Language = ["en"]}
+
+[[redirects]]
+  from = "/carta-astral.html"
+  to = "/en/carta-astral.html"
+  status = 302
+  conditions = {Language = ["en"]}
