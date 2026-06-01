@@ -1025,7 +1025,8 @@
       <!-- YouTube embed -->
       <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;background:var(--midnight);box-shadow:var(--shadow-md)">
         <iframe
-          src="https://www.youtube.com/embed/videoseries?list=UUEgEBrgZ089qGkA3ZmumDfQ"
+          id="yt-latest-en"
+          src=""
           title="Lectora de Estrellas — YouTube"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1355,6 +1356,16 @@
       observer.observe(el);
     });
   });
+</script>
+<script>
+  fetch('/.netlify/functions/latest-video')
+    .then(r => r.json())
+    .then(data => {
+      if (data.videoId) {
+        document.getElementById('yt-latest-en').src =
+          'https://www.youtube.com/embed/' + data.videoId;
+      }
+    });
 </script>
 </body>
 </html>

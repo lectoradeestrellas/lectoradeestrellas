@@ -475,7 +475,8 @@
           <div class="youtube-video-label">Más reciente</div>
           <div class="youtube-embed-wrap">
             <iframe
-              src="https://www.youtube.com/embed/videoseries?list=UUEgEBrgZ089qGkA3ZmumDfQ"
+              id="yt-latest-aprende"
+              src=""
               title="Lectora de Estrellas — Más reciente"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
@@ -1193,6 +1194,16 @@
     } catch(e) {}
     window.location.href = 'checkout.html';
   }
+</script>
+<script>
+  fetch('/.netlify/functions/latest-video')
+    .then(r => r.json())
+    .then(data => {
+      if (data.videoId) {
+        document.getElementById('yt-latest-aprende').src =
+          'https://www.youtube.com/embed/' + data.videoId;
+      }
+    });
 </script>
 </body>
 </html>
