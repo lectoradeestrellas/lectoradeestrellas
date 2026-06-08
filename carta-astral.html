@@ -7,6 +7,8 @@
 <meta name="description" content="Genera tu carta astral personalizada con tus datos de nacimiento.">
 <link rel="stylesheet" href="css/styles.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/charts-manager.js"></script>
 <style>
 :root{--plum:#6B4471;--deep-plum:#3D1F45;--mauve:#9B7A9E;--gold:#D4A853;--midnight:#150D1E;--cream:#FAF6F0;--ink:#2A1A2E;--ink-soft:#6B5A72}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -310,8 +312,8 @@ body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-se
           style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:999px;border:1.5px solid rgba(107,68,113,.3);background:white;color:var(--mauve);cursor:pointer;transition:all .2s">
           Aspectos al MC
         </button>
-      </div>
-    </div>
+  </div>
+</div>
   </section>
   <section class="table-section">
     <div class="table-inner">
@@ -336,6 +338,31 @@ body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-se
     <h2 class="cta-title">¿Quieres entender tu carta?<br><em>Agenda una Lectura Natal</em></h2>
     <a href="sesiones.html" class="btn-cta">Reservar sesión →</a>
   </section>
+</div>
+
+<div id="save-chart-section" style="display:none;margin-top:1.5rem;text-align:center">
+  <div id="save-logged-in" style="display:none">
+    <button onclick="openSaveModal()" class="btn btn-secondary">Guardar esta carta</button>
+  </div>
+  <div id="save-logged-out" style="display:none">
+    <a href="login.html" class="btn btn-ghost" style="font-size:0.82rem">Inicia sesión para guardar esta carta</a>
+  </div>
+</div>
+
+<div id="save-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(21,13,30,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem" onclick="if(event.target===this)closeSaveModal()">
+  <div style="background:var(--parchment);border-radius:var(--radius-lg);padding:2rem 2.25rem;max-width:420px;width:100%;box-shadow:var(--shadow-lg)">
+    <h3 style="font-size:1.3rem;margin-bottom:0.3rem">Guardar carta astral</h3>
+    <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--ink-soft);margin-bottom:1.5rem">Dale un nombre para identificarla en tu cuenta.</p>
+    <div style="display:flex;flex-direction:column;gap:0.3rem;margin-bottom:1rem">
+      <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Nombre de la carta *</label>
+      <input type="text" id="chart-name-input" placeholder="Ej. Mi carta natal, Carta de mamá..." style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:white;outline:none">
+    </div>
+    <div id="save-modal-msg" style="font-family:var(--font-ui);font-size:0.82rem;margin-bottom:0.75rem;display:none"></div>
+    <div style="display:flex;gap:0.75rem">
+      <button onclick="saveCurrentChart()" class="btn btn-primary" style="flex:1;justify-content:center">Guardar carta</button>
+      <button onclick="closeSaveModal()" class="btn btn-ghost btn-sm">Cancelar</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1071,6 +1098,67 @@ function drawAxisAspects(){
   if(cd) renderAspects(cd.planets, cd.houses);
 }
 
+// ── Guardar carta ────────────────────────────────────────────────────────────
+let _currentChartData = null;
+
+function onChartGenerated(birthData) {
+  _currentChartData = birthData;
+  document.getElementById('save-chart-section').style.display = 'block';
+  ChartsManager.getCurrentUser().then(user => {
+    document.getElementById('save-logged-in').style.display  = user ? 'block' : 'none';
+    document.getElementById('save-logged-out').style.display = user ? 'none'  : 'block';
+  });
+}
+
+function openSaveModal() {
+  document.getElementById('save-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('chart-name-input').value = 'Mi carta natal';
+  document.getElementById('chart-name-input').focus();
+}
+
+function closeSaveModal() {
+  document.getElementById('save-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('save-modal-msg').style.display = 'none';
+}
+
+async function saveCurrentChart() {
+  const chartName = document.getElementById('chart-name-input').value.trim();
+  const msg = document.getElementById('save-modal-msg');
+  if (!chartName) {
+    msg.textContent = 'Por favor ponle un nombre a tu carta.';
+    msg.style.color = 'var(--rose)';
+    msg.style.display = 'block';
+    return;
+  }
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+  const result = await ChartsManager.saveChart({
+    chartName,
+    birthName:  _currentChartData?.nombre || null,
+    birthDate:  _currentChartData?.fecha  || null,
+    birthTime:  _currentChartData?.hora   || null,
+    birthPlace: _currentChartData?.lugar  || null,
+    chartData:  _currentChartData         || null,
+  });
+  if (result.error) {
+    msg.textContent = result.error;
+    msg.style.color = 'var(--rose)';
+    msg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Guardar carta';
+    return;
+  }
+  msg.innerHTML = '✓ Carta guardada. <a href="mi-cuenta.html" style="color:var(--plum);font-weight:500">Ver en mi cuenta →</a>';
+  msg.style.color = '#2d7a4f';
+  msg.style.display = 'block';
+  btn.textContent = '✓ Guardada';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSaveModal(); });
+
 async function handleSubmit(e){
   e.preventDefault();
   const btn=document.getElementById('btn-gen'),errEl=document.getElementById('form-error');
@@ -1092,6 +1180,12 @@ async function handleSubmit(e){
     renderAspects(cd.planets,cd.houses);
     const r=document.getElementById('results');r.classList.add('visible');
     setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'start'}),100);
+    onChartGenerated({
+      nombre: document.getElementById('f-name').value.trim(),
+      fecha:  document.getElementById('f-date').value,
+      hora:   document.getElementById('f-time').value,
+      lugar:  document.getElementById('f-place').value.trim()
+    });
   }catch(err){errEl.textContent=err.message||'Error al calcular. Verifica los datos.';}
   finally{btn.disabled=false;btn.textContent='✦ Generar mi carta';}
 }
