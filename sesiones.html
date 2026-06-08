@@ -650,7 +650,7 @@
     } else {
       content.innerHTML = `
         <h3>Solicitar ${sessionName}</h3>
-        <div class="modal-subtitle">Se entrega como nota de voz o reporte escrito por email en 24-48 hrs hábiles.</div>
+        <div class="modal-subtitle">Se entrega como nota de voz vía email en 24-48 hrs hábiles.</div>
         <div class="modal-price">$${price} MXN</div>
         <div class="modal-row">
           <div class="modal-field"><label class="modal-label">Tu nombre *</label><input class="modal-input" id="v-nombre" placeholder="Tu nombre"></div>
@@ -659,12 +659,7 @@
         <div class="modal-field"><label class="modal-label">Fecha de nacimiento * <span style="font-weight:400">(día / mes / año)</span></label>
           <input class="modal-input" id="v-nacimiento" placeholder="Ej. 15 / Marzo / 1992">
         </div>
-        <div class="modal-field"><label class="modal-label">¿Cómo prefieres recibir tu tirada? *</label>
-          <select class="modal-select" id="v-formato">
-            <option value="voz">🎙 Nota de voz por email</option>
-            <option value="reporte">📝 Reporte escrito por email</option>
-          </select>
-        </div>
+        <div class="modal-note">🎙 La entrega es por nota de voz vía email.</div>
         <div class="modal-field"><label class="modal-label">Intención o pregunta (opcional)</label><input class="modal-input" id="v-intencion" placeholder="Escríbela o déjala abierta"></div>
         <button class="checkout-btn-modal" onclick="checkoutVoice('${sessionName}',${price})">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -694,9 +689,8 @@
     const nombre = document.getElementById('v-nombre')?.value.trim();
     const email = document.getElementById('v-email')?.value.trim();
     const nacimiento = document.getElementById('v-nacimiento')?.value.trim();
-    const formato = document.getElementById('v-formato')?.value;
     if (!nombre || !email || !nacimiento) { alert('Por favor completa nombre, email y fecha de nacimiento.'); return; }
-    const note = `Formato: ${formato === 'voz' ? 'Nota de voz' : 'Reporte escrito'} · Nacimiento: ${nacimiento} · ${document.getElementById('v-intencion')?.value || 'Sin intención específica'}`;
+    const note = `Formato: Nota de voz por email · Nacimiento: ${nacimiento} · ${document.getElementById('v-intencion')?.value || 'Sin intención específica'}`;
     Cart.add({ id:sessionName.toLowerCase().replace(/\s+/g,'-'), name:sessionName, price, image:'images/sesiones/tiradas-estacionales.jpg', sku:'TIRADA-TEMP', note, customerEmail:email });
     closeModal();
     window.location.href = 'checkout.html';

@@ -550,16 +550,24 @@
   let paymentMethod = 'card';
   let cartItems = [];
 
+  const SESION_IDS = ['reporte-simbolos', 'tiradas-estacionales', 'tiradas-zodiacales'];
+
   document.addEventListener('DOMContentLoaded', () => {
     loadCart();
     const _cart = JSON.parse(localStorage.getItem('lde_cart') || '[]');
-    const _allDig = _cart.length > 0 && _cart.every(i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-'));
+    const _allDig = _cart.length > 0 && _cart.every(i =>
+      i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'')
+    );
+    const _hasSesion = _cart.some(i => SESION_IDS.includes(i.id||''));
     if (_allDig) {
       document.getElementById('address-panel')?.style.setProperty('display','none');
       document.getElementById('shipping-section')?.style.setProperty('display','none');
       const sh = document.getElementById('summary-shipping');
-      if(sh){sh.textContent='Sin envío (digital)';sh.className='';}
+      if(sh){sh.textContent='Sin envío (servicio digital)';sh.className='';}
       sessionStorage.setItem('lde_last_cart', JSON.stringify(_cart));
+    }
+    if (_hasSesion) {
+      document.getElementById('contact-phone')?.closest('.field-row')?.style.setProperty('display','none');
     }
     initStripe();
     syncCpFields();
@@ -787,7 +795,7 @@
   // ── Submit ────────────────────────────────────────────────
   function isDigitalOnly() {
     return cartItems.length > 0 && cartItems.every(
-      i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-')
+      i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'')
     );
   }
 
