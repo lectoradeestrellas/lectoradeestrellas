@@ -4,6 +4,7 @@
   "description": "Lectora de Estrellas — sitio web",
   "private": true,
   "dependencies": {
-    "stripe": "^14.0.0"
+    "stripe": "^14.0.0",
+    "@supabase/supabase-js": "^2.39.0"
   }
 }
