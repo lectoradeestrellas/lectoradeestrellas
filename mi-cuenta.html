@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta — Lectora de Estrellas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body { background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Header */
+    .account-header {
+      background: var(--midnight);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .account-logo {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      color: var(--parchment);
+      text-decoration: none;
+    }
+    .account-logo em { font-family: var(--font-body); font-style: italic; letter-spacing: 0; color: var(--mauve); }
+    .account-nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .account-nav-links a {
+      font-family: var(--font-ui); font-size: 0.78rem;
+      color: rgba(250,246,240,0.6); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .account-nav-links a:hover { color: var(--parchment); }
+    .logout-btn {
+      font-family: var(--font-ui); font-size: 0.75rem;
+      color: var(--mauve); background: none; border: none;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .logout-btn:hover { color: var(--rose); }
+
+    /* Hero */
+    .account-hero {
+      background: linear-gradient(135deg, var(--deep-plum), var(--midnight));
+      padding: 3rem 2rem;
+      border-bottom: 1px solid rgba(212,168,83,0.2);
+    }
+    .account-hero-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .user-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--plum), var(--mauve));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 1.5rem; color: white;
+      flex-shrink: 0;
+      border: 2px solid rgba(212,168,83,0.3);
+    }
+    .user-info h1 {
+      font-size: 1.5rem; color: white;
+      margin-bottom: 0.2rem;
+    }
+    .user-info p { font-family: var(--font-ui); font-size: 0.82rem; color: var(--mauve); }
+
+    /* Content */
+    .account-content {
+      max-width: 1100px; margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      flex: 1;
+    }
+
+    .section-title {
+      font-family: var(--font-ui); font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--mauve);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(155,122,158,0.15);
+    }
+
+    /* Product access cards */
+    .access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .access-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(155,122,158,0.12);
+      transition: box-shadow 0.3s, transform 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .access-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+    .access-card-img {
+      height: 140px; overflow: hidden; background: var(--deep-plum);
+      position: relative;
+    }
+    .access-card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+    .access-card-badge {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+      font-family: var(--font-ui); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem; border-radius: var(--radius-full);
+      background: var(--gold); color: #2a1f00;
+    }
+
+    .access-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .access-card-name { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+    .access-card-date { font-family: var(--font-ui); font-size: 0.72rem; color: var(--mauve); margin-bottom: 1rem; }
+    .access-card-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      width: 100%; padding: 0.65rem;
+      background: var(--plum); color: white;
+      border: none; border-radius: var(--radius-full);
+      font-family: var(--font-ui); font-size: 0.78rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      transition: background 0.2s; margin-top: auto;
+    }
+    .access-card-btn:hover { background: var(--deep-plum); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 3rem 1rem;
+      background: white; border-radius: var(--radius-lg);
+      border: 1px solid rgba(155,122,158,0.1);
+    }
+    .empty-state .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .empty-state h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--ink); }
+    .empty-state p { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 1.25rem; }
+
+    /* Loading */
+    .loading {
+      text-align: center; padding: 3rem;
+      font-family: var(--font-ui); font-size: 0.85rem; color: var(--mauve);
+    }
+
+    /* Chart cards */
+    .chart-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      border: 1px solid rgba(155,122,158,0.12);
+      transition: box-shadow 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .chart-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .chart-card-symbol {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--deep-plum), var(--plum));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; color: var(--gold);
+    }
+    .chart-card-name { font-size: 1rem; font-weight: 500; color: var(--ink); }
+    .chart-card-meta { font-family: var(--font-ui); font-size: 0.75rem; color: var(--mauve); line-height: 1.6; }
+    .chart-card-actions { display: flex; gap: 0.5rem; margin-top: auto; }
+    .chart-btn-view {
+      flex: 1; padding: 0.6rem;
+      background: var(--plum); color: white;
+      border: none; border-radius: var(--radius-full);
+      font-family: var(--font-ui); font-size: 0.75rem;
+      font-weight: 500; cursor: pointer;
+      text-decoration: none; text-align: center;
+      transition: background 0.2s;
+    }
+    .chart-btn-view:hover { background: var(--deep-plum); }
+    .chart-btn-delete {
+      width: 36px; height: 36px;
+      background: none; border: 1.5px solid rgba(201,125,110,0.3);
+      border-radius: var(--radius-full);
+      color: var(--rose); font-size: 0.85rem;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .chart-btn-delete:hover { background: rgba(201,125,110,0.1); border-color: var(--rose); }
+
+    @media(max-width:600px){
+      .account-hero-inner { flex-direction: column; text-align: center; }
+      .account-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="account-header">
+  <a href="index.html" class="account-logo">LECTORA <em>de</em> ESTRELLAS</a>
+  <div class="account-nav-links">
+    <a href="tienda.html">Tienda</a>
+    <a href="sesiones.html">Sesiones</a>
+    <a href="aprende.html">Aprende</a>
+    <button class="logout-btn" onclick="handleLogout()">Cerrar sesión</button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="account-hero">
+  <div class="account-hero-inner">
+    <div class="user-avatar" id="user-avatar">✦</div>
+    <div class="user-info">
+      <h1 id="user-name">Cargando...</h1>
+      <p id="user-email"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="account-content">
+
+  <!-- Mis productos digitales -->
+  <div id="access-section" style="margin-bottom:3rem">
+    <div class="section-title">✦ Mi contenido</div>
+    <div id="access-grid" class="access-grid">
+      <div class="loading">Cargando tu contenido... ✦</div>
+    </div>
+  </div>
+
+  <!-- Mis cartas astrales -->
+  <div id="charts-section">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(155,122,158,0.15)">
+      <div class="section-title" style="margin:0;border:none;padding:0">♀ Mis cartas astrales</div>
+      <a href="carta-astral.html" class="btn btn-secondary btn-sm">Generar nueva carta →</a>
+    </div>
+    <div id="charts-grid" class="access-grid">
+      <div class="loading">Cargando tus cartas... ✦</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://bvohupycpzbmkqyzgjup.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Product config — maps product_id to page and image
+  const PRODUCTS = {
+    'curso-venus': {
+      name: 'El Renacer de Venus',
+      url: 'curso-venus.html',
+      image: 'images/aprende/venus-portada.jpg',
+      badge: 'Curso',
+    },
+    'masterclass-renacer-venus': {
+      name: 'Masterclass El Renacer de Venus',
+      url: 'masterclass-renacer-venus.html',
+      image: 'images/aprende/venus-preview.jpg',
+      badge: 'Masterclass',
+    },
+    // Add more products here as you create them
+  };
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Check auth
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html?redirect=mi-cuenta.html';
+      return;
+    }
+
+    const user = session.user;
+    const nombre = user.user_metadata?.nombre || user.user_metadata?.full_name || user.email;
+    const initials = nombre.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+    document.getElementById('user-avatar').textContent = initials;
+    document.getElementById('user-name').textContent = `Hola, ${nombre.split(' ')[0]} ✦`;
+    document.getElementById('user-email').textContent = user.email;
+
+    // Load access and charts
+    await loadAccess(user.email);
+    await loadCharts(session.user.id);
+  });
+
+  async function loadCharts(userId) {
+    const grid = document.getElementById('charts-grid');
+
+    const { data, error } = await supabase
+      .from('user_charts')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error || !data?.length) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="icon">♀</div>
+          <h3>Aún no tienes cartas guardadas</h3>
+          <p>Genera tu carta astral y guárdala para consultarla cuando quieras.</p>
+          <a href="carta-astral.html" class="btn btn-primary btn-sm">Generar mi carta →</a>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.map(chart => {
+      const date = new Date(chart.created_at).toLocaleDateString('es-MX', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+      return `
+        <div class="chart-card">
+          <div style="display:flex;align-items:center;gap:0.875rem">
+            <div class="chart-card-symbol">♀</div>
+            <div>
+              <div class="chart-card-name">${chart.chart_name}</div>
+              <div class="chart-card-meta">Guardada el ${date}</div>
+            </div>
+          </div>
+          <div class="chart-card-meta">
+            ${chart.birth_name ? `<div>👤 ${chart.birth_name}</div>` : ''}
+            <div>📅 ${chart.birth_date}${chart.birth_time ? ' · ' + chart.birth_time : ''}</div>
+            <div>📍 ${chart.birth_place}</div>
+          </div>
+          <div class="chart-card-actions">
+            <a href="carta-astral.html?chart=${chart.id}" class="chart-btn-view">Ver carta →</a>
+            <button class="chart-btn-delete" onclick="confirmDelete('${chart.id}', '${chart.chart_name}')" title="Eliminar carta">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function confirmDelete(chartId, chartName) {
+    if (!confirm(`¿Eliminar la carta "${chartName}"? Esta acción no se puede deshacer.`)) return;
+    const { error } = await supabase.from('user_charts').delete().eq('id', chartId);
+    if (error) { alert('Error al eliminar. Intenta de nuevo.'); return; }
+    // Reload charts
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) await loadCharts(session.user.id);
+  }
+
+  async function loadAccess(email) {
+    const grid = document.getElementById('access-grid');
+
+    const { data, error } = await supabase
+      .from('user_access')
+      .select('*')
+      .eq('email', email)
+      .eq('active', true)
+      .order('purchase_date', { ascending: false });
+
+    if (error || !data?.length) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="icon">✨</div>
+          <h3>Aún no tienes contenido</h3>
+          <p>Aquí aparecerán los cursos y masterclasses que adquieras.</p>
+          <a href="aprende.html" class="btn btn-primary btn-sm">Explorar cursos →</a>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.map(item => {
+      const product = PRODUCTS[item.product_id] || {
+        name: item.product_name,
+        url: '#',
+        image: 'images/placeholder.jpg',
+        badge: 'Contenido',
+      };
+      const date = new Date(item.purchase_date).toLocaleDateString('es-MX', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+      return `
+        <a href="${product.url}" class="access-card">
+          <div class="access-card-img">
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+            <span class="access-card-badge">${product.badge}</span>
+          </div>
+          <div class="access-card-body">
+            <div class="access-card-name">${product.name}</div>
+            <div class="access-card-date">Adquirido el ${date}</div>
+            <span class="access-card-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+              Acceder al contenido
+            </span>
+          </div>
+        </a>`;
+    }).join('');
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>
