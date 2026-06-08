@@ -261,6 +261,20 @@ document.addEventListener('DOMContentLoaded', () => {
   Cart.init();
   Newsletter.init();
   Reveal.init();
+
+  // Redirect "Mi cuenta" links to mi-cuenta.html if user has an active session
+  try {
+    const key = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    if (key) {
+      const session = JSON.parse(localStorage.getItem(key));
+      if (session && session.access_token) {
+        ['nav-account-link', 'mobile-account-link'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.href = 'mi-cuenta.html';
+        });
+      }
+    }
+  } catch(e) {}
 });
 
 // Expose globally

@@ -95,3 +95,19 @@ async function getCurrentUser() {
 
 // Export to window
 window.ChartsManager = { saveChart, loadCharts, loadChart, deleteChart, getCurrentUser };
+
+// Redirect "Mi cuenta" links to mi-cuenta.html if user has an active session
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const key = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    if (key) {
+      const session = JSON.parse(localStorage.getItem(key));
+      if (session && session.access_token) {
+        ['nav-account-link', 'mobile-account-link'].forEach(function(id) {
+          const el = document.getElementById(id);
+          if (el) el.href = 'mi-cuenta.html';
+        });
+      }
+    }
+  } catch(e) {}
+});
