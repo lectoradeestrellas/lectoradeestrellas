@@ -353,6 +353,52 @@
     </div>
   </div>
 
+  <!-- Mi perfil -->
+  <div id="profile-section" style="margin-top:3rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(155,122,158,0.15)">
+      <div class="section-title" style="margin:0;border:none;padding:0">⚙️ Mi perfil</div>
+    </div>
+    <div style="background:white;border-radius:var(--radius-lg);padding:1.75rem;border:1px solid rgba(155,122,158,0.12)">
+      <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--ink-soft);margin-bottom:1.5rem">Guarda tu dirección para que se prerellene automáticamente en el checkout.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Teléfono</label>
+          <input id="profile-telefono" type="tel" placeholder="+52 81 0000 0000" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">País</label>
+          <input id="profile-pais" type="text" placeholder="MX" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1rem">
+        <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Dirección</label>
+        <input id="profile-direccion" type="text" placeholder="Calle y número" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Colonia</label>
+          <input id="profile-colonia" type="text" placeholder="Colonia" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">C.P.</label>
+          <input id="profile-cp" type="text" placeholder="64700" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Ciudad</label>
+          <input id="profile-ciudad" type="text" placeholder="Monterrey" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1.5rem">
+        <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Estado</label>
+        <input id="profile-estado" type="text" placeholder="Nuevo León" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button onclick="saveProfile()" class="btn btn-primary">Guardar perfil ✦</button>
+        <span id="profile-msg" style="font-family:var(--font-ui);font-size:0.82rem;display:none"></span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -403,10 +449,11 @@
     document.getElementById('user-name').textContent = `Hola, ${nombre.split(' ')[0]} ✦`;
     document.getElementById('user-email').textContent = user.email;
 
-    // Load access, charts and sessions
+    // Load access, charts, sessions and profile
     await loadAccess(user.email);
     await loadCharts(session.user.id);
     await loadSessions(user.email);
+    await loadProfile(session.user.id, user.email);
   });
 
   function formatDate(dateStr) {
@@ -581,6 +628,61 @@
           </div>
         </a>`;
     }).join('');
+  }
+
+  async function loadProfile(userId, email) {
+    const { data } = await supabaseClient
+      .from('user_profiles')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (data) {
+      document.getElementById('profile-telefono').value  = data.telefono  || '';
+      document.getElementById('profile-direccion').value = data.direccion || '';
+      document.getElementById('profile-colonia').value   = data.colonia   || '';
+      document.getElementById('profile-cp').value        = data.cp        || '';
+      document.getElementById('profile-ciudad').value    = data.ciudad    || '';
+      document.getElementById('profile-estado').value    = data.estado    || '';
+      document.getElementById('profile-pais').value      = data.pais      || 'MX';
+    }
+  }
+
+  async function saveProfile() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) return;
+
+    const msg = document.getElementById('profile-msg');
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = 'Guardando...';
+
+    const { error } = await supabaseClient
+      .from('user_profiles')
+      .upsert({
+        user_id:    session.user.id,
+        email:      session.user.email,
+        telefono:   document.getElementById('profile-telefono').value.trim(),
+        direccion:  document.getElementById('profile-direccion').value.trim(),
+        colonia:    document.getElementById('profile-colonia').value.trim(),
+        cp:         document.getElementById('profile-cp').value.trim(),
+        ciudad:     document.getElementById('profile-ciudad').value.trim(),
+        estado:     document.getElementById('profile-estado').value.trim(),
+        pais:       document.getElementById('profile-pais').value.trim() || 'MX',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'email' });
+
+    if (error) {
+      msg.textContent = 'Error al guardar. Intenta de nuevo.';
+      msg.style.color = 'var(--rose)';
+    } else {
+      msg.textContent = '✓ Perfil guardado correctamente';
+      msg.style.color = '#2d7a4f';
+    }
+    msg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Guardar perfil ✦';
+    setTimeout(() => msg.style.display = 'none', 3000);
   }
 
   async function handleLogout() {

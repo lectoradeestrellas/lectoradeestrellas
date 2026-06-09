@@ -540,7 +540,49 @@
 
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // ── Prerellenar datos desde el perfil guardado ────────────────────────────
+  async function prefillFromProfile() {
+    const client = window.supabase.createClient(
+      'https://bvohupycpzbmkqyzgjup.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4'
+    );
+
+    const { data: { session } } = await client.auth.getSession();
+    if (!session) return;
+
+    const { data: profile } = await client
+      .from('user_profiles')
+      .select('*')
+      .eq('email', session.user.email)
+      .single();
+
+    // Prerellenar nombre y email desde metadata de Supabase
+    const nombreMeta   = session.user.user_metadata?.nombre   || '';
+    const apellidoMeta = session.user.user_metadata?.apellido || '';
+    const fullName     = apellidoMeta ? `${nombreMeta} ${apellidoMeta}` : nombreMeta;
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+    set('contact-name',  fullName);
+    set('contact-email', session.user.email);
+
+    if (!profile) return;
+    set('contact-phone', profile.telefono  || '');
+    set('addr-street',   profile.direccion || '');
+    set('addr-cp',       profile.cp        || '');
+    set('addr-city',     profile.ciudad    || '');
+    set('addr-state',    profile.estado    || '');
+    if (profile.pais) {
+      const sel = document.getElementById('addr-country');
+      if (sel) sel.value = profile.pais;
+    }
+    // Sincronizar CP en el campo de cálculo de envío
+    syncCpFields?.();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => prefillFromProfile());
+
   // ── Init ─────────────────────────────────────────────────
   const STRIPE_PK = document.currentScript?.getAttribute('data-pk') ||
     (typeof STRIPE_PUBLISHABLE_KEY !== 'undefined' ? STRIPE_PUBLISHABLE_KEY : 'pk_live_51KNmHfA75QzRA5YyzeCPwTpeHWo5gxswMgQzty2lvMHPpeshdaXg8IZAgdj4Ttjdo3K0KlQRxW8pVPI4zg8LuKIn00Md4neVLL');
