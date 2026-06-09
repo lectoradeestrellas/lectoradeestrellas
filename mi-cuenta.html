@@ -351,7 +351,7 @@
   async function loadCharts(userId) {
     const grid = document.getElementById('charts-grid');
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('user_charts')
       .select('*')
       .eq('user_id', userId)
@@ -405,7 +405,7 @@
   async function loadSessions(email) {
     const list = document.getElementById('sessions-list');
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('user_sessions')
       .select('*')
       .eq('email', email)
@@ -470,7 +470,7 @@
   async function loadAccess(email) {
     const grid = document.getElementById('access-grid');
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('user_access')
       .select('*')
       .eq('email', email)
