@@ -336,10 +336,11 @@
 
     const user = session.user;
     const nombre = user.user_metadata?.nombre || user.user_metadata?.full_name || user.email;
-    const parts = nombre.trim().split(' ');
-    const initials = parts.length >= 2
-      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-      : parts[0].slice(0,2).toUpperCase();
+    const nombreMeta   = user.user_metadata?.nombre   || '';
+    const apellidoMeta = user.user_metadata?.apellido || '';
+    const initials = apellidoMeta
+      ? (nombreMeta[0] + apellidoMeta[0]).toUpperCase()
+      : nombreMeta.slice(0,2).toUpperCase();
 
     document.getElementById('user-avatar').textContent = initials;
     document.getElementById('user-name').textContent = `Hola, ${nombre.split(' ')[0]} ✦`;
