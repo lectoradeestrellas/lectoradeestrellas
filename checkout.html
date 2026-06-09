@@ -701,7 +701,13 @@
       const res = await fetch('/.netlify/functions/shipping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postalCode: cp, items: cartItems }),
+        body: JSON.stringify({
+          postalCode: cp,
+          city:   document.getElementById('addr-city')?.value.trim()   || '',
+          state:  document.getElementById('addr-state')?.value.trim()  || '',
+          street: document.getElementById('addr-street')?.value.trim() || '',
+          items:  cartItems,
+        }),
       });
 
       const data = await res.json();

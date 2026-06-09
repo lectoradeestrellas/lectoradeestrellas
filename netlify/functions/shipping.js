@@ -15,7 +15,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { postalCode, items } = JSON.parse(event.body);
+    const { postalCode, city, state, street, items } = JSON.parse(event.body);
 
     if (!postalCode || !items?.length) {
       return {
@@ -36,14 +36,22 @@ exports.handler = async (event) => {
 
     const totalWeight = items.reduce((sum, item) => sum + (item.weight || 0.3) * (item.qty || 1), 0);
 
-    const payload = {
+    const basePayload = {
       origin: {
-        postal_code: '64630',
+        postalCode: '64630',
         country: 'MX',
+        city: 'Monterrey',
+        state: 'NL',
+        street: 'Origen',
+        number: '1',
       },
       destination: {
-        postal_code: postalCode,
+        postalCode,
         country: 'MX',
+        city: city || '',
+        state: toStateCode(state),
+        street: street || 'Destino',
+        number: '1',
       },
       packages: [{
         content: 'Productos Lectora de Estrellas',
@@ -58,38 +66,34 @@ exports.handler = async (event) => {
         insurance: 0,
         declaredValue: 0,
       }],
-      shipment: {
-        carrier: ['fedex', 'estafeta', 'dhl', 'redpack', 'ups'],
-        type: 1,
-      },
     };
 
-    const response = await fetch('https://api.envia.com/ship/rate/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(payload),
-    });
+    // Envia.com requiere una petición individual por paquetería
+    const CARRIERS = ['fedex', 'estafeta', 'dhl', 'ups'];
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Envia.com error:', errText);
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          rates: [],
-          fallback: true,
-          message: 'No se pudo calcular el envío automáticamente. Te contactaremos con el costo.',
-        }),
-      };
+    async function quoteCarrier(carrier) {
+      try {
+        const res = await fetch('https://api.envia.com/ship/rate/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({ ...basePayload, shipment: { carrier, type: 1 } }),
+        });
+        const ct = res.headers.get('content-type') || '';
+        if (!ct.includes('application/json')) return [];
+        const data = await res.json();
+        if (data.meta === 'error' || data.error || data.message === 'Internal error') return [];
+        return data.data || [];
+      } catch {
+        return [];
+      }
     }
 
-    const data = await response.json();
+    const results = await Promise.all(CARRIERS.map(quoteCarrier));
 
-    const rates = (data.data || [])
+    const rates = results.flat()
       .filter(r => r.totalPrice > 0)
       .map(r => ({
         carrier: r.carrier,
@@ -120,6 +124,25 @@ exports.handler = async (event) => {
     };
   }
 };
+
+function toStateCode(state) {
+  if (!state) return '';
+  const s = state.trim().toLowerCase();
+  const map = {
+    'aguascalientes':'AGS','baja california':'BC','baja california norte':'BC',
+    'baja california sur':'BCS','campeche':'CAM','chiapas':'CHIS','chihuahua':'CHIH',
+    'ciudad de mexico':'DF','cdmx':'DF','df':'DF','distrito federal':'DF',
+    'coahuila':'COAH','colima':'COL','durango':'DGO','guanajuato':'GTO',
+    'guerrero':'GRO','hidalgo':'HGO','jalisco':'JAL','mexico':'MEX',
+    'estado de mexico':'MEX','michoacan':'MICH','michoacán':'MICH','morelos':'MOR',
+    'nayarit':'NAY','nuevo leon':'NL','nuevo león':'NL','oaxaca':'OAX',
+    'puebla':'PUE','queretaro':'QRO','querétaro':'QRO','quintana roo':'QROO',
+    'san luis potosi':'SLP','san luis potosí':'SLP','sinaloa':'SIN','sonora':'SON',
+    'tabasco':'TAB','tamaulipas':'TAMS','tlaxcala':'TLAX','veracruz':'VER',
+    'yucatan':'YUC','yucatán':'YUC','zacatecas':'ZAC',
+  };
+  return map[s] || state.slice(0, 4).toUpperCase();
+}
 
 function getCarrierLogo(carrier) {
   const logos = {
