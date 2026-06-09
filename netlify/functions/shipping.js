@@ -43,7 +43,7 @@ exports.handler = async (event) => {
 
     const payload = {
       origin: {
-        postal_code: '64700', // Tu código postal en Monterrey — CÁMBIALO
+        postal_code: '64630',
         country: 'MX',
       },
       destination: {
