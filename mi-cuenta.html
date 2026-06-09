@@ -662,6 +662,18 @@
       return;
     }
 
+    function getTrackingUrl(carrier, trackingNumber) {
+      const urls = {
+        'estafeta': `https://www.estafeta.com/herramientas/rastreo?wayBillType=1&wayBill=${trackingNumber}`,
+        'fedex':    `https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}`,
+        'dhl':      `https://www.dhl.com/mx-es/home/rastreo.html?tracking-id=${trackingNumber}`,
+        'redpack':  `https://www.redpack.com.mx/es/rastreo/?guias=${trackingNumber}`,
+        'ups':      `https://www.ups.com/track?tracknum=${trackingNumber}`,
+      };
+      const key = (carrier || '').toLowerCase();
+      return urls[key] || `https://www.google.com/search?q=rastreo+${carrier}+${trackingNumber}`;
+    }
+
     list.innerHTML = data.map(order => {
       const date = new Date(order.order_date).toLocaleDateString('es-MX', {
         year: 'numeric', month: 'long', day: 'numeric',
@@ -689,9 +701,16 @@
               ${date} · $${Number(order.total || 0).toLocaleString('es-MX')} MXN
             </div>
             <div style="font-family:var(--font-ui);font-size:0.78rem;color:var(--ink-soft);margin-top:0.25rem">${products}</div>
+            ${order.shipping_address ? `
+              <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--mauve);margin-top:0.2rem">
+                📍 ${order.shipping_address}${order.city ? ', ' + order.city : ''}${order.state ? ', ' + order.state : ''}
+              </div>` : ''}
             ${order.tracking_number ? `
               <div class="session-links" style="margin-top:0.5rem">
-                <span class="session-link-btn">📦 Guía: ${order.tracking_number}</span>
+                <a href="${getTrackingUrl(order.carrier, order.tracking_number)}"
+                   target="_blank" rel="noopener" class="session-link-btn">
+                  📦 ${order.carrier ? order.carrier + ' · ' : ''}Rastrear guía ${order.tracking_number}
+                </a>
               </div>` : ''}
           </div>
           <span class="session-status" style="background:${statusStyle.bg};color:${statusStyle.color}">${order.status || 'Nuevo'}</span>
