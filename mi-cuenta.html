@@ -348,6 +348,12 @@
     await loadSessions(user.email);
   });
 
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  }
+
   async function loadCharts(userId) {
     const grid = document.getElementById('charts-grid');
 
@@ -383,7 +389,7 @@
           </div>
           <div class="chart-card-meta">
             ${chart.birth_name ? `<div>👤 ${chart.birth_name}</div>` : ''}
-            <div>📅 ${chart.birth_date}${chart.birth_time ? ' · ' + chart.birth_time : ''}</div>
+            <div>📅 ${formatDate(chart.birth_date)}${chart.birth_time ? ' · ' + chart.birth_time : ''}</div>
             <div>📍 ${chart.birth_place}</div>
           </div>
           <div class="chart-card-actions">
