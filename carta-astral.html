@@ -322,6 +322,16 @@ body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-se
       </svg>
     </div>
   </section>
+
+  <div id="save-chart-section" style="display:none;background:var(--cream);padding:0 1rem 1.75rem;text-align:center">
+    <div id="save-logged-in" style="display:none">
+      <button onclick="openSaveModal()" class="btn btn-secondary">Guardar esta carta</button>
+    </div>
+    <div id="save-logged-out" style="display:none">
+      <a href="login.html" class="btn btn-ghost" style="font-size:0.82rem">Inicia sesión para guardar esta carta</a>
+    </div>
+  </div>
+
   <section class="legend-section">
     <div class="legend-inner">
       <p class="legend-title">Aspectos</p>
@@ -371,14 +381,6 @@ body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-se
   </section>
 </div>
 
-<div id="save-chart-section" style="display:none;margin-top:1.5rem;text-align:center">
-  <div id="save-logged-in" style="display:none">
-    <button onclick="openSaveModal()" class="btn btn-secondary">Guardar esta carta</button>
-  </div>
-  <div id="save-logged-out" style="display:none">
-    <a href="login.html" class="btn btn-ghost" style="font-size:0.82rem">Inicia sesión para guardar esta carta</a>
-  </div>
-</div>
 
 <div id="save-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(21,13,30,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem" onclick="if(event.target===this)closeSaveModal()">
   <div style="background:var(--parchment);border-radius:var(--radius-lg);padding:2rem 2.25rem;max-width:420px;width:100%;box-shadow:var(--shadow-lg)">
@@ -397,6 +399,36 @@ body{background:var(--midnight);color:var(--cream);font-family:'DM Sans',sans-se
 </div>
 
 <script>
+// ── Cargar carta guardada si viene con ?chart=ID en la URL ────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  const params  = new URLSearchParams(window.location.search);
+  const chartId = params.get('chart');
+  if (!chartId) return;
+
+  const client = window.supabase.createClient(
+    'https://bvohupycpzbmkqyzgjup.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4'
+  );
+
+  const { data: chart, error } = await client
+    .from('user_charts')
+    .select('*')
+    .eq('id', chartId)
+    .single();
+
+  if (!chart || error) return;
+
+  const f = id => document.getElementById(id);
+  if (chart.birth_name  && f('f-name'))  f('f-name').value  = chart.birth_name;
+  if (chart.birth_date  && f('f-date'))  f('f-date').value  = chart.birth_date;
+  if (chart.birth_time  && f('f-time'))  f('f-time').value  = chart.birth_time;
+  if (chart.birth_place && f('f-place')) f('f-place').value = chart.birth_place;
+
+  // Disparar la generación automáticamente
+  const form = document.getElementById('chart-form');
+  if (form) form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+});
+
 const D2R=Math.PI/180,R2D=180/Math.PI;
 const SIGN_NAMES=['Aries','Tauro','Géminis','Cáncer','Leo','Virgo','Libra','Escorpio','Sagitario','Capricornio','Acuario','Piscis'];
 const SIGN_IDS=['z-aries','z-tauro','z-geminis','z-cancer','z-leo','z-virgo','z-libra','z-escorpio','z-sagitario','z-capricornio','z-acuario','z-piscis'];
