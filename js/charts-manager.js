@@ -7,6 +7,15 @@
 const SUPABASE_URL = 'https://bvohupycpzbmkqyzgjup.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4';
 
+// Normaliza fecha a YYYY-MM-DD para Supabase
+function toSupabaseDate(dateStr) {
+  if (!dateStr) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  const parts = dateStr.split('/');
+  if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  return dateStr;
+}
+
 // Initialize Supabase client (reuses existing if already loaded)
 function getSupabase() {
   if (window._supabaseClient) return window._supabaseClient;
@@ -30,7 +39,7 @@ async function saveChart({ chartName, birthName, birthDate, birthTime, birthPlac
       email:      session.user.email,
       chart_name: chartName,
       birth_name: birthName || null,
-      birth_date: birthDate,
+      birth_date: toSupabaseDate(birthDate),
       birth_time: birthTime || null,
       birth_place: birthPlace,
       birth_lat:  birthLat || null,

@@ -420,7 +420,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const f = id => document.getElementById(id);
   if (chart.birth_name  && f('f-name'))  f('f-name').value  = chart.birth_name;
-  if (chart.birth_date  && f('f-date'))  f('f-date').value  = chart.birth_date;
+  if (chart.birth_date && f('f-date')) {
+    const parts = chart.birth_date.split('-');
+    if (parts.length === 3) {
+      const isDateInput = f('f-date').type === 'date';
+      f('f-date').value = isDateInput
+        ? chart.birth_date
+        : `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+  }
   if (chart.birth_time  && f('f-time'))  f('f-time').value  = chart.birth_time;
   if (chart.birth_place && f('f-place')) f('f-place').value = chart.birth_place;
 
