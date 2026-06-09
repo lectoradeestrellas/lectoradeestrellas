@@ -302,7 +302,7 @@
 <script>
   const SUPABASE_URL = 'https://bvohupycpzbmkqyzgjup.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // Product config — maps product_id to page and image
   const PRODUCTS = {
@@ -328,7 +328,7 @@
 
   document.addEventListener('DOMContentLoaded', async () => {
     // Check auth
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     if (!session) {
       window.location.href = 'login.html?redirect=mi-cuenta.html';
       return;
@@ -396,9 +396,9 @@
 
   async function confirmDelete(chartId, chartName) {
     if (!confirm(`¿Eliminar la carta "${chartName}"? Esta acción no se puede deshacer.`)) return;
-    const { error } = await supabase.from('user_charts').delete().eq('id', chartId);
+    const { error } = await supabaseClient.from('user_charts').delete().eq('id', chartId);
     if (error) { alert('Error al eliminar. Intenta de nuevo.'); return; }
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) await loadCharts(session.user.id);
   }
 
@@ -517,7 +517,7 @@
   }
 
   async function handleLogout() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     window.location.href = 'index.html';
   }
 </script>
