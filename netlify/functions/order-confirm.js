@@ -59,6 +59,37 @@ exports.handler = async (event) => {
     const productIds = (metadata.productIds || '').split(',').map(s => s.trim()).filter(Boolean);
     await routeToSheets(orderData, productIds);
 
+    // 1b. Guardar en Supabase user_orders
+    try {
+      const { createClient } = require('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_KEY
+      );
+
+      await supabase.from('user_orders').insert({
+        email:             orderData.email,
+        order_number:      orderData.orderId,
+        products:          cartItems || [],
+        subtotal:          parseFloat((orderData.subtotal || '0').replace(/[^0-9.]/g, '')) || 0,
+        shipping:          parseFloat((orderData.shipping || '0').replace(/[^0-9.]/g, '')) || 0,
+        total:             parseFloat((orderData.total || '0').replace(/[^0-9.]/g, '')) || 0,
+        shipping_address:  orderData.address || '',
+        city:              orderData.city || '',
+        state:             orderData.state || '',
+        country:           orderData.country || 'MX',
+        carrier:           orderData.carrier || '',
+        tracking_number:   null,
+        status:            'Nuevo',
+        stripe_payment_id: session.id || '',
+      });
+
+      console.log('✓ Order saved to Supabase:', orderData.email);
+    } catch (supabaseErr) {
+      console.error('Supabase order save error:', supabaseErr.message);
+      // No bloqueamos el flujo si Supabase falla
+    }
+
     // 2. Send confirmation email to customer
     await sendConfirmationEmail(orderData);
 

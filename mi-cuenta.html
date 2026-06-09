@@ -399,6 +399,17 @@
     </div>
   </div>
 
+  <!-- Mis pedidos -->
+  <div id="orders-section" style="margin-top:3rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(155,122,158,0.15)">
+      <div class="section-title" style="margin:0;border:none;padding:0">🛍️ Mis pedidos</div>
+      <a href="tienda.html" class="btn btn-secondary btn-sm">Ver tienda →</a>
+    </div>
+    <div id="orders-list">
+      <div class="loading">Cargando tus pedidos... ✦</div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -449,11 +460,12 @@
     document.getElementById('user-name').textContent = `Hola, ${nombre.split(' ')[0]} ✦`;
     document.getElementById('user-email').textContent = user.email;
 
-    // Load access, charts, sessions and profile
+    // Load access, charts, sessions, profile and orders
     await loadAccess(user.email);
     await loadCharts(session.user.id);
     await loadSessions(user.email);
     await loadProfile(session.user.id, user.email);
+    await loadOrders(user.email);
   });
 
   function formatDate(dateStr) {
@@ -627,6 +639,63 @@
             </span>
           </div>
         </a>`;
+    }).join('');
+  }
+
+  async function loadOrders(email) {
+    const list = document.getElementById('orders-list');
+
+    const { data, error } = await supabaseClient
+      .from('user_orders')
+      .select('*')
+      .eq('email', email)
+      .order('order_date', { ascending: false });
+
+    if (error || !data?.length) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🛍️</div>
+          <h3>Aún no tienes pedidos</h3>
+          <p>Aquí aparecerá el historial de todo lo que hayas comprado.</p>
+          <a href="tienda.html" class="btn btn-primary btn-sm">Ver tienda →</a>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = data.map(order => {
+      const date = new Date(order.order_date).toLocaleDateString('es-MX', {
+        year: 'numeric', month: 'long', day: 'numeric',
+        timeZone: 'America/Monterrey'
+      });
+
+      const products = Array.isArray(order.products)
+        ? order.products.map(p => `${p.qty || 1}x ${p.name}`).join(', ')
+        : order.products || 'Productos';
+
+      const statusColors = {
+        'Nuevo':     { bg: 'rgba(212,168,83,0.1)',  color: '#8a6820' },
+        'En camino': { bg: 'rgba(74,144,217,0.1)',  color: '#1a5c9e' },
+        'Entregado': { bg: 'rgba(45,122,79,0.1)',   color: '#2d7a4f' },
+        'Cancelado': { bg: 'rgba(201,125,110,0.1)', color: 'var(--rose)' },
+      };
+      const statusStyle = statusColors[order.status] || statusColors['Nuevo'];
+
+      return `
+        <div class="session-card">
+          <div class="session-icon">🛍️</div>
+          <div class="session-info">
+            <div class="session-type">${order.order_number || 'Pedido'}</div>
+            <div class="session-date">
+              ${date} · $${Number(order.total || 0).toLocaleString('es-MX')} MXN
+            </div>
+            <div style="font-family:var(--font-ui);font-size:0.78rem;color:var(--ink-soft);margin-top:0.25rem">${products}</div>
+            ${order.tracking_number ? `
+              <div class="session-links" style="margin-top:0.5rem">
+                <span class="session-link-btn">📦 Guía: ${order.tracking_number}</span>
+              </div>` : ''}
+          </div>
+          <span class="session-status" style="background:${statusStyle.bg};color:${statusStyle.color}">${order.status || 'Nuevo'}</span>
+        </div>`;
     }).join('');
   }
 
