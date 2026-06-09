@@ -660,7 +660,7 @@
                   <div class="panel-body">
                     <div class="panel-price">$200 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
                     <div class="panel-price-note">Acceso permanente · A tu propio ritmo</div>
-                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-fechas','Masterclass: Elige tus estrellas', '200','images/aprende/poster-fechas.jpg','MC-FECHAS')">
+                    <button class="panel-buy-btn" data-product="masterclass-elige-tus-estrellas" onclick="addMcToCart('masterclass-fechas','Masterclass: Elige tus estrellas', '200','images/aprende/poster-fechas.jpg','MC-FECHAS')">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       Unirme a la masterclass
                     </button>
@@ -768,7 +768,7 @@
                   <div class="panel-body">
                     <div class="panel-price">$450 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
                     <div class="panel-price-note">Acceso permanente · A tu propio ritmo</div>
-                    <button class="panel-buy-btn" onclick="addMcToCart('masterclass-herencias','Masterclass: Herencias astrológicas', '450','images/aprende/poster-herencias.jpg','MC-HERENCIAS')">
+                    <button class="panel-buy-btn" data-product="masterclass-herencias-astrologicas" onclick="addMcToCart('masterclass-herencias','Masterclass: Herencias astrológicas', '450','images/aprende/poster-herencias.jpg','MC-HERENCIAS')">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       Unirme a la masterclass
                     </button>
@@ -930,7 +930,7 @@
               <div class="panel-price">$400 <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">MXN</span></div>
               <div class="panel-price-note">Acceso permanente · A tu propio ritmo</div>
 
-              <button class="panel-buy-btn" onclick="Cart.add({id:'curso-venus',name:'Curso El Renacer de Venus',price:400,image:'images/aprende/venus-preview.jpg',sku:'CURSOVENUS',digital:true});window.location.href='checkout.html'">
+              <button class="panel-buy-btn" data-product="curso-venus" onclick="Cart.add({id:'curso-venus',name:'Curso El Renacer de Venus',price:400,image:'images/aprende/venus-preview.jpg',sku:'CURSOVENUS',digital:true});window.location.href='checkout.html'">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 Unirme al curso
               </button>
@@ -1235,6 +1235,64 @@
           'https://www.youtube.com/embed/' + data.videoId;
       }
     });
+</script>
+<script>
+// Detectar acceso a cursos y masterclasses
+async function checkProductAccess() {
+  if (!window.supabase) return;
+
+  const client = window.supabase.createClient(
+    'https://bvohupycpzbmkqyzgjup.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4'
+  );
+
+  const { data: { session } } = await client.auth.getSession();
+  if (!session) return;
+
+  const { data: access } = await client
+    .from('user_access')
+    .select('product_id')
+    .eq('email', session.user.email)
+    .eq('active', true);
+
+  if (!access?.length) return;
+
+  const productIds = access.map(a => a.product_id);
+
+  const products = {
+    'curso-venus': {
+      url: 'curso-venus.html',
+      label: 'Acceder al curso →',
+    },
+    'masterclass-elige-tus-estrellas': {
+      url: 'masterclass-elige-tus-estrellas.html',
+      label: 'Acceder a la masterclass →',
+    },
+    'masterclass-herencias-astrologicas': {
+      url: 'masterclass-herencias-astrologicas.html',
+      label: 'Acceder a la masterclass →',
+    },
+  };
+
+  productIds.forEach(productId => {
+    const product = products[productId];
+    if (!product) return;
+
+    const btn = document.querySelector(`[data-product="${productId}"]`);
+    if (!btn) return;
+
+    btn.textContent = product.label;
+    btn.style.background = 'var(--gold)';
+    btn.style.color = '#2a1f00';
+    btn.onclick = () => window.location.href = product.url;
+  });
+}
+
+// Cargar Supabase y verificar acceso
+const s = document.createElement('script');
+s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+s.onload = checkProductAccess;
+document.head.appendChild(s);
 </script>
 </body>
 </html>
