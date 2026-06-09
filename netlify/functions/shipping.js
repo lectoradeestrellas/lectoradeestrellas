@@ -1,7 +1,4 @@
 // netlify/functions/shipping.js
-// Cotiza envío en tiempo real con envia.com API
-// Variables de entorno requeridas: ENVIA_API_KEY
-
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -24,7 +21,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Se requiere código postal y productos' }),
+        body: JSON.stringify({ error: 'Se requiere CP y productos' }),
       };
     }
 
@@ -37,9 +34,7 @@ exports.handler = async (event) => {
       };
     }
 
-    // Calculate total weight & dimensions from cart items
-    // Each item is assumed ~300g, 20x15x5cm — adjust per product if needed
-    const totalWeight = items.reduce((sum, item) => sum + (item.weight || 0.3) * item.qty, 0);
+    const totalWeight = items.reduce((sum, item) => sum + (item.weight || 0.3) * (item.qty || 1), 0);
 
     const payload = {
       origin: {
@@ -64,7 +59,7 @@ exports.handler = async (event) => {
         declaredValue: 0,
       }],
       shipment: {
-        carrier: ['fedex', 'estafeta', 'dhl', 'redpack'],
+        carrier: ['fedex', 'estafeta', 'dhl', 'redpack', 'ups'],
         type: 1,
       },
     };
@@ -94,7 +89,6 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    // Format rates for frontend
     const rates = (data.data || [])
       .filter(r => r.totalPrice > 0)
       .map(r => ({
@@ -102,7 +96,7 @@ exports.handler = async (event) => {
         service: r.service,
         price: Math.ceil(r.totalPrice),
         currency: 'MXN',
-        days: r.deliveryEstimation || '3-7 días hábiles',
+        days: r.deliveryEstimation || '3-7 días',
         logo: getCarrierLogo(r.carrier),
       }))
       .sort((a, b) => a.price - b.price);
