@@ -256,12 +256,28 @@
     .account-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .account-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+    .mobile-logout {
+      display: none;
+      width: 100%;
+      padding: 0.875rem;
+      background: none;
+      border: 1.5px solid rgba(201,125,110,0.3);
+      border-radius: var(--radius-full);
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--rose);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 2rem;
+    }
+    .mobile-logout:hover { background: rgba(201,125,110,0.06); }
     @media(max-width:600px){
       .account-hero-inner { flex-direction: column; text-align: center; }
       .account-nav-links { display: none; }
       .account-hamburger { display: flex; }
       .session-card { grid-template-columns: auto 1fr; }
       .session-status { grid-column: 1/-1; justify-self: start; }
+      .mobile-logout { display: block; }
     }
   </style>
 </head>
@@ -410,6 +426,8 @@
       </div>
     </div>
   </div>
+
+  <button class="mobile-logout" onclick="handleLogout()">Cerrar sesión</button>
 
 </div>
 

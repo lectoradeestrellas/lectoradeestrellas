@@ -49,6 +49,14 @@
       margin: 0 auto;
       padding: 0 2rem;
       display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .page-tabs-inner::-webkit-scrollbar { display: none; }
+    @media (max-width: 768px) {
+      .page-tabs-inner { padding: 0 1rem; }
+      .page-tab { padding: 0.875rem 1.1rem; font-size: 0.8rem; }
     }
     .page-tab {
       padding: 1rem 1.75rem;
