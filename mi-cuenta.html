@@ -9,7 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    body { background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; }
+    body { background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    *, *::before, *::after { box-sizing: border-box; max-width: 100%; }
 
     /* Header */
     .account-header {
@@ -371,21 +372,21 @@
     </div>
     <div style="background:white;border-radius:var(--radius-lg);padding:1.75rem;border:1px solid rgba(155,122,158,0.12)">
       <p style="font-family:var(--font-ui);font-size:0.85rem;color:var(--ink-soft);margin-bottom:1.5rem">Guarda tu dirección para que se prerellene automáticamente en el checkout.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem">
         <div style="display:flex;flex-direction:column;gap:0.35rem">
           <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Teléfono</label>
-          <input id="profile-telefono" type="tel" placeholder="+52 81 0000 0000" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+          <input id="profile-telefono" type="tel" placeholder="+52 81 0000 0000" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none;width:100%">
         </div>
         <div style="display:flex;flex-direction:column;gap:0.35rem">
           <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">País</label>
-          <input id="profile-pais" type="text" placeholder="MX" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
+          <input id="profile-pais" type="text" placeholder="MX" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none;width:100%">
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1rem">
         <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Dirección</label>
         <input id="profile-direccion" type="text" placeholder="Calle y número" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-bottom:1rem">
         <div style="display:flex;flex-direction:column;gap:0.35rem">
           <label style="font-family:var(--font-ui);font-size:0.75rem;font-weight:500;color:var(--ink-soft)">Colonia</label>
           <input id="profile-colonia" type="text" placeholder="Colonia" style="padding:0.75rem 1rem;border:1.5px solid rgba(155,122,158,0.25);border-radius:var(--radius-sm);font-family:var(--font-ui);font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none">
@@ -548,6 +549,11 @@
       return;
     }
 
+    const now = new Date();
+
+    const upcoming = data.filter(s => s.session_date && new Date(s.session_date) > now && s.status !== 'Cancelada');
+    const past     = data.filter(s => !s.session_date || new Date(s.session_date) <= now || s.status === 'Cancelada');
+
     const sessionIcons = {
       'Lectura Natal':    '⭐',
       'Lectura Kármica':  '🌑',
@@ -560,7 +566,7 @@
       'Guía del Año':     '📅',
     };
 
-    list.innerHTML = data.map(session => {
+    function renderSession(session) {
       const date = session.session_date
         ? new Date(session.session_date).toLocaleDateString('es-MX', {
             year: 'numeric', month: 'long', day: 'numeric',
@@ -569,6 +575,7 @@
           })
         : 'Fecha por confirmar';
 
+      const isUpcoming = session.session_date && new Date(session.session_date) > now;
       const status = (session.status || 'Confirmada').toLowerCase();
       const icon = sessionIcons[session.session_type] || '🌙';
 
@@ -582,15 +589,52 @@
               ${session.duration ? ' · ' + session.duration : ''}
               ${session.price ? ' · $' + Number(session.price).toLocaleString('es-MX') + ' MXN' : ''}
             </div>
-            ${session.recording_url || session.summary_url ? `
-              <div class="session-links">
-                ${session.recording_url ? `<a href="${session.recording_url}" target="_blank" rel="noopener" class="session-link-btn">▶ Ver grabación</a>` : ''}
-                ${session.summary_url  ? `<a href="${session.summary_url}"  target="_blank" rel="noopener" class="session-link-btn">📄 Descargar resumen PDF</a>` : ''}
+            ${session.shipping_address ? `
+              <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--mauve);margin-top:0.2rem">
+                📍 ${session.shipping_address}
               </div>` : ''}
+            <div class="session-links">
+              ${isUpcoming && session.meeting_url ? `
+                <a href="${session.meeting_url}" target="_blank" rel="noopener" class="session-link-btn" style="background:var(--plum);color:white;border-color:var(--plum)">
+                  📹 Unirse a Google Meet
+                </a>` : ''}
+              ${isUpcoming && session.cal_booking_url ? `
+                <a href="${session.cal_booking_url}" target="_blank" rel="noopener" class="session-link-btn">
+                  🗓️ Ver detalles de la sesión
+                </a>` : ''}
+              ${!isUpcoming && session.recording_url ? `
+                <a href="${session.recording_url}" target="_blank" rel="noopener" class="session-link-btn">
+                  ▶ Ver grabación
+                </a>` : ''}
+              ${!isUpcoming && session.summary_url ? `
+                <a href="${session.summary_url}" target="_blank" rel="noopener" class="session-link-btn">
+                  📄 Descargar resumen PDF
+                </a>` : ''}
+            </div>
           </div>
           <span class="session-status ${status}">${session.status || 'Confirmada'}</span>
         </div>`;
-    }).join('');
+    }
+
+    let html = '';
+
+    if (upcoming.length) {
+      html += `
+        <div style="font-family:var(--font-ui);font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--plum);margin-bottom:0.875rem">
+          Próximas sesiones
+        </div>
+        ${upcoming.map(renderSession).join('')}`;
+    }
+
+    if (past.length) {
+      html += `
+        <div style="font-family:var(--font-ui);font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);margin:${upcoming.length ? '2rem' : '0'} 0 0.875rem">
+          Sesiones anteriores
+        </div>
+        ${past.map(renderSession).join('')}`;
+    }
+
+    list.innerHTML = html;
   }
 
   async function loadAccess(email) {

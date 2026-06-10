@@ -86,6 +86,11 @@ exports.handler = async (event) => {
           price:           SESSION_PRICES[eventSlug] || null,
           status:          'Confirmada',
           cal_booking_id:  String(booking?.uid || booking?.id || ''),
+          cal_booking_url: booking?.metadata?.videoCallUrl ||
+                           booking?.references?.[0]?.meetingUrl ||
+                           `https://cal.com/booking/${booking?.uid}` || null,
+          meeting_url:     booking?.videoCallUrl ||
+                           booking?.metadata?.videoCallUrl || null,
           recording_url:   null, // Andrea adds this manually after the session
           summary_url:     null, // Andrea adds this manually after the session
           notes:           null,

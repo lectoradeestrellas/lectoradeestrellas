@@ -400,6 +400,28 @@
             <input type="email" id="contact-email" placeholder="tu@email.com" required>
           </div>
         </div>
+        <div id="account-suggestion" style="display:none;margin-top:0.5rem;padding:0.75rem 1rem;background:rgba(107,68,113,0.06);border-radius:var(--radius-sm);border:1px solid rgba(155,122,158,0.15)">
+          <p style="font-family:var(--font-ui);font-size:0.78rem;color:var(--ink-soft);margin:0">
+            ✦ <a href="login.html?redirect=checkout.html" style="color:var(--plum);font-weight:500">Inicia sesión</a>
+            o <a href="registro.html?redirect=checkout.html" style="color:var(--plum);font-weight:500">crea tu cuenta</a>
+            para prerellenar tus datos automáticamente
+          </p>
+        </div>
+        <script>
+          (function() {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+            s.onload = async () => {
+              const client = window.supabase.createClient(
+                'https://bvohupycpzbmkqyzgjup.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2b2h1cHljcHpibWtxeXpnanVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDI3NjgsImV4cCI6MjA5NjQxODc2OH0.umbGX48cmi0Gob62dpipDH9YN7n74dFI0rVNnuCrFV4'
+              );
+              const { data: { session } } = await client.auth.getSession();
+              if (!session) document.getElementById('account-suggestion').style.display = 'block';
+            };
+            document.head.appendChild(s);
+          })();
+        </script>
         <div class="field-row full">
           <div class="field">
             <label>Teléfono</label>

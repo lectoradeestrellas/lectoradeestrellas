@@ -161,6 +161,8 @@
     msg.textContent = '✓ Cuenta creada. Revisa tu email para confirmar tu cuenta y luego inicia sesión.';
     msg.className = 'auth-message success';
     btn.textContent = '✓ Cuenta creada';
+    const redirect = new URLSearchParams(window.location.search).get('redirect') || 'mi-cuenta.html';
+    setTimeout(() => window.location.href = redirect, 2000);
   }
 </script>
 </body>
