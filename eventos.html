@@ -1007,7 +1007,7 @@
       const btn = document.getElementById('taller-add-btn');
       const stockMsg = document.getElementById('taller-stock-msg');
 
-      if (!data.available) {
+      if (data.available === false) {
         if (btn) {
           btn.disabled = true;
           btn.textContent = 'Agotado';
