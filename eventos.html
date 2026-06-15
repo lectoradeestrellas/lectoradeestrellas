@@ -190,6 +190,23 @@
     .rsvp-input.error { border-color: var(--rose); }
     .rsvp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
+    /* Cover design picker */
+    .design-hint {
+      font-family: var(--font-ui); font-size: 0.78rem;
+      color: var(--ink-soft); line-height: 1.5; margin: 0.3rem 0 0.6rem;
+    }
+    .design-options { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .design-option {
+      flex: 1; cursor: pointer; position: relative;
+      border: 2px solid rgba(155,122,158,0.2);
+      border-radius: var(--radius-sm); overflow: hidden;
+      text-align: center; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .design-option input { position: absolute; top: 0.5rem; left: 0.5rem; width: 18px; height: 18px; z-index: 2; accent-color: var(--plum); }
+    .design-option img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .design-option span { display: block; padding: 0.4rem; font-family: var(--font-ui); font-size: 0.78rem; color: var(--ink-soft); }
+    .design-option:has(input:checked) { border-color: var(--plum); box-shadow: 0 0 0 2px rgba(155,122,158,0.15); }
+
     .rsvp-note {
       font-family: var(--font-ui); font-size: 0.75rem;
       color: var(--mauve); line-height: 1.5; margin-bottom: 1.25rem;
@@ -389,6 +406,65 @@
       </div>
 
       <button class="btn btn-primary" onclick="openRsvp()">RSVP — Reservar mi lugar ✦</button>
+    </div>
+
+    <!-- Taller Libreta Mágica — Featured upcoming event -->
+    <div class="event-featured" data-reveal>
+      <div class="event-featured-img">
+        <img class="event-flyer" src="images/eventos/taller-libreta-magica-2026.jpg" alt="Taller Libreta Mágica" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+      </div>
+      <div class="event-featured-body">
+        <div class="event-date-badge">Cupo limitado · 6 lugares</div>
+        <div class="event-subtitle">Crea tu libreta y comienza tu journaling intuitivo usando las cartas</div>
+        <h2>Taller Libreta Mágica</h2>
+
+        <p>Crea tu libreta con tus propias manos y llénala de intención y magia desde la primera página.</p>
+
+        <div class="event-details-list">
+          <div class="event-detail">🗓 <strong>Sábado 4 de julio de 2026</strong></div>
+          <div class="event-detail">⏰ <strong>10:00 am – 1:00 pm</strong></div>
+          <div class="event-detail">📍 <strong>La Mano Oculta Café</strong> · SPGG, Monterrey</div>
+        </div>
+
+        <div class="event-price-tag">✦ Inversión: $1,200 MXN</div>
+
+        <div class="event-actions">
+          <button class="btn btn-primary" id="taller-add-btn" onclick="openRsvpLibreta()">RSVP — Reservar lugar</button>
+          <a href="#libreta-desc" class="btn btn-ghost btn-sm">Leer más ↓</a>
+        </div>
+        <p id="taller-stock-msg" style="font-family:var(--font-ui);font-size:0.82rem;margin-top:0.5rem;display:none"></p>
+      </div>
+    </div>
+
+    <!-- Full description -->
+    <div id="libreta-desc" style="background:white;border-radius:var(--radius-lg);padding:2.5rem;margin-bottom:2rem;border:1px solid rgba(155,122,158,0.1)" data-reveal>
+      <h3 style="font-size:1.5rem;margin-bottom:1.25rem">Sobre este taller 📓✨</h3>
+      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1.25rem;font-size:0.97rem">En este taller vas a aprender a hacer tu propia libreta y diferentes técnicas para hacer journaling con un oráculo, tarot o cartas de afirmaciones 🌟 ¡no necesitas experiencia previa! Si ya tienes un mazo de oráculo, tarot o cartas de afirmaciones lo puedes llevar para ponerlo en práctica.</p>
+
+      <p style="font-family:var(--font-ui);font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:0.75rem">Incluye:</p>
+      <ul style="color:var(--ink-soft);line-height:1.7;font-size:0.92rem;margin:0 0 1.5rem;padding-left:1.25rem">
+        <li>Elección de diseño de portada a personalizar</li>
+        <li>Todos los materiales: dos cartones, hojas de laminado, portada y contraportada impresas con foil dorado personalizado, arillos de engargolado, ligas, ojillos para sujetar la liga, hojas de interiores impresas en puntos, tablas para cortar, exacto para cortar, regla, hueso y corta esquina</li>
+        <li>Maquinaria (laminadora y engargoladora)</li>
+        <li>Acompañamiento</li>
+        <li>Clase sobre técnicas de journaling intuitivo</li>
+        <li>Ejercicios prácticos</li>
+        <li>Guía impresa sobre journaling intuitivo con técnicas</li>
+      </ul>
+
+      <p style="font-family:var(--font-ui);font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:0.75rem">¿Qué aprenderás?</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;margin-bottom:1.5rem">
+        <div style="font-size:0.9rem;color:var(--ink-soft)">📓 Cómo armar una libreta usando la laminadora y engargoladora</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">📓 Qué es el journaling y cómo integrarlo a tu vida</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">📓 Cómo usar cartas de oráculo o afirmaciones para obtener claridad y guía</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">📓 Técnicas de escritura para conectar con tu intuición</div>
+      </div>
+
+      <div style="background:rgba(201,125,110,0.08);border:1px solid rgba(201,125,110,0.2);border-radius:var(--radius-sm);padding:0.875rem 1rem;font-family:var(--font-ui);font-size:0.82rem;color:var(--rose);display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem">
+        ‼️ Cupo limitado: solo 6 lugares disponibles
+      </div>
+
+      <button class="btn btn-primary" onclick="openRsvpLibreta()">RSVP — Reservar mi lugar ✦</button>
     </div>
 
   </div>
@@ -629,6 +705,61 @@
   </div>
 </div>
 
+<!-- RSVP Modal — Taller Libreta Mágica -->
+<div class="modal-overlay" id="rsvp-modal-libreta" onclick="if(event.target===this)closeRsvpLibreta()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeRsvpLibreta()">×</button>
+    <div id="rsvp-content-libreta">
+      <div class="modal-event-tag">Taller</div>
+      <h3>Taller Libreta Mágica</h3>
+      <div class="modal-event-meta">
+        🗓 Sábado 4 de julio · ⏰ 10:00 am – 1:00 pm<br>
+        📍 La Mano Oculta Café · SPGG · $1,200 MXN
+      </div>
+
+      <div class="rsvp-field">
+        <label class="rsvp-label">Nombre completo *</label>
+        <input class="rsvp-input" type="text" id="rsvpL-nombre" placeholder="Tu nombre completo">
+      </div>
+      <div class="rsvp-row">
+        <div class="rsvp-field">
+          <label class="rsvp-label">Correo electrónico *</label>
+          <input class="rsvp-input" type="email" id="rsvpL-email" placeholder="tu@email.com">
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">Teléfono *</label>
+          <input class="rsvp-input" type="tel" id="rsvpL-telefono" placeholder="Tu teléfono">
+        </div>
+      </div>
+
+      <div class="rsvp-field">
+        <label class="rsvp-label">Elige el diseño de portada</label>
+        <p class="design-hint">Podrás elegir uno de estos dos diseños para la portada de tu libreta (lo que está en negro va en foil dorado).</p>
+        <div class="design-options">
+          <label class="design-option">
+            <input type="radio" name="rsvpL-diseno" value="Diseño 1" checked>
+            <img src="images/eventos/libreta-magica-diseno-1.jpg" alt="Diseño de portada 1" onerror="this.src='images/placeholder.jpg'">
+            <span>Diseño 1</span>
+          </label>
+          <label class="design-option">
+            <input type="radio" name="rsvpL-diseno" value="Diseño 2">
+            <img src="images/eventos/libreta-magica-diseno-2.jpg" alt="Diseño de portada 2" onerror="this.src='images/placeholder.jpg'">
+            <span>Diseño 2</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="rsvp-note">
+        💫 La inversión de $1,200 MXN se paga en línea al registrarte. Al completar tu pago confirmas tu lugar (cupo limitado a 6 personas) — te llevaremos a la página de pago seguro.
+      </div>
+
+      <button class="rsvp-submit" id="rsvp-btn-libreta" onclick="submitRsvpLibreta()">
+        Continuar al pago ✦
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Cart -->
 <div class="cart-overlay" id="cart-overlay"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
@@ -755,9 +886,155 @@
       </div>`;
   }
 
+  // ── RSVP — Taller Libreta Mágica ───────────────────────
+  const RSVP_STORAGE_KEY_LIBRETA = 'lde_rsvp_libreta_magica_2026';
+
+  function openRsvpLibreta() {
+    document.getElementById('rsvp-modal-libreta').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRsvpLibreta() {
+    document.getElementById('rsvp-modal-libreta').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  async function submitRsvpLibreta() {
+    const nombre   = document.getElementById('rsvpL-nombre')?.value.trim();
+    const email    = document.getElementById('rsvpL-email')?.value.trim();
+    const telefono = document.getElementById('rsvpL-telefono')?.value.trim();
+    const diseno   = document.querySelector('input[name="rsvpL-diseno"]:checked')?.value;
+
+    // Validate
+    if (!nombre || !email || !telefono) {
+      ['rsvpL-nombre','rsvpL-email','rsvpL-telefono'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el?.value.trim()) { el?.classList.add('error'); setTimeout(()=>el?.classList.remove('error'),2500); }
+      });
+      return;
+    }
+
+    const btn = document.getElementById('rsvp-btn-libreta');
+    btn.disabled = true;
+    btn.textContent = 'Verificando disponibilidad...';
+
+    // Check remaining spots before continuing to payment
+    try {
+      const stockRes = await fetch('/.netlify/functions/check-stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: 'taller-libreta-magica' }),
+      });
+      const stockData = await stockRes.json();
+      if (stockData.available === false) {
+        document.getElementById('rsvp-content-libreta').innerHTML = `
+          <div class="rsvp-success">
+            <div class="success-icon">📓</div>
+            <h4>¡Cupo lleno!</h4>
+            <p>Este taller ya está lleno. Síguenos en Instagram o suscríbete al newsletter para avisos de próximas fechas.</p>
+            <button class="btn btn-secondary btn-sm" onclick="closeRsvpLibreta()" style="margin-top:1.5rem">Cerrar</button>
+          </div>`;
+        return;
+      }
+    } catch (e) {
+      console.warn('Stock check error:', e);
+    }
+
+    btn.textContent = 'Enviando...';
+
+    // Save to localStorage (for the attendee list)
+    const rsvps = JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY_LIBRETA) || '[]');
+    rsvps.push({ nombre, email, telefono, diseno, fecha: new Date().toISOString() });
+    localStorage.setItem(RSVP_STORAGE_KEY_LIBRETA, JSON.stringify(rsvps));
+
+    try {
+      // Guardar en Google Sheets vía Netlify function
+      fetch('/.netlify/functions/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre, email, telefono, diseno,
+          evento: 'Taller Libreta Mágica',
+          fechaEvento: 'Sábado 4 de julio 2026 · 10:00 am - 1:00 pm',
+          lugar: 'La Mano Oculta Café · SPGG',
+        }),
+      }).catch(e => console.warn('RSVP function error:', e));
+
+      // Notificación por email vía Formspree
+      if (FORMSPREE && !FORMSPREE.includes('YOUR_FORM_ID')) {
+        await fetch(FORMSPREE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: `✦ RSVP Taller Libreta Mágica — ${nombre}`,
+            _replyto: email,
+            nombre, email, telefono, diseno,
+            evento: 'Taller Libreta Mágica',
+            fecha_evento: 'Sábado 4 de julio 2026 · 10:00 am - 1:00 pm',
+            lugar: 'La Mano Oculta Café · SPGG',
+            mensaje: `Nueva confirmación de asistencia para el Taller Libreta Mágica.\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}\nDiseño elegido: ${diseno}`,
+          }),
+        });
+      }
+    } catch (e) {
+      console.warn('RSVP submit error:', e);
+    }
+
+    // Add to cart (avoid duplicating if already added) and go to checkout to pay
+    if (!Cart.items().some(i => i.id === 'taller-libreta-magica')) {
+      Cart.add({
+        id: 'taller-libreta-magica',
+        name: 'Taller Libreta Mágica',
+        price: 1200,
+        image: 'images/eventos/taller-libreta-magica-2026.jpg',
+      });
+    }
+
+    btn.textContent = 'Redirigiendo al pago...';
+    window.location.href = 'checkout.html';
+  }
+
+  // ── Stock check — Taller Libreta Mágica ───────────────
+  async function checkTallerStock() {
+    try {
+      const res = await fetch('/.netlify/functions/check-stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: 'taller-libreta-magica' }),
+      });
+      const data = await res.json();
+
+      const btn = document.getElementById('taller-add-btn');
+      const stockMsg = document.getElementById('taller-stock-msg');
+
+      if (!data.available) {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = 'Agotado';
+          btn.style.background = 'var(--mauve)';
+          btn.style.cursor = 'not-allowed';
+        }
+        if (stockMsg) {
+          stockMsg.textContent = 'Este taller está lleno. ¡Suscríbete al newsletter para avisos de próximas fechas!';
+          stockMsg.style.display = 'block';
+          stockMsg.style.color = 'var(--rose)';
+        }
+      } else if (typeof data.stock_available === 'number' && typeof data.stock_total === 'number') {
+        if (stockMsg) {
+          stockMsg.textContent = `Solo quedan ${data.stock_available} de ${data.stock_total} plazas disponibles`;
+          stockMsg.style.display = 'block';
+          stockMsg.style.color = data.stock_available <= 2 ? 'var(--rose)' : 'var(--mauve)';
+        }
+      }
+    } catch (err) {
+      console.error('Stock check error:', err);
+    }
+  }
+
   // ── Init ─────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     renderPastEvents();
+    checkTallerStock();
 
     // Reveal animation
     const obs = new IntersectionObserver((entries) => {

@@ -14,19 +14,21 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Invalid JSON' };
   }
 
-  const { nombre, apellido, email, evento, fechaEvento, lugar } = data;
-  if (!nombre || !apellido || !email || !evento) {
+  const { nombre, apellido, email, telefono, diseno, evento, fechaEvento, lugar } = data;
+  if (!nombre || !email || !evento) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Faltan campos requeridos' }) };
   }
 
   const row = [
     new Date().toLocaleString('es-MX', { timeZone: 'America/Monterrey' }),
     nombre,
-    apellido,
+    apellido || '',
     email,
     evento,
     fechaEvento || '',
     lugar || '',
+    telefono || '',
+    diseno || '',
   ];
 
   try {
@@ -60,7 +62,7 @@ async function writeToSheets(row) {
   const token = await getGoogleToken(serviceAccountKey);
 
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${sheetsId}/values/RSVPs!A:G:append?valueInputOption=USER_ENTERED`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${sheetsId}/values/RSVPs!A:I:append?valueInputOption=USER_ENTERED`,
     {
       method: 'POST',
       headers: {

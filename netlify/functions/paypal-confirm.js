@@ -11,6 +11,7 @@ const {
   sendConfirmationEmail,
   sendAdminNotification,
   sendDownloadLink,
+  decrementLimitedStock,
 } = require('./lib/order-processing');
 
 exports.handler = async (event) => {
@@ -65,6 +66,9 @@ exports.handler = async (event) => {
     if (body.isDigital === 'true') {
       await sendDownloadLink(orderData, body.downloadLinks);
     }
+
+    // 6. Decrementar stock de productos con cupo limitado (ej. talleres)
+    await decrementLimitedStock(productIds);
 
     console.log(`PayPal order ${orderData.orderId} processed successfully`);
     return { statusCode: 200, body: JSON.stringify({ success: true, orderId: orderData.orderId }) };

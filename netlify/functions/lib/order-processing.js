@@ -157,6 +157,29 @@ function parseProductsString(productsStr) {
   });
 }
 
+// ── Stock limitado ─────────────────────────────────────────
+
+// Productos con cupo limitado — agregar aquí futuros productos con stock
+const STOCK_LIMITED_PRODUCTS = ['taller-libreta-magica'];
+
+// Descuenta una plaza por cada producto de cupo limitado incluido en el pedido
+async function decrementLimitedStock(productIds) {
+  for (const productId of STOCK_LIMITED_PRODUCTS) {
+    if (!productIds.includes(productId)) continue;
+
+    try {
+      await fetch(`${process.env.URL}/.netlify/functions/decrement-stock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId }),
+      });
+      console.log(`✓ Stock decremented for ${productId}`);
+    } catch (err) {
+      console.error('Stock decrement error:', err.message);
+    }
+  }
+}
+
 // ── Emails via Formspree ──────────────────────────────────
 async function sendConfirmationEmail(order) {
   const endpoint = process.env.FORMSPREE_ENDPOINT;
@@ -265,4 +288,5 @@ module.exports = {
   sendConfirmationEmail,
   sendAdminNotification,
   sendDownloadLink,
+  decrementLimitedStock,
 };

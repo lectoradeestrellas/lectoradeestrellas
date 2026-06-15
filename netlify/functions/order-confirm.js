@@ -11,6 +11,7 @@ const {
   sendConfirmationEmail,
   sendAdminNotification,
   sendDownloadLink,
+  decrementLimitedStock,
 } = require('./lib/order-processing');
 
 exports.handler = async (event) => {
@@ -80,6 +81,9 @@ exports.handler = async (event) => {
     if (metadata.isDigital === 'true') {
       await sendDownloadLink(orderData, metadata.downloadLinks);
     }
+
+    // 6. Decrementar stock de productos con cupo limitado (ej. talleres)
+    await decrementLimitedStock(productIds);
 
     console.log(`Order ${orderData.orderId} processed successfully`);
     return { statusCode: 200, body: JSON.stringify({ success: true, orderId: orderData.orderId }) };

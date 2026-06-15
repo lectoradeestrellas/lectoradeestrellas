@@ -402,6 +402,21 @@ const PRODUCTS = {
     downloadNote: 'Recibes el link de descarga en tu email al confirmar el pago',
     downloadUrl: 'https://drive.google.com/file/d/1DiKupYBO9yw-n1rbFbernhOTc312SMsf/view?usp=share_link',
   },
+  /* ── EVENTOS & TALLERES ─────────────────────────────── */
+
+  'taller-libreta-magica': {
+    id: 'taller-libreta-magica',
+    name: 'Taller Libreta Mágica',
+    category: 'eventos',
+    price: 1200,
+    sku: 'TALLERLIBRETA',
+    digital: true,
+    shipping: false,
+    images: [
+      'images/eventos/taller-libreta-magica-2026.jpg',
+    ],
+    description: `Taller presencial para crear tu propia libreta artesanal y comenzar tu journaling intuitivo usando cartas. Sábado 4 de julio de 2026, 10:00 am – 1:00 pm en La Mano Oculta Café (SPGG, Monterrey). Cupo limitado a 6 personas.`,
+  },
 };
 
 // Category labels for display
