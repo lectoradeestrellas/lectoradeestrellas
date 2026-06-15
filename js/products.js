@@ -374,6 +374,7 @@ const PRODUCTS = {
     specs: 'Formato PDF · Descarga digital · Sin envío físico',
     shipping: false,
     downloadNote: 'Recibes el link de descarga en tu email al confirmar el pago',
+    downloadUrl: 'https://drive.google.com/file/d/19-dxPsVDaT1ON00t10NnjZi8yBd3dKW5/view?usp=share_link',
   },
 
   'calendario-astrologico-digital-2026': {
@@ -399,6 +400,7 @@ const PRODUCTS = {
     specs: 'Formato PDF · Descarga digital · Sin envío físico',
     shipping: false,
     downloadNote: 'Recibes el link de descarga en tu email al confirmar el pago',
+    downloadUrl: 'https://drive.google.com/file/d/1DiKupYBO9yw-n1rbFbernhOTc312SMsf/view?usp=share_link',
   },
 };
 

@@ -374,6 +374,14 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/favicon.png">
   <meta name="theme-color" content="#6B4471">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TFFNCZZKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TFFNCZZKE');
+</script>
 </head>
 <body>
 
@@ -849,7 +857,8 @@
           });
         },
         onApprove: (data, actions) => {
-          return actions.order.capture().then(details => {
+          return actions.order.capture().then(async details => {
+            await confirmPayPalOrder(details);
             handleOrderSuccess({ paypalOrderId: details.id });
           });
         },
@@ -940,6 +949,10 @@
   async function processStripePayment(btn) {
     const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0) + (selectedShipping?.price || 0);
 
+    const downloadLinks = cartItems
+      .map(i => ({ name: i.name, url: window.PRODUCTS?.[i.id]?.downloadUrl }))
+      .filter(l => l.url);
+
     // Create payment intent via Netlify function
     const res = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'POST',
@@ -961,6 +974,8 @@
           products:        cartItems.map(i => `${i.qty}x ${i.name}`).join(', '),
           productIds:      cartItems.map(i => i.id).join(','),
           birthData:       JSON.stringify(cartItems.filter(i => i.birthData).map(i => ({ name: i.name, ...i.birthData }))),
+          isDigital:       downloadLinks.length > 0 ? 'true' : 'false',
+          downloadLinks:   JSON.stringify(downloadLinks),
         },
       }),
     });
@@ -978,6 +993,39 @@
     if (stripeError) throw new Error(stripeError.message);
     if (paymentIntent?.status === 'succeeded') {
       handleOrderSuccess({ stripePaymentIntentId: paymentIntent.id });
+    }
+  }
+
+  async function confirmPayPalOrder(details) {
+    const downloadLinks = cartItems
+      .map(i => ({ name: i.name, url: window.PRODUCTS?.[i.id]?.downloadUrl }))
+      .filter(l => l.url);
+
+    try {
+      await fetch('/.netlify/functions/paypal-confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paypalOrderId:   details.id,
+          customerName:    document.getElementById('contact-name').value,
+          customerEmail:   document.getElementById('contact-email').value,
+          customerPhone:   document.getElementById('contact-phone').value,
+          shippingAddress: document.getElementById('addr-street').value,
+          city:            document.getElementById('addr-city').value,
+          state:           document.getElementById('addr-state').value,
+          postalCode:      document.getElementById('addr-cp').value,
+          country:         document.getElementById('addr-country').value || 'MX',
+          carrier:         selectedShipping?.carrier || '',
+          shippingCost:    selectedShipping?.price || 0,
+          products:        cartItems.map(i => ({ id: i.id, name: i.name, qty: i.qty || 1, price: i.price })),
+          birthData:       JSON.stringify(cartItems.filter(i => i.birthData).map(i => ({ name: i.name, ...i.birthData }))),
+          isDigital:       downloadLinks.length > 0 ? 'true' : 'false',
+          downloadLinks:   JSON.stringify(downloadLinks),
+          total:           cartItems.reduce((sum, i) => sum + i.price * (i.qty || 1), 0) + (selectedShipping?.price || 0),
+        }),
+      });
+    } catch (err) {
+      console.error('paypal-confirm error:', err);
     }
   }
 

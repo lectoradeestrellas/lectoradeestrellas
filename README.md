@@ -25,7 +25,7 @@ Arrastra TODA esta carpeta y espera a que cargue. Luego click **"Commit changes"
 5. En "Site name" escribe: `lectoradeestrellas`
 6. Click **"Deploy site"**
 
-¡Listo! En 1-2 minutos tu sitio estará en `lectoradeestrellas.netlify.app`
+¡Listo! En 1-2 minutos tu sitio estará en `lectoradeestrellas.com`
 
 ---
 

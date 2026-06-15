@@ -4,10 +4,11 @@
 //
 // Configuración en Cal.com:
 // Settings → Developer → Webhooks → Add webhook
-// URL: https://lectoradeestrellas.netlify.app/.netlify/functions/cal-webhook
+// URL: https://lectoradeestrellas.com/.netlify/functions/cal-webhook
 // Events: BOOKING_CREATED, BOOKING_CANCELLED
 
 const { createClient } = require('@supabase/supabase-js');
+const { writeToTab } = require('./lib/order-processing');
 
 // Map Cal.com event slugs to readable session names
 const SESSION_NAMES = {
@@ -102,6 +103,28 @@ exports.handler = async (event) => {
       }
 
       console.log(`✓ Session saved: ${email} → ${sessionType}`);
+
+      // Guardar en Google Sheets — pestaña Sesiones
+      try {
+        await writeToTab(null, 'Sesiones', [
+          new Date().toLocaleString('es-MX', { timeZone: 'America/Monterrey' }),
+          booking?.startTime ? new Date(booking.startTime).toLocaleString('es-MX', { timeZone: 'America/Monterrey' }) : '',
+          booking?.attendees?.[0]?.name || '',
+          email,
+          sessionType,
+          SESSION_DURATIONS[eventSlug] || '',
+          SESSION_PRICES[eventSlug] ? `$${SESSION_PRICES[eventSlug]}` : '',
+          'Google Meet',
+          '',
+          '',
+          'Confirmada',
+          '',
+        ]);
+        console.log('✓ Session saved to Google Sheets');
+      } catch (sheetsErr) {
+        console.error('Google Sheets error:', sheetsErr.message);
+        // No bloqueamos el flujo si Sheets falla
+      }
     }
 
     if (triggerEvent === 'BOOKING_CANCELLED') {

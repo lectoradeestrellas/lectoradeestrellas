@@ -26,7 +26,7 @@ exports.handler = async (event) => {
       automatic_payment_methods: { enabled: true },
       metadata: {
         ...metadata,
-        source: 'lectoradeestrellas.netlify.app',
+        source: 'lectoradeestrellas.com',
       },
     });
 
