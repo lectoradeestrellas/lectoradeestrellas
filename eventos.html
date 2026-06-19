@@ -467,6 +467,54 @@
       <button class="btn btn-primary" onclick="openRsvpLibreta()">RSVP — Reservar mi lugar ✦</button>
     </div>
 
+    <!-- Conoce tu ADN Astrológico — Featured upcoming event -->
+    <div class="event-featured" data-reveal>
+      <div class="event-featured-img">
+        <img class="event-flyer" src="images/eventos/adn-astrologico-2026.jpg" alt="Conoce tu ADN Astrológico" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+      </div>
+      <div class="event-featured-body">
+        <div class="event-date-badge">Cupo limitado</div>
+        <div class="event-subtitle">Plática</div>
+        <h2>Conoce tu ADN Astrológico</h2>
+
+        <p>¿Sabías que el mapa en el cielo en el día, hora y lugar en que naciste es tu ADN astrológico? Tu propia huella digital estelar que te hace ser tú ✨</p>
+
+        <div class="event-details-list">
+          <div class="event-detail">🗓 <strong>Martes 7 de julio de 2026</strong></div>
+          <div class="event-detail">⏰ <strong>7:00 pm</strong></div>
+          <div class="event-detail">📍 <strong>The Evolution Spot</strong> · Cumbres 1er sector, Monterrey</div>
+        </div>
+
+        <div class="event-price-tag">✦ Aportación: $111 MXN</div>
+
+        <div class="event-actions">
+          <button class="btn btn-primary" onclick="openRsvpAdn()">RSVP — Reservar lugar</button>
+          <a href="#adn-desc" class="btn btn-ghost btn-sm">Leer más ↓</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full description -->
+    <div id="adn-desc" style="background:white;border-radius:var(--radius-lg);padding:2.5rem;margin-bottom:2rem;border:1px solid rgba(155,122,158,0.1)" data-reveal>
+      <h3 style="font-size:1.5rem;margin-bottom:1.25rem">Sobre esta plática ✨</h3>
+      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1.25rem;font-size:0.97rem">¿Sabías que el mapa en el cielo en el día, hora y lugar en que naciste es tu ADN astrológico? Tu propia huella digital estelar que te hace ser tú ✨</p>
+      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1.25rem;font-size:0.97rem">En esta plática introductoria, vamos a explorar los 12 signos zodiacales y los planetas que componen tu personalidad con una perspectiva evolutiva, en donde no determinan quiénes eres sino nos muestran los diferentes potenciales que puedes elegir llegar a ser 🌟</p>
+      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1.25rem;font-size:0.97rem">En lugar de encasillarnos con estereotipos y descripciones limitantes, podemos encontrar en la astrología una valiosa herramienta de autoconocimiento y evolución personal: ¡descúbrela cómo habita en ti! 💫</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;margin-bottom:1.25rem">
+        <div style="font-size:0.9rem;color:var(--ink-soft)">🗓 Martes 7 de julio de 2026</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">⏰ 7:00 pm</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">📍 The Evolution Spot · Cumbres 1er sector, Monterrey</div>
+        <div style="font-size:0.9rem;color:var(--ink-soft)">✦ Aportación: $111 MXN</div>
+      </div>
+
+      <div style="background:rgba(201,125,110,0.08);border:1px solid rgba(201,125,110,0.2);border-radius:var(--radius-sm);padding:0.875rem 1rem;font-family:var(--font-ui);font-size:0.82rem;color:var(--rose);display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem">
+        ‼️ Cupo limitado — regístrate para apartar tu lugar. El pago se realiza el día del evento.
+      </div>
+
+      <button class="btn btn-primary" onclick="openRsvpAdn()">RSVP — Reservar mi lugar ✦</button>
+    </div>
+
   </div>
 </section>
 
@@ -760,6 +808,44 @@
   </div>
 </div>
 
+<!-- RSVP Modal — Conoce tu ADN Astrológico -->
+<div class="modal-overlay" id="rsvp-modal-adn" onclick="if(event.target===this)closeRsvpAdn()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeRsvpAdn()">×</button>
+    <div id="rsvp-content-adn">
+      <div class="modal-event-tag">Plática</div>
+      <h3>Conoce tu ADN Astrológico</h3>
+      <div class="modal-event-meta">
+        🗓 Martes 7 de julio · ⏰ 7:00 pm<br>
+        📍 The Evolution Spot · Cumbres 1er sector · $111 MXN aportación
+      </div>
+
+      <div class="rsvp-row">
+        <div class="rsvp-field">
+          <label class="rsvp-label">Nombre *</label>
+          <input class="rsvp-input" type="text" id="rsvpA-nombre" placeholder="Tu nombre">
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">Apellido *</label>
+          <input class="rsvp-input" type="text" id="rsvpA-apellido" placeholder="Tu apellido">
+        </div>
+      </div>
+      <div class="rsvp-field">
+        <label class="rsvp-label">Correo electrónico *</label>
+        <input class="rsvp-input" type="email" id="rsvpA-email" placeholder="tu@email.com">
+      </div>
+
+      <div class="rsvp-note">
+        💫 La aportación de $111 MXN se paga en el lugar el día del evento. Al registrarte confirmas tu asistencia y te reservamos un lugar.
+      </div>
+
+      <button class="rsvp-submit" id="rsvp-btn-adn" onclick="submitRsvpAdn()">
+        Confirmar mi lugar ✦
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Cart -->
 <div class="cart-overlay" id="cart-overlay"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
@@ -992,6 +1078,81 @@
 
     btn.textContent = 'Redirigiendo al pago...';
     window.location.href = 'checkout.html';
+  }
+
+  // ── RSVP — Conoce tu ADN Astrológico ───────────────────
+  const RSVP_STORAGE_KEY_ADN = 'lde_rsvp_adn_astrologico_2026';
+
+  function openRsvpAdn() {
+    document.getElementById('rsvp-modal-adn').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRsvpAdn() {
+    document.getElementById('rsvp-modal-adn').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  async function submitRsvpAdn() {
+    const nombre   = document.getElementById('rsvpA-nombre')?.value.trim();
+    const apellido = document.getElementById('rsvpA-apellido')?.value.trim();
+    const email    = document.getElementById('rsvpA-email')?.value.trim();
+
+    if (!nombre || !apellido || !email) {
+      ['rsvpA-nombre','rsvpA-apellido','rsvpA-email'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el?.value.trim()) { el?.classList.add('error'); setTimeout(()=>el?.classList.remove('error'),2500); }
+      });
+      return;
+    }
+
+    const btn = document.getElementById('rsvp-btn-adn');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const rsvps = JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY_ADN) || '[]');
+    rsvps.push({ nombre, apellido, email, fecha: new Date().toISOString() });
+    localStorage.setItem(RSVP_STORAGE_KEY_ADN, JSON.stringify(rsvps));
+
+    try {
+      fetch('/.netlify/functions/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre, apellido, email,
+          evento: 'Conoce tu ADN Astrológico',
+          fechaEvento: 'Martes 7 de julio 2026 · 7:00 pm',
+          lugar: 'The Evolution Spot · Cumbres 1er sector, Monterrey',
+        }),
+      }).catch(e => console.warn('RSVP function error:', e));
+
+      if (FORMSPREE && !FORMSPREE.includes('YOUR_FORM_ID')) {
+        await fetch(FORMSPREE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: `✦ RSVP Conoce tu ADN Astrológico — ${nombre} ${apellido}`,
+            _replyto: email,
+            nombre, apellido, email,
+            evento: 'Conoce tu ADN Astrológico',
+            fecha_evento: 'Martes 7 de julio 2026 · 7:00 pm',
+            lugar: 'The Evolution Spot · Cumbres 1er sector, Monterrey',
+            mensaje: `Nueva confirmación de asistencia para Conoce tu ADN Astrológico.\n\nNombre: ${nombre} ${apellido}\nEmail: ${email}`,
+          }),
+        });
+      }
+    } catch (e) {
+      console.warn('RSVP submit error:', e);
+    }
+
+    document.getElementById('rsvp-content-adn').innerHTML = `
+      <div class="rsvp-success">
+        <div class="success-icon">✨</div>
+        <h4>¡Tu lugar está confirmado!</h4>
+        <p>Hola <strong>${nombre}</strong>, te esperamos el <strong>martes 7 de julio</strong> a las <strong>7:00 pm</strong> en The Evolution Spot (Cumbres 1er sector, Monterrey).</p>
+        <p style="margin-top:0.75rem">La aportación de $111 MXN se paga en el lugar. Cualquier duda escríbeme a <a href="mailto:lalectorade.estrellas@gmail.com" style="color:var(--mauve)">lalectorade.estrellas@gmail.com</a> o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:var(--mauve)">@lectoradeestrellas</a>.</p>
+        <button class="btn btn-secondary btn-sm" onclick="closeRsvpAdn()" style="margin-top:1.5rem">Cerrar</button>
+      </div>`;
   }
 
   // ── Stock check — Taller Libreta Mágica ───────────────
