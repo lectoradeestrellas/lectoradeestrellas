@@ -353,61 +353,6 @@
       <h2>¡Separa tu lugar!</h2>
     </div>
 
-    <!-- Litha — Featured upcoming event -->
-    <div class="event-featured" data-reveal>
-      <div class="event-featured-img">
-        <img class="event-flyer" src="images/eventos/litha-2026.jpg" alt="Litha y el Solsticio de Verano" loading="lazy" onerror="this.src='images/placeholder.jpg'">
-      </div>
-      <div class="event-featured-body">
-        <div class="event-date-badge">Próximo evento</div>
-        <div class="event-subtitle">Plática · Rueda del año</div>
-        <h2>Litha y el Solsticio de Verano</h2>
-
-        <p>La rueda sigue girando y hemos llegado a Litha, el Solsticio de Verano: el día más largo del año y el momento en que el Sol alcanza su máximo esplendor. Si Beltane encendió la hoguera, Litha es la llama en su punto más alto, radiante e imparable.</p>
-        <p>En este punto de la rueda celebramos la luz, pero también reconocemos que a partir de mañana los días comenzarán a acortarse — un recordatorio de que todo tiene su ciclo, su momento de plenitud y su momento de soltar.</p>
-
-        <div class="event-details-list">
-          <div class="event-detail">🗓 <strong>Viernes 19 de junio de 2026</strong></div>
-          <div class="event-detail">⏰ <strong>7:00 pm</strong></div>
-          <div class="event-detail">📍 <strong>La Mano Oculta Café</strong> · SPGG, Monterrey</div>
-        </div>
-
-        <div class="event-price-tag">✦ Aportación: $200 MXN</div>
-
-        <div class="event-actions">
-          <button class="btn btn-primary" onclick="openRsvp()">RSVP — Reservar lugar</button>
-          <a href="#litha-desc" class="btn btn-ghost btn-sm">Leer más ↓</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Full description -->
-    <div id="litha-desc" style="background:white;border-radius:var(--radius-lg);padding:2.5rem;margin-bottom:2rem;border:1px solid rgba(155,122,158,0.1)" data-reveal>
-      <h3 style="font-size:1.5rem;margin-bottom:1.25rem">Sobre este evento ☀️</h3>
-      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1rem;font-size:0.97rem">La rueda sigue girando y hemos llegado a Litha, el Solsticio de Verano: el día más largo del año y el momento en que el Sol alcanza su máximo esplendor. Si Beltane encendió la hoguera, Litha es la llama en su punto más alto, radiante e imparable. El Rey del Roble reina en toda su gloria mientras la tierra vibra con una vitalidad desbordante, los campos están llenos de vida y el velo entre mundos se adelgaza permitiendo que la magia fluya con especial facilidad.</p>
-      <p style="color:var(--ink-soft);line-height:1.78;margin-bottom:1.25rem;font-size:0.97rem">En este punto de la rueda celebramos la luz, pero también reconocemos que a partir de mañana los días comenzarán a acortarse — un recordatorio de que todo tiene su ciclo, su momento de plenitud y su momento de soltar. Litha nos invita a saborear el ahora en su máxima expresión: a brillar sin pedir permiso, a celebrar lo que hemos construido y a honrar la abundancia que ya existe en nuestra vida.</p>
-
-      <p style="font-family:var(--font-ui);font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:0.75rem">En esta plática conocerás:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;margin-bottom:1.25rem">
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ qué es el Solsticio de Verano</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ los temas principales de Litha</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ orígenes paganos y simbolismo solar</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ tradiciones y folklore del solsticio</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ correspondencias de Litha</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ Litha hoy día</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ celebraciones del solsticio en el mundo</div>
-        <div style="font-size:0.9rem;color:var(--ink-soft)">☀️ actividades para honrar esta fecha</div>
-      </div>
-
-      <p style="color:var(--ink-soft);line-height:1.78;font-size:0.97rem;margin-bottom:1.5rem">Celebrar Litha con consciencia te ayudará a reconocer tu propio brillo, a hacer las paces con lo que estás construyendo y a soltar lo que ya cumplió su ciclo. Es el momento perfecto para celebrarte, para agradecer y para recordar que — igual que el Sol — tienes la capacidad de iluminar todo lo que tocas.</p>
-
-      <div style="background:rgba(201,125,110,0.08);border:1px solid rgba(201,125,110,0.2);border-radius:var(--radius-sm);padding:0.875rem 1rem;font-family:var(--font-ui);font-size:0.82rem;color:var(--rose);display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem">
-        ‼️ Regístrate porque hay cupo limitado
-      </div>
-
-      <button class="btn btn-primary" onclick="openRsvp()">RSVP — Reservar mi lugar ✦</button>
-    </div>
-
     <!-- Taller Libreta Mágica — Featured upcoming event -->
     <div class="event-featured" data-reveal>
       <div class="event-featured-img">
@@ -715,44 +660,6 @@
   </div>
 </footer>
 
-<!-- RSVP Modal -->
-<div class="modal-overlay" id="rsvp-modal" onclick="if(event.target===this)closeRsvp()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeRsvp()">×</button>
-    <div id="rsvp-content">
-      <div class="modal-event-tag">Plática · Rueda del año</div>
-      <h3>Litha y el Solsticio de Verano</h3>
-      <div class="modal-event-meta">
-        🗓 Jueves 19 de junio · ⏰ 7:00 pm<br>
-        📍 La Mano Oculta Café · SPGG · $200 MXN aportación
-      </div>
-
-      <div class="rsvp-row">
-        <div class="rsvp-field">
-          <label class="rsvp-label">Nombre *</label>
-          <input class="rsvp-input" type="text" id="rsvp-nombre" placeholder="Tu nombre">
-        </div>
-        <div class="rsvp-field">
-          <label class="rsvp-label">Apellido *</label>
-          <input class="rsvp-input" type="text" id="rsvp-apellido" placeholder="Tu apellido">
-        </div>
-      </div>
-      <div class="rsvp-field">
-        <label class="rsvp-label">Correo electrónico *</label>
-        <input class="rsvp-input" type="email" id="rsvp-email" placeholder="tu@email.com">
-      </div>
-
-      <div class="rsvp-note">
-        💫 La aportación de $200 MXN se paga en el lugar el día del evento. Al registrarte confirmas tu asistencia y te reservamos un lugar.
-      </div>
-
-      <button class="rsvp-submit" id="rsvp-btn" onclick="submitRsvp()">
-        Confirmar mi lugar ✦
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- RSVP Modal — Taller Libreta Mágica -->
 <div class="modal-overlay" id="rsvp-modal-libreta" onclick="if(event.target===this)closeRsvpLibreta()">
   <div class="modal-box">
@@ -863,6 +770,7 @@
 <script>
   // ── Past events data ──────────────────────────────────
   const PAST_EVENTS = [
+    { date: 'Vie 19 de junio, 2026',  name: 'Litha y el Solsticio de Verano', place: 'La Mano Oculta · SPGG', img: 'images/eventos/litha-2026.jpg' },
     { date: 'Vie 08 de mayo, 2026',   name: 'Beltane y el deseo',             place: 'La Mano Oculta · SPGG', img: 'images/eventos/beltane-2026.jpg' },
     { date: 'Mar 21 de abril, 2026',  name: 'Masterclass Online — Elige tus estrellas', place: 'Google Meet (online)', img: 'images/eventos/masterclass-estrellas.jpg' },
     { date: 'Lun 06 de abril, 2026',  name: 'Masterclass Online — Conoce tu carta astral', place: 'Google Meet (online)', img: 'images/eventos/masterclass-carta.jpg' },
@@ -891,86 +799,7 @@
   }
 
   // ── RSVP ─────────────────────────────────────────────
-  // ⚠️ Replace with your Formspree endpoint
   const FORMSPREE = 'https://formspree.io/f/xlgkndlg';
-  const RSVP_STORAGE_KEY = 'lde_rsvp_litha_2026';
-
-  function openRsvp() {
-    document.getElementById('rsvp-modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeRsvp() {
-    document.getElementById('rsvp-modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  async function submitRsvp() {
-    const nombre   = document.getElementById('rsvp-nombre')?.value.trim();
-    const apellido = document.getElementById('rsvp-apellido')?.value.trim();
-    const email    = document.getElementById('rsvp-email')?.value.trim();
-
-    // Validate
-    if (!nombre || !apellido || !email) {
-      ['rsvp-nombre','rsvp-apellido','rsvp-email'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el?.value.trim()) { el?.classList.add('error'); setTimeout(()=>el?.classList.remove('error'),2500); }
-      });
-      return;
-    }
-
-    const btn = document.getElementById('rsvp-btn');
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-
-    // Save to localStorage (for the attendee list)
-    const rsvps = JSON.parse(localStorage.getItem(RSVP_STORAGE_KEY) || '[]');
-    rsvps.push({ nombre, apellido, email, fecha: new Date().toISOString() });
-    localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify(rsvps));
-
-    try {
-      // Guardar en Google Sheets vía Netlify function
-      fetch('/.netlify/functions/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombre, apellido, email,
-          evento: 'Litha y el Solsticio de Verano',
-          fechaEvento: 'Jueves 19 de junio 2026 · 7:00 pm',
-          lugar: 'La Mano Oculta Café · SPGG',
-        }),
-      }).catch(e => console.warn('RSVP function error:', e));
-
-      // Notificación por email vía Formspree
-      if (FORMSPREE && !FORMSPREE.includes('YOUR_FORM_ID')) {
-        await fetch(FORMSPREE, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            _subject: `✦ RSVP Litha 2026 — ${nombre} ${apellido}`,
-            _replyto: email,
-            nombre, apellido, email,
-            evento: 'Litha y el Solsticio de Verano',
-            fecha_evento: 'Jueves 19 de junio 2026 · 7:00 pm',
-            lugar: 'La Mano Oculta Café · SPGG',
-            mensaje: `Nueva confirmación de asistencia para Litha 2026.\n\nNombre: ${nombre} ${apellido}\nEmail: ${email}`,
-          }),
-        });
-      }
-    } catch (e) {
-      console.warn('RSVP submit error:', e);
-    }
-
-    // Show success
-    document.getElementById('rsvp-content').innerHTML = `
-      <div class="rsvp-success">
-        <div class="success-icon">🌞</div>
-        <h4>¡Tu lugar está confirmado!</h4>
-        <p>Hola <strong>${nombre}</strong>, te esperamos el <strong>jueves 19 de junio</strong> a las <strong>7:00 pm</strong> en La Mano Oculta Café.</p>
-        <p style="margin-top:0.75rem">La aportación de $200 MXN se paga en el lugar. Cualquier duda escríbeme a <a href="mailto:lalectorade.estrellas@gmail.com" style="color:var(--mauve)">lalectorade.estrellas@gmail.com</a> o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:var(--mauve)">@lectoradeestrellas</a>.</p>
-        <button class="btn btn-secondary btn-sm" onclick="closeRsvp()" style="margin-top:1.5rem">Cerrar</button>
-      </div>`;
-  }
 
   // ── RSVP — Taller Libreta Mágica ───────────────────────
   const RSVP_STORAGE_KEY_LIBRETA = 'lde_rsvp_libreta_magica_2026';
