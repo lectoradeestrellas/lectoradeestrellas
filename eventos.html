@@ -895,6 +895,8 @@
       console.warn('RSVP submit error:', e);
     }
 
+    sessionStorage.setItem('lde_rsvp_prefill', JSON.stringify({ nombre, email, telefono }));
+
     // Add to cart (avoid duplicating if already added) and go to checkout to pay
     if (!Cart.items().some(i => i.id === 'taller-libreta-magica')) {
       Cart.add({
@@ -902,6 +904,7 @@
         name: 'Taller Libreta Mágica',
         price: 1200,
         image: 'images/eventos/taller-libreta-magica-2026.jpg',
+        event: true,
       });
     }
 

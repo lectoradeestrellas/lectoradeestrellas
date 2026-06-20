@@ -627,19 +627,22 @@
   let cartItems = [];
 
   const SESION_IDS = ['reporte-simbolos', 'tiradas-estacionales', 'tiradas-zodiacales'];
+  const EVENT_IDS = ['taller-libreta-magica'];
 
   document.addEventListener('DOMContentLoaded', () => {
     loadCart();
     const _cart = JSON.parse(localStorage.getItem('lde_cart') || '[]');
     const _allDig = _cart.length > 0 && _cart.every(i =>
-      i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'')
+      i.digital || i.event || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'') || EVENT_IDS.includes(i.id||'')
     );
+    const _isEvent = _cart.some(i => i.event || EVENT_IDS.includes(i.id||''));
     const _hasSesion = _cart.some(i => SESION_IDS.includes(i.id||''));
     if (_allDig) {
       document.getElementById('address-panel')?.style.setProperty('display','none');
       document.getElementById('shipping-section')?.style.setProperty('display','none');
+      document.getElementById('num-payment').textContent = '2';
       const sh = document.getElementById('summary-shipping');
-      if(sh){sh.textContent='Sin envío (servicio digital)';sh.className='';}
+      if(sh){sh.textContent=_isEvent?'Sin envío (evento presencial)':'Sin envío (servicio digital)';sh.className='';}
       sessionStorage.setItem('lde_last_cart', JSON.stringify(_cart));
     }
     if (_hasSesion) {
@@ -647,6 +650,15 @@
     }
     initStripe();
     syncCpFields();
+
+    const rsvpPrefill = JSON.parse(sessionStorage.getItem('lde_rsvp_prefill') || 'null');
+    if (rsvpPrefill) {
+      const s = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      s('contact-name', rsvpPrefill.nombre);
+      s('contact-email', rsvpPrefill.email);
+      s('contact-phone', rsvpPrefill.telefono);
+      sessionStorage.removeItem('lde_rsvp_prefill');
+    }
   });
 
   // ── Cart ─────────────────────────────────────────────────
@@ -878,7 +890,7 @@
   // ── Submit ────────────────────────────────────────────────
   function isDigitalOnly() {
     return cartItems.length > 0 && cartItems.every(
-      i => i.digital || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'')
+      i => i.digital || i.event || (i.id||'').startsWith('curso-') || (i.id||'').startsWith('masterclass-') || SESION_IDS.includes(i.id||'') || EVENT_IDS.includes(i.id||'')
     );
   }
 
@@ -1030,11 +1042,25 @@
   }
 
   function handleOrderSuccess(data) {
-    // Clear cart
     localStorage.removeItem('lde_cart');
-    // Redirect to success page
+    if (cartItems.some(i => i.event || EVENT_IDS.includes(i.id || ''))) {
+      document.getElementById('event-success-modal').style.display = 'flex';
+      return;
+    }
     window.location.href = `confirmacion.html?order=${data.stripePaymentIntentId || data.paypalOrderId || 'ok'}`;
   }
 </script>
+
+<!-- Event Success Modal -->
+<div id="event-success-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(21,13,30,0.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:var(--parchment);border-radius:var(--radius-lg);padding:2.5rem;max-width:480px;width:100%;box-shadow:var(--shadow-lg);text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:1rem">📓✨</div>
+    <h3 style="font-size:1.5rem;margin-bottom:0.5rem;font-family:var(--font-display)">¡Gracias por inscribirte!</h3>
+    <p style="font-size:0.95rem;color:var(--ink-soft);line-height:1.7;margin-bottom:0.5rem">Tu lugar en el taller <strong>"Libreta Mágica"</strong> está confirmado.</p>
+    <p style="font-size:0.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:1.5rem">En unos minutos te llegará un correo de confirmación.</p>
+    <a href="eventos.html" style="display:inline-block;padding:0.875rem 2rem;background:var(--plum);color:white;border-radius:var(--radius-full);font-family:var(--font-ui);font-size:0.85rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:background 0.25s">Volver a eventos ✦</a>
+  </div>
+</div>
+
 </body>
 </html>
