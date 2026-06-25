@@ -9,9 +9,9 @@ const PRODUCTS = {
 
   'agenda-lunar-2026': {
     id: 'agenda-lunar-2026',
-    name: 'Agenda Lunar 2026',
+    name: 'Agenda Lunar 2026: julio - diciembre',
     category: 'agendas',
-    price: 899,
+    price: 699,
     originalPrice: 1050,
     badge: 'Best Seller',
     badgeType: 'bestseller',
