@@ -690,7 +690,10 @@
     const fields = ['m-nombre','m-apellido','m-dia','m-mes','m-anio','m-hora','m-lugar','m-email'];
     const vals = fields.map(id => document.getElementById(id)?.value.trim());
     if (vals.some(v => !v)) { alert('Por favor completa todos los campos requeridos.'); return; }
-    Cart.add({ id:'reporte-simbolos', name:'Reporte Símbolos', price:650, image:'../images/sesiones/reporte-simbolos.jpg', sku:'SIMBOLOS', note:`${vals[0]} ${vals[1]} · ${vals[2]} ${vals[3]} ${vals[4]} · ${vals[5]} ${document.getElementById('m-ampm')?.value} · ${vals[6]}`, customerEmail:vals[7] });
+    const [nombre, apellido, dia, mes, anio, hora, lugar, email] = vals;
+    const ampm = document.getElementById('m-ampm')?.value;
+    const birthData = { nombre, apellido, dia, mes, anio, hora, ampm, lugar };
+    Cart.add({ id:'reporte-simbolos', name:'Reporte Símbolos', price:650, image:'../images/sesiones/reporte-simbolos.jpg', sku:'SIMBOLOS', note:`${nombre} ${apellido} · ${dia} ${mes} ${anio} · ${hora} ${ampm} · ${lugar}`, customerEmail:email, birthData });
     closeModal();
     window.location.href = 'checkout.html';
   }
