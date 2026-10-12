@@ -124,7 +124,7 @@ async function saveToSupabase(order, products, paymentId, paymentMethod) {
       process.env.SUPABASE_SERVICE_KEY
     );
 
-    await supabase.from('user_orders').insert({
+    const { error: sbError } = await supabase.from('user_orders').insert({
       email:             order.email,
       order_number:      order.orderId,
       products:          products || [],
@@ -141,6 +141,7 @@ async function saveToSupabase(order, products, paymentId, paymentMethod) {
       payment_id:        paymentId || '',
       payment_method:    paymentMethod || '',
     });
+    if (sbError) throw new Error(sbError.message);
 
     console.log('✓ Order saved to Supabase:', order.email);
   } catch (err) {
