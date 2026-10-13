@@ -10,15 +10,16 @@ async function routeToSheets(order, productIds) {
   const isCurso       = id => id.startsWith('curso-');
   const isSesion      = id => ['reporte-simbolos','tiradas-estacionales','tiradas-zodiacales'].includes(id);
   const isPhysical    = id => !isMasterclass(id) && !isCurso(id) && !isSesion(id);
+  const cleanNum      = val => parseFloat((val || '0').replace(/[^0-9.]/g, '')) || 0;
 
   const writes = [];
 
   if (productIds.length === 0 || productIds.some(isPhysical)) {
     writes.push(writeToTab(order, 'Pedidos', [
       order.orderId, order.date, order.customer, order.email, order.phone,
-      order.products, order.subtotal, order.shipping, order.total,
+      order.products, cleanNum(order.subtotal), cleanNum(order.shipping), cleanNum(order.total),
       order.address, order.postalCode, order.city, order.state, order.country,
-      order.carrier, order.status, order.notes,
+      order.carrier, order.payment_method || '', order.status, order.notes,
     ]));
   }
 
@@ -26,7 +27,7 @@ async function routeToSheets(order, productIds) {
     const items = order.products.split(',').filter(p => p.toLowerCase().includes('masterclass'));
     writes.push(writeToTab(order, 'Masterclasses', [
       order.date, order.orderId, order.customer, order.email, order.phone,
-      items.join(', ') || order.products, order.total, order.status,
+      items.join(', ') || order.products, cleanNum(order.total), order.payment_method || '', order.status,
     ]));
   }
 
@@ -34,22 +35,30 @@ async function routeToSheets(order, productIds) {
     const items = order.products.split(',').filter(p => p.toLowerCase().includes('curso') || p.toLowerCase().includes('venus') || p.toLowerCase().includes('renacer'));
     writes.push(writeToTab(order, 'Cursos', [
       order.date, order.orderId, order.customer, order.email, order.phone,
-      items.join(', ') || order.products, order.total, order.status,
+      items.join(', ') || order.products, cleanNum(order.total), order.payment_method || '', order.status,
     ]));
   }
 
   if (productIds.some(isSesion)) {
+    const isSimbolos = productIds.includes('reporte-simbolos');
+    const isTirada = productIds.some(id => ['tiradas-estacionales','tiradas-zodiacales'].includes(id));
+    const formato = isSimbolos ? 'PDF' : isTirada ? 'Nota de voz' : 'Google Meet';
+    const duracion = isSimbolos ? '5-7 días hábiles' : isTirada ? '24-48 hrs' : '';
+
     writes.push(writeToTab(order, 'Sesiones', [
-      order.date,
-      order.orderId,
-      order.customer,
-      order.email,
-      order.products,
-      '',           // fechaSesion — no aplica para sesiones asíncronas
-      order.total,
-      order.notes,
-      order.status,
-      'Checkout',   // origen
+      order.date,              // Fecha reserva
+      '',                      // Fecha sesión (no aplica)
+      order.customer,          // Nombre
+      order.email,             // Email
+      order.products,          // Tipo de sesión
+      duracion,                // Duración
+      cleanNum(order.total),   // Precio
+      order.payment_method || '', // Método de pago
+      formato,                 // Formato
+      order.notes,             // Datos nacimiento
+      '',                      // Ciudad actual (no aplica)
+      'Pagado',                // Status
+      '',                      // Notas
     ]));
   }
 
