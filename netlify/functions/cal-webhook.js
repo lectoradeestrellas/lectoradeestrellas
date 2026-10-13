@@ -48,6 +48,7 @@ const SESSION_DURATIONS = {
 };
 
 exports.handler = async (event) => {
+  console.log('SUPABASE_URL:', process.env.SUPABASE_URL); // TEMP debug — quitar después de verificar
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
