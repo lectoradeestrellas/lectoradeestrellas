@@ -62,6 +62,7 @@ exports.handler = async (event) => {
       carrier:    metadata.carrier || 'N/A',
       status:     'Pagado',
       notes:      metadata.birthData || '', // For carta astral orders
+      payment_method: 'stripe',
     };
 
     // 1. Write to Google Sheets (tab según tipo de producto)

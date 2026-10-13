@@ -106,6 +106,15 @@ exports.handler = async (event) => {
 
       // Guardar en Google Sheets — pestaña Sesiones
       try {
+        // Extraer respuestas de las preguntas de Cal.com
+        const responses = booking?.responses || {};
+        const birthData = [
+          responses?.fecha_nacimiento?.value || responses?.['fecha-nacimiento']?.value || '',
+          responses?.hora_nacimiento?.value  || responses?.['hora-nacimiento']?.value  || '',
+          responses?.lugar_nacimiento?.value || responses?.['lugar-nacimiento']?.value || '',
+        ].filter(Boolean).join(' · ');
+        const ciudadActual = responses?.ciudad_actual?.value || responses?.['ciudad-actual']?.value || '';
+
         await writeToTab(null, 'Sesiones', [
           new Date().toLocaleString('es-MX', { timeZone: 'America/Monterrey' }),
           booking?.startTime ? new Date(booking.startTime).toLocaleString('es-MX', { timeZone: 'America/Monterrey' }) : '',
@@ -114,9 +123,10 @@ exports.handler = async (event) => {
           sessionType,
           SESSION_DURATIONS[eventSlug] || '',
           SESSION_PRICES[eventSlug] ? `$${SESSION_PRICES[eventSlug]}` : '',
+          'stripe',
           'Google Meet',
-          '',
-          '',
+          birthData,
+          ciudadActual,
           'Confirmada',
           '',
         ]);

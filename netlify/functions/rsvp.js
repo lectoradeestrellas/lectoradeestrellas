@@ -24,11 +24,11 @@ exports.handler = async (event) => {
     nombre,
     apellido || '',
     email,
+    telefono || '',
     evento,
     fechaEvento || '',
     lugar || '',
-    telefono || '',
-    diseno || '',
+    '',  // Asistió — se llena manualmente
   ];
 
   try {
