@@ -77,32 +77,34 @@ exports.handler = async (event) => {
     const sessionType = SESSION_NAMES[eventSlug] || booking?.eventType?.title || 'Sesión';
 
     if (triggerEvent === 'BOOKING_CREATED') {
-      const { error } = await supabase
-        .from('user_sessions')
-        .insert({
-          email,
-          session_type:    sessionType,
-          session_date:    booking?.startTime || null,
-          duration:        SESSION_DURATIONS[eventSlug] || null,
-          price:           SESSION_PRICES[eventSlug] || null,
-          status:          'Confirmada',
-          cal_booking_id:  String(booking?.uid || booking?.id || ''),
-          cal_booking_url: booking?.metadata?.videoCallUrl ||
-                           booking?.references?.[0]?.meetingUrl ||
-                           `https://cal.com/booking/${booking?.uid}` || null,
-          meeting_url:     booking?.videoCallUrl ||
-                           booking?.metadata?.videoCallUrl || null,
-          recording_url:   null, // Andrea adds this manually after the session
-          summary_url:     null, // Andrea adds this manually after the session
-          notes:           null,
-        });
+      try {
+        const { error } = await supabase
+          .from('user_sessions')
+          .insert({
+            email,
+            session_type:    sessionType,
+            session_date:    booking?.startTime || null,
+            duration:        SESSION_DURATIONS[eventSlug] || null,
+            price:           SESSION_PRICES[eventSlug] || null,
+            status:          'Confirmada',
+            cal_booking_id:  String(booking?.uid || booking?.id || ''),
+            cal_booking_url: booking?.metadata?.videoCallUrl ||
+                             booking?.references?.[0]?.meetingUrl ||
+                             `https://cal.com/booking/${booking?.uid}` || null,
+            meeting_url:     booking?.videoCallUrl ||
+                             booking?.metadata?.videoCallUrl || null,
+            recording_url:   null, // Andrea adds this manually after the session
+            summary_url:     null, // Andrea adds this manually after the session
+            notes:           null,
+          });
 
-      if (error) {
-        console.error('Supabase insert error:', error);
-        return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+        if (error) throw new Error(error.message);
+
+        console.log(`✓ Session saved: ${email} → ${sessionType}`);
+      } catch (supaErr) {
+        console.error('Supabase insert error:', supaErr.message);
+        // No bloqueamos el flujo si Supabase falla
       }
-
-      console.log(`✓ Session saved: ${email} → ${sessionType}`);
 
       // Guardar en Google Sheets — pestaña Sesiones
       try {

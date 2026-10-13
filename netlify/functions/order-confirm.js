@@ -34,6 +34,12 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook Error: ${err.message}` };
   }
 
+  const metadata = stripeEvent.data.object.metadata || {};
+  if (!metadata.products && !metadata.productIds) {
+    console.log('Pago sin metadata del sitio — probablemente Cal.com, ignorando');
+    return { statusCode: 200, body: 'ignored' };
+  }
+
   // Only process successful payments
   if (stripeEvent.type !== 'payment_intent.succeeded' &&
       stripeEvent.type !== 'checkout.session.completed') {
@@ -41,7 +47,6 @@ exports.handler = async (event) => {
   }
 
   const session = stripeEvent.data.object;
-  const metadata = session.metadata || {};
 
   try {
     const orderData = {
