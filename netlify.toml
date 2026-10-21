@@ -7,6 +7,9 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # SUPABASE_URL no es secreta — se usa públicamente del lado del cliente
+  # (registro.html, login.html, aprende.html, carta-astral.html, etc.)
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
 
 [[headers]]
   for = "/*"
