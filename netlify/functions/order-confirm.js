@@ -1,7 +1,7 @@
 // netlify/functions/order-confirm.js
 // Se dispara cuando Stripe confirma un pago
 // Escribe fila en Google Sheets + envía email de confirmación
-// Variables: STRIPE_WEBHOOK_SECRET, GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_KEY, FORMSPREE_ENDPOINT
+// Variables: STRIPE_WEBHOOK_SECRET, GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_KEY, FORMSPREE_ENDPOINT, RESEND_API_KEY
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const {

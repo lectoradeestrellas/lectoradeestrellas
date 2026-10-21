@@ -3,7 +3,7 @@
 // Hace lo mismo que order-confirm.js (Stripe): escribe en Google Sheets,
 // guarda en Supabase user_orders, envía email de confirmación a la clienta,
 // notificación a Andrea y, si hay productos digitales, el link de descarga.
-// Variables: GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_KEY, FORMSPREE_ENDPOINT, SUPABASE_URL, SUPABASE_SERVICE_KEY
+// Variables: GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_KEY, FORMSPREE_ENDPOINT, RESEND_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
 
 const {
   routeToSheets,

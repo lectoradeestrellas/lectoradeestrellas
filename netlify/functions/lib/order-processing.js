@@ -1,6 +1,8 @@
 // netlify/functions/lib/order-processing.js
 // Lógica compartida para procesar pedidos (Stripe y PayPal):
 // Google Sheets, Supabase user_orders y emails de confirmación/notificación/descarga
+// Emails al cliente (confirmación, descarga) vía Resend — RESEND_API_KEY, RESEND_FROM_EMAIL
+// Notificación a Andrea y registro de usuaria vía Formspree — FORMSPREE_ENDPOINT
 
 // ── Google Sheets ─────────────────────────────────────────
 
@@ -127,6 +129,7 @@ async function getGoogleToken(serviceAccount) {
 
 async function saveToSupabase(order, products, paymentId, paymentMethod) {
   try {
+    console.log('SUPABASE_URL:', process.env.SUPABASE_URL); // TEMP debug — quitar después de verificar
     const { createClient } = require('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
@@ -190,19 +193,38 @@ async function decrementLimitedStock(productIds) {
   }
 }
 
-// ── Emails via Formspree ──────────────────────────────────
-async function sendConfirmationEmail(order) {
-  const endpoint = process.env.FORMSPREE_ENDPOINT;
-  if (!endpoint) return;
+// ── Emails transaccionales vía Resend (al cliente) ──────────
+async function sendResendEmail({ to, subject, text }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return;
 
-  await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      _replyto: order.email,
-      _subject: `✦ Confirmación de pedido ${order.orderId} — Lectora de Estrellas`,
-      email: order.email,
-      message: `
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: process.env.RESEND_FROM_EMAIL || 'Lectora de Estrellas <onboarding@resend.dev>',
+        to: [to],
+        subject,
+        text,
+      }),
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+  } catch (err) {
+    console.error('Resend email error:', err.message);
+    // No bloqueamos el flujo si el envío de correo falla
+  }
+}
+
+async function sendConfirmationEmail(order) {
+  await sendResendEmail({
+    to: order.email,
+    subject: `✦ Confirmación de pedido ${order.orderId} — Lectora de Estrellas`,
+    text: `
 Hola ${order.customer}! ✦
 
 Tu pedido ha sido confirmado. Aquí está el resumen:
@@ -226,8 +248,7 @@ Cualquier duda escríbeme a lalectorade.estrellas@gmail.com o en Instagram @lect
 
 Con amor cósmico,
 Andrea ✦ Lectora de Estrellas
-      `.trim(),
-    }),
+    `.trim(),
   });
 }
 
@@ -260,21 +281,16 @@ ${order.notes ? `Datos especiales:\n${order.notes}` : ''}
 }
 
 async function sendDownloadLink(order, downloadLinksJson) {
-  const endpoint = process.env.FORMSPREE_ENDPOINT;
-  if (!endpoint || !downloadLinksJson) return;
+  if (!downloadLinksJson) return;
 
   let links;
   try { links = JSON.parse(downloadLinksJson); }
   catch { return; }
 
-  await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      _replyto: order.email,
-      _subject: `✦ Tu descarga está lista — Lectora de Estrellas`,
-      email: order.email,
-      message: `
+  await sendResendEmail({
+    to: order.email,
+    subject: `✦ Tu descarga está lista — Lectora de Estrellas`,
+    text: `
 Hola ${order.customer}! ✦
 
 Tu producto digital está listo para descargar:
@@ -285,8 +301,7 @@ Este link es para uso personal. Por favor no lo compartas.
 
 Con amor cósmico,
 Andrea ✦ Lectora de Estrellas
-      `.trim(),
-    }),
+    `.trim(),
   });
 }
 
