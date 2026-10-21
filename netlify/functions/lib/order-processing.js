@@ -194,7 +194,38 @@ async function decrementLimitedStock(productIds) {
 }
 
 // ── Emails transaccionales vía Resend (al cliente) ──────────
-async function sendResendEmail({ to, subject, text }) {
+
+// Escapa HTML para que datos ingresados por el cliente (nombre, dirección, etc.)
+// no rompan el markup del correo
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+// Envoltura visual de marca — header morado + footer, colores/fuentes de css/styles.css
+function brandEmailShell(bodyHtml) {
+  return `
+<body style="margin:0;padding:0;background:#faf6f0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf6f0;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(107,68,113,0.15);">
+        <tr><td style="background:linear-gradient(135deg,#3d1f45,#6b4471);padding:36px 24px;text-align:center;">
+          <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;letter-spacing:3px;color:#d4a853;">✦ LECTORA DE ESTRELLAS ✦</div>
+        </td></tr>
+        <tr><td style="padding:32px 28px;font-family:Arial,Helvetica,sans-serif;">
+          ${bodyHtml}
+        </td></tr>
+        <tr><td style="background:#faf6f0;padding:20px 28px;text-align:center;border-top:1px solid #f5ede0;">
+          <p style="font-family:Georgia,'Times New Roman',serif;font-size:13px;color:#6b4471;margin:0;">Con amor cósmico,<br>Andrea ✦ Lectora de Estrellas</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>`;
+}
+
+async function sendResendEmail({ to, subject, text, html }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return;
 
@@ -210,6 +241,7 @@ async function sendResendEmail({ to, subject, text }) {
         to: [to],
         subject,
         text,
+        html,
       }),
     });
 
@@ -221,9 +253,42 @@ async function sendResendEmail({ to, subject, text }) {
 }
 
 async function sendConfirmationEmail(order) {
+  const row = (label, value) => `
+    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #f5ede0;color:#9b7a9e;font-size:13px;">${label}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f5ede0;text-align:right;color:#3d2e3a;font-size:14px;">${escapeHtml(value)}</td>
+    </tr>`;
+
+  const html = brandEmailShell(`
+    <p style="font-size:17px;color:#1a1118;margin:0 0 16px;">Hola ${escapeHtml(order.customer)}! ✦</p>
+    <p style="font-size:15px;color:#3d2e3a;line-height:1.6;margin:0 0 24px;">Tu pedido ha sido confirmado. Aquí está el resumen:</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:24px;">
+      ${row('Número de pedido', order.orderId)}
+      ${row('Fecha', order.date)}
+      ${row('Productos', order.products)}
+      ${row('Subtotal', order.subtotal)}
+      ${row('Envío', order.shipping)}
+      <tr>
+        <td style="padding:14px 0 0;color:#3d1f45;font-weight:bold;font-size:16px;">Total</td>
+        <td style="padding:14px 0 0;text-align:right;color:#3d1f45;font-weight:bold;font-size:16px;">${escapeHtml(order.total)}</td>
+      </tr>
+    </table>
+    <div style="background:#f5ede0;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
+      <p style="font-size:12px;color:#9b7a9e;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px;">Dirección de entrega</p>
+      <p style="font-size:14px;color:#3d2e3a;margin:0;line-height:1.5;">
+        ${escapeHtml(order.address)}<br>
+        ${escapeHtml(order.city)}, ${escapeHtml(order.state)} ${escapeHtml(order.postalCode)}<br>
+        ${escapeHtml(order.country)}
+      </p>
+    </div>
+    <p style="font-size:14px;color:#3d2e3a;line-height:1.6;margin:0 0 20px;">Te avisaremos cuando tu pedido esté en camino con el número de guía.</p>
+    <p style="font-size:13px;color:#9b7a9e;line-height:1.6;margin:0;">Cualquier duda escríbeme a <a href="mailto:lalectorade.estrellas@gmail.com" style="color:#6b4471;">lalectorade.estrellas@gmail.com</a> o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:#6b4471;">@lectoradeestrellas</a></p>
+  `);
+
   await sendResendEmail({
     to: order.email,
     subject: `✦ Confirmación de pedido ${order.orderId} — Lectora de Estrellas`,
+    html,
     text: `
 Hola ${order.customer}! ✦
 
@@ -287,9 +352,23 @@ async function sendDownloadLink(order, downloadLinksJson) {
   try { links = JSON.parse(downloadLinksJson); }
   catch { return; }
 
+  const html = brandEmailShell(`
+    <p style="font-size:17px;color:#1a1118;margin:0 0 16px;">Hola ${escapeHtml(order.customer)}! ✦</p>
+    <p style="font-size:15px;color:#3d2e3a;line-height:1.6;margin:0 0 24px;">Tu producto digital está listo para descargar:</p>
+    ${links.map(l => `
+      <div style="margin-bottom:16px;">
+        <p style="font-size:14px;color:#3d2e3a;margin:0 0 8px;font-weight:bold;">${escapeHtml(l.name)}</p>
+        <a href="${l.url}" style="display:inline-block;background:#6b4471;color:#ffffff;font-size:13px;font-weight:bold;letter-spacing:0.5px;text-decoration:none;padding:12px 24px;border-radius:999px;">Descargar ✦</a>
+      </div>`).join('')}
+    <div style="background:#f5ede0;border-radius:8px;padding:14px 18px;margin-top:8px;">
+      <p style="font-size:13px;color:#9b7a9e;margin:0;">Este link es para uso personal. Por favor no lo compartas.</p>
+    </div>
+  `);
+
   await sendResendEmail({
     to: order.email,
     subject: `✦ Tu descarga está lista — Lectora de Estrellas`,
+    html,
     text: `
 Hola ${order.customer}! ✦
 
