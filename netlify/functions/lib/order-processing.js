@@ -282,7 +282,7 @@ async function sendConfirmationEmail(order) {
       </p>
     </div>
     <p style="font-size:14px;color:#3d2e3a;line-height:1.6;margin:0 0 20px;">Te avisaremos cuando tu pedido esté en camino con el número de guía.</p>
-    <p style="font-size:13px;color:#9b7a9e;line-height:1.6;margin:0;">Cualquier duda escríbeme a <a href="mailto:lalectorade.estrellas@gmail.com" style="color:#6b4471;">lalectorade.estrellas@gmail.com</a> o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:#6b4471;">@lectoradeestrellas</a></p>
+    <p style="font-size:13px;color:#9b7a9e;line-height:1.6;margin:0;">Cualquier duda escríbeme a lalectorade.estrellas@gmail.com o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:#6b4471;">@lectoradeestrellas</a></p>
   `);
 
   await sendResendEmail({
@@ -393,4 +393,7 @@ module.exports = {
   sendAdminNotification,
   sendDownloadLink,
   decrementLimitedStock,
+  sendResendEmail,
+  brandEmailShell,
+  escapeHtml,
 };
