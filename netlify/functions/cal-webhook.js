@@ -48,7 +48,6 @@ const SESSION_DURATIONS = {
 };
 
 exports.handler = async (event) => {
-  console.log('SUPABASE_URL:', process.env.SUPABASE_URL); // TEMP debug — quitar después de verificar
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
@@ -73,9 +72,15 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: 'No email found' };
     }
 
-    // Get event slug from the booking
-    const eventSlug = booking?.eventType?.slug || booking?.eventSlug || '';
-    const sessionType = SESSION_NAMES[eventSlug] || booking?.eventType?.title || 'Sesión';
+    // Cal.com manda el slug del evento en `type` (ej. "natal") y el título en `eventTitle`
+    const eventSlug = (booking?.type || booking?.eventType?.slug || booking?.eventSlug || '').toLowerCase();
+    const sessionType = SESSION_NAMES[eventSlug] || booking?.eventTitle || booking?.eventType?.title || 'Sesión';
+    const duration = SESSION_DURATIONS[eventSlug] || (booking?.length ? `${booking.length} min` : null);
+    const price = SESSION_PRICES[eventSlug] || null;
+
+    if (!SESSION_NAMES[eventSlug]) {
+      console.warn(`Slug de Cal.com no reconocido: "${eventSlug}" (eventTitle: ${booking?.eventTitle})`);
+    }
 
     if (triggerEvent === 'BOOKING_CREATED') {
       try {
@@ -85,8 +90,8 @@ exports.handler = async (event) => {
             email,
             session_type:    sessionType,
             session_date:    booking?.startTime || null,
-            duration:        SESSION_DURATIONS[eventSlug] || null,
-            price:           SESSION_PRICES[eventSlug] || null,
+            duration:        duration,
+            price:           price,
             status:          'Confirmada',
             cal_booking_id:  String(booking?.uid || booking?.id || ''),
             cal_booking_url: booking?.metadata?.videoCallUrl ||
@@ -110,13 +115,37 @@ exports.handler = async (event) => {
       // Guardar en Google Sheets — pestaña Sesiones
       try {
         // Extraer respuestas de las preguntas de Cal.com
+        // Busca la respuesta por identificador o por la etiqueta de la pregunta,
+        // así funciona aunque en Cal.com el identificador sea distinto
         const responses = booking?.responses || {};
+        const normalize = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        const findResponse = (...keywords) => {
+          for (const [key, entry] of Object.entries(responses)) {
+            const haystack = normalize(`${key} ${entry?.label || ''}`);
+            if (keywords.every((k) => haystack.includes(k))) {
+              const value = entry && typeof entry === 'object' ? entry.value : entry;
+              if (value) return typeof value === 'object' ? JSON.stringify(value) : String(value);
+            }
+          }
+          return '';
+        };
+        // La fecha llega en tres preguntas: Día, Mes y Año de nacimiento
+        const fechaNacimiento = [
+          findResponse('dia', 'naci'),
+          findResponse('mes', 'naci'),
+          findResponse('ano', 'naci'),
+        ].filter(Boolean).join('/') || findResponse('fecha', 'naci');
         const birthData = [
-          responses?.fecha_nacimiento?.value || responses?.['fecha-nacimiento']?.value || '',
-          responses?.hora_nacimiento?.value  || responses?.['hora-nacimiento']?.value  || '',
-          responses?.lugar_nacimiento?.value || responses?.['lugar-nacimiento']?.value || '',
+          fechaNacimiento,
+          findResponse('hora', 'naci'),
+          findResponse('lugar', 'naci') || findResponse('ciudad', 'naci'),
         ].filter(Boolean).join(' · ');
-        const ciudadActual = responses?.ciudad_actual?.value || responses?.['ciudad-actual']?.value || '';
+        const ciudadActual = findResponse('ciudad', 'actual') || findResponse('pais', 'actual');
+        const motivo = findResponse('inquietud') || findResponse('motivo');
+
+        if (!birthData || !ciudadActual) {
+          console.warn('Respuestas de Cal.com recibidas:', JSON.stringify(responses));
+        }
 
         await writeToTab(null, 'Sesiones', [
           new Date().toLocaleString('es-MX', { timeZone: 'America/Monterrey' }),
@@ -124,14 +153,14 @@ exports.handler = async (event) => {
           booking?.attendees?.[0]?.name || '',
           email,
           sessionType,
-          SESSION_DURATIONS[eventSlug] || '',
-          SESSION_PRICES[eventSlug] ? `$${SESSION_PRICES[eventSlug]}` : '',
+          duration || '',
+          price ? `$${price}` : '',
           'stripe',
           'Google Meet',
           birthData,
           ciudadActual,
           'Confirmada',
-          '',
+          motivo,                  // Notas
         ]);
         console.log('✓ Session saved to Google Sheets');
       } catch (sheetsErr) {

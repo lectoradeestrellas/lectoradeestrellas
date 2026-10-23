@@ -129,7 +129,6 @@ async function getGoogleToken(serviceAccount) {
 
 async function saveToSupabase(order, products, paymentId, paymentMethod) {
   try {
-    console.log('SUPABASE_URL:', process.env.SUPABASE_URL); // TEMP debug — quitar después de verificar
     const { createClient } = require('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
