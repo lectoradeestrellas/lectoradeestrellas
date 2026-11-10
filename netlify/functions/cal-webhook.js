@@ -72,14 +72,36 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: 'No email found' };
     }
 
-    // Cal.com manda el slug del evento en `type` (ej. "natal") y el título en `eventTitle`
-    const eventSlug = (booking?.type || booking?.eventType?.slug || booking?.eventSlug || '').toLowerCase();
-    const sessionType = SESSION_NAMES[eventSlug] || booking?.eventTitle || booking?.eventType?.title || 'Sesión';
-    const duration = SESSION_DURATIONS[eventSlug] || (booking?.length ? `${booking.length} min` : null);
-    const price = SESSION_PRICES[eventSlug] || null;
+    // Cal.com no siempre manda el slug en el mismo campo, así que juntamos
+    // todos los posibles (slug, título del evento, título de la reserva)
+    // y buscamos ahí el nombre de la sesión, ignorando acentos y guiones
+    const normalize = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const compact = (s) => normalize(s).replace(/[^a-z0-9]/g, '');
+    const candidates = [
+      booking?.type,
+      booking?.eventType?.slug,
+      booking?.eventSlug,
+      booking?.eventTypeSlug,
+      booking?.eventTitle,
+      booking?.eventType?.title,
+      booking?.title,
+    ].filter((v) => typeof v === 'string' && v);
+    const haystack = candidates.map(compact).join(' ');
+    const eventSlug = Object.keys(SESSION_NAMES)
+      .find((slug) => haystack.includes(compact(slug)) || haystack.includes(compact(SESSION_NAMES[slug]))) || '';
 
-    if (!SESSION_NAMES[eventSlug]) {
-      console.warn(`Slug de Cal.com no reconocido: "${eventSlug}" (eventTitle: ${booking?.eventTitle})`);
+    const sessionType = SESSION_NAMES[eventSlug] || booking?.eventTitle || booking?.eventType?.title || booking?.title || 'Sesión';
+    const lengthMin = booking?.length || booking?.eventType?.length ||
+      (booking?.startTime && booking?.endTime
+        ? Math.round((new Date(booking.endTime) - new Date(booking.startTime)) / 60000)
+        : null);
+    const duration = SESSION_DURATIONS[eventSlug] || (lengthMin ? `${lengthMin} min` : null);
+    // Cal.com manda el precio en centavos
+    const calPrice = Number(booking?.price ?? booking?.eventType?.price ?? 0);
+    const price = SESSION_PRICES[eventSlug] || (calPrice > 0 ? calPrice / 100 : null);
+
+    if (!eventSlug) {
+      console.warn('Sesión de Cal.com no reconocida. Payload completo:', JSON.stringify(payload));
     }
 
     if (triggerEvent === 'BOOKING_CREATED') {
@@ -117,8 +139,7 @@ exports.handler = async (event) => {
         // Extraer respuestas de las preguntas de Cal.com
         // Busca la respuesta por identificador o por la etiqueta de la pregunta,
         // así funciona aunque en Cal.com el identificador sea distinto
-        const responses = booking?.responses || {};
-        const normalize = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        const responses = booking?.responses || booking?.userFieldsResponses || {};
         const findResponse = (...keywords) => {
           for (const [key, entry] of Object.entries(responses)) {
             const haystack = normalize(`${key} ${entry?.label || ''}`);
@@ -135,13 +156,26 @@ exports.handler = async (event) => {
           findResponse('mes', 'naci'),
           findResponse('ano', 'naci'),
         ].filter(Boolean).join('/') || findResponse('fecha', 'naci');
+        const ciudadActual = findResponse('ciudad', 'actual') || findResponse('pais', 'actual');
+        const motivo = findResponse('inquietud') || findResponse('motivo');
+        // Si las preguntas no se reconocen por nombre, guardamos todas las respuestas
+        // del formulario (menos las estándar de Cal.com) para no perder los datos
+        const STANDARD_FIELDS = ['name', 'email', 'location', 'guests', 'notes', 'rescheduleReason', 'attendeePhoneNumber', 'smsReminderNumber', 'title'];
+        const otrasRespuestas = Object.entries(responses)
+          .filter(([key]) => !STANDARD_FIELDS.includes(key))
+          .map(([key, entry]) => {
+            const value = entry && typeof entry === 'object' && 'value' in entry ? entry.value : entry;
+            if (!value || typeof value === 'object') return '';
+            if (value === ciudadActual || value === motivo) return '';
+            return `${entry?.label || key}: ${value}`;
+          })
+          .filter(Boolean)
+          .join(' · ');
         const birthData = [
           fechaNacimiento,
           findResponse('hora', 'naci'),
           findResponse('lugar', 'naci') || findResponse('ciudad', 'naci'),
-        ].filter(Boolean).join(' · ');
-        const ciudadActual = findResponse('ciudad', 'actual') || findResponse('pais', 'actual');
-        const motivo = findResponse('inquietud') || findResponse('motivo');
+        ].filter(Boolean).join(' · ') || otrasRespuestas;
 
         if (!birthData || !ciudadActual) {
           console.warn('Respuestas de Cal.com recibidas:', JSON.stringify(responses));
