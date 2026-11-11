@@ -81,3 +81,24 @@
   to = "/en/carta-astral.html"
   status = 302
   conditions = {Language = ["en"]}
+
+# ── Colección Lunar 2026 retirada: sus páginas llevan a la edición 2027 ──────
+[[redirects]]
+  from = "/producto-agenda-lunar-2026.html"
+  to = "/producto-agenda-lunar-2027.html"
+  status = 301
+
+[[redirects]]
+  from = "/producto-diario-lunar-2026.html"
+  to = "/producto-diario-lunar-2027.html"
+  status = 301
+
+[[redirects]]
+  from = "/producto-calendario-mini-lunar-2026.html"
+  to = "/producto-calendario-mini-lunar-2027.html"
+  status = 301
+
+[[redirects]]
+  from = "/producto-print-calendario-lunar-2026.html"
+  to = "/producto-print-calendario-lunar-2027.html"
+  status = 301

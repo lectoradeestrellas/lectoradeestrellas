@@ -1,5 +1,5 @@
 // netlify/functions/decrement-stock.js
-// Descuenta una plaza del stock de un producto con cupo limitado (tabla product_stock en Supabase)
+// Descuenta plazas/unidades del stock de un producto con cupo limitado (tabla product_stock en Supabase)
 // Se llama desde order-confirm.js / paypal-confirm.js tras confirmar un pago exitoso
 // Variables: SUPABASE_URL, SUPABASE_SERVICE_KEY
 
@@ -16,7 +16,8 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: 'Method not allowed' };
 
   try {
-    const { productId } = JSON.parse(event.body || '{}');
+    const { productId, quantity } = JSON.parse(event.body || '{}');
+    const units = Math.max(1, Math.floor(Number(quantity) || 1));
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
     // Get current stock
@@ -35,22 +36,27 @@ exports.handler = async (event) => {
       };
     }
 
+    if (units > data.stock_available) {
+      console.warn(`⚠ Se vendieron ${units} de ${productId} pero solo quedaban ${data.stock_available}`);
+    }
+    const remaining = Math.max(0, data.stock_available - units);
+
     // Decrement stock
     const { error: updateError } = await supabase
       .from('product_stock')
       .update({
-        stock_available: data.stock_available - 1,
+        stock_available: remaining,
         updated_at: new Date().toISOString(),
       })
       .eq('product_id', productId);
 
     if (updateError) throw updateError;
 
-    console.log(`✓ Stock decremented for ${productId}: ${data.stock_available - 1} remaining`);
+    console.log(`✓ Stock decremented for ${productId}: ${remaining} remaining`);
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ success: true, stock_remaining: data.stock_available - 1 }),
+      body: JSON.stringify({ success: true, stock_remaining: remaining }),
     };
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };

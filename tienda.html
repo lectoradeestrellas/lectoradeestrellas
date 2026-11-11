@@ -458,15 +458,15 @@
   </div>
 </aside>
 
-<script src="js/products.js"></script>
+<script src="js/products.js?v=2027e"></script>
 <script src="js/main.js"></script>
 <script>
   // ── Catalog rendering ─────────────────────────────────
   const CATALOG = [
-    { key: 'agenda-lunar-2026', cat: 'agendas', image: 'images/productos/agenda-lunar-2026-1.jpg', optionsLabel: null },
-    { key: 'diario-lunar-2026', cat: 'agendas', image: 'images/productos/diario-lunar-2026-1.jpg', optionsLabel: null },
-    { key: 'calendario-mini-lunar-2026', cat: 'agendas', image: 'images/productos/calendario-mini-1.jpg', optionsLabel: null },
-    { key: 'print-calendario-lunar-2026', cat: 'prints', image: 'images/productos/print-calendario-lunar-1.jpg', optionsLabel: null },
+    { key: 'agenda-lunar-2027', cat: 'agendas', image: 'images/productos/agenda-lunar-2027-1.jpg', optionsLabel: 'También en Bundle Lunar 2027' },
+    { key: 'diario-lunar-2027', cat: 'agendas', image: 'images/productos/diario-lunar-2027-1.jpg', optionsLabel: null },
+    { key: 'calendario-mini-lunar-2027', cat: 'agendas', image: 'images/productos/calendario-mini-lunar-2027-1.jpg', optionsLabel: null },
+    { key: 'print-calendario-lunar-2027', cat: 'prints', image: 'images/productos/print-calendario-lunar-2027-1.jpg', optionsLabel: null },
     { key: 'workbook-zodiac-elements-duo', cat: 'cuadernos', image: 'images/productos/workbook-zodiac-1.jpg', optionsLabel: null },
     { key: 'workbook-emociones-ciclos', cat: 'cuadernos', image: 'images/productos/emociones-ciclos-1.jpg', optionsLabel: 'English · Español próximamente' },
     { key: 'libretas', cat: 'libretas', image: 'images/productos/libreta-mistica-1.jpg', optionsLabel: '6 diseños disponibles' },
@@ -486,7 +486,7 @@
     digitales: 'Digitales',
   };
 
-  const HAS_OPTIONS = ['libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral', 'print-carta-astral-infantil'];
+  const HAS_OPTIONS = ['agenda-lunar-2027', 'libretas', 'bundles', 'diario-zodiacal', 'print-carta-astral', 'print-carta-astral-infantil'];
 
   function priceLabel(p) {
     if (!p) return '';
@@ -514,7 +514,7 @@
     return `
       <div class="shop-card" onclick="window.location.href='producto-${p.key}.html'" data-cat="${p.cat}">
         <div class="shop-card-img">
-          <img src="${p.image}" alt="${pr.name}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+          <img src="${p.image}" alt="${pr.name}" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.svg'">
           ${badge}
           <div class="card-overlay">
             <span class="btn btn-ghost quick-add" style="background:white;font-size:0.72rem">Ver producto</span>

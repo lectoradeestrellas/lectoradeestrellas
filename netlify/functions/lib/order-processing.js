@@ -171,21 +171,34 @@ function parseProductsString(productsStr) {
 
 // ── Stock limitado ─────────────────────────────────────────
 
-// Productos con cupo limitado — agregar aquí futuros productos con stock
-const STOCK_LIMITED_PRODUCTS = ['taller-libreta-magica'];
+// Productos con cupo limitado — agregar aquí futuros productos con stock.
+// Clave: ID del producto en el carrito → valor: fila de product_stock que descuenta.
+// El Bundle Lunar 2027 incluye una agenda, así que descuenta de la preventa de la agenda.
+const STOCK_LIMITED_PRODUCTS = {
+  'taller-libreta-magica': 'taller-libreta-magica',
+  'agenda-lunar-2027':     'agenda-lunar-2027',
+  'bundle-lunar-2027':     'agenda-lunar-2027',
+};
 
-// Descuenta una plaza por cada producto de cupo limitado incluido en el pedido
-async function decrementLimitedStock(productIds) {
-  for (const productId of STOCK_LIMITED_PRODUCTS) {
-    if (!productIds.includes(productId)) continue;
+// Descuenta del stock las unidades de cada producto de cupo limitado del pedido.
+// `items` es una lista de { id, qty } (o de IDs sueltos, que cuentan como 1)
+async function decrementLimitedStock(items) {
+  const totals = {};
+  for (const item of items) {
+    const id = typeof item === 'string' ? item : item.id;
+    const qty = typeof item === 'string' ? 1 : Number(item.qty) || 1;
+    const stockId = STOCK_LIMITED_PRODUCTS[id];
+    if (stockId) totals[stockId] = (totals[stockId] || 0) + qty;
+  }
 
+  for (const [productId, quantity] of Object.entries(totals)) {
     try {
       await fetch(`${process.env.URL}/.netlify/functions/decrement-stock`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ productId, quantity }),
       });
-      console.log(`✓ Stock decremented for ${productId}`);
+      console.log(`✓ Stock decremented for ${productId}: -${quantity}`);
     } catch (err) {
       console.error('Stock decrement error:', err.message);
     }
@@ -251,7 +264,14 @@ async function sendResendEmail({ to, subject, text, html }) {
   }
 }
 
+// Debe coincidir con PICKUP_RATE.carrier en checkout.html
+const PICKUP_CARRIER = 'Recoger en Monterrey';
+const PICKUP_MESSAGE = 'Elegiste recoger tu pedido en el área metropolitana de Monterrey. Cuando esté listo te enviaré un correo con el día, el horario y el lugar de entrega.';
+
 async function sendConfirmationEmail(order) {
+  const isPickup = order.carrier === PICKUP_CARRIER;
+  const shippingLabel = isPickup ? 'Gratis · Recoger en Monterrey' : order.shipping;
+
   const row = (label, value) => `
     <tr>
       <td style="padding:8px 0;border-bottom:1px solid #f5ede0;color:#9b7a9e;font-size:13px;">${label}</td>
@@ -266,12 +286,17 @@ async function sendConfirmationEmail(order) {
       ${row('Fecha', order.date)}
       ${row('Productos', order.products)}
       ${row('Subtotal', order.subtotal)}
-      ${row('Envío', order.shipping)}
+      ${row('Envío', shippingLabel)}
       <tr>
         <td style="padding:14px 0 0;color:#3d1f45;font-weight:bold;font-size:16px;">Total</td>
         <td style="padding:14px 0 0;text-align:right;color:#3d1f45;font-weight:bold;font-size:16px;">${escapeHtml(order.total)}</td>
       </tr>
     </table>
+    ${isPickup ? `
+    <div style="background:#f5ede0;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
+      <p style="font-size:12px;color:#9b7a9e;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px;">Recoger en Monterrey</p>
+      <p style="font-size:14px;color:#3d2e3a;margin:0;line-height:1.5;">${PICKUP_MESSAGE}</p>
+    </div>` : `
     <div style="background:#f5ede0;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
       <p style="font-size:12px;color:#9b7a9e;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px;">Dirección de entrega</p>
       <p style="font-size:14px;color:#3d2e3a;margin:0;line-height:1.5;">
@@ -280,7 +305,7 @@ async function sendConfirmationEmail(order) {
         ${escapeHtml(order.country)}
       </p>
     </div>
-    <p style="font-size:14px;color:#3d2e3a;line-height:1.6;margin:0 0 20px;">Te avisaremos cuando tu pedido esté en camino con el número de guía.</p>
+    <p style="font-size:14px;color:#3d2e3a;line-height:1.6;margin:0 0 20px;">Te avisaremos cuando tu pedido esté en camino con el número de guía.</p>`}
     <p style="font-size:13px;color:#9b7a9e;line-height:1.6;margin:0;">Cualquier duda escríbeme a lalectorade.estrellas@gmail.com o en Instagram <a href="https://instagram.com/lectoradeestrellas" style="color:#6b4471;">@lectoradeestrellas</a></p>
   `);
 
@@ -298,15 +323,15 @@ Fecha: ${order.date}
 
 Productos: ${order.products}
 Subtotal: ${order.subtotal}
-Envío: ${order.shipping}
+Envío: ${shippingLabel}
 Total: ${order.total}
 
-Dirección de entrega:
+${isPickup ? PICKUP_MESSAGE : `Dirección de entrega:
 ${order.address}
 ${order.city}, ${order.state} ${order.postalCode}
 ${order.country}
 
-Te avisaremos cuando tu pedido esté en camino con el número de guía.
+Te avisaremos cuando tu pedido esté en camino con el número de guía.`}
 
 Cualquier duda escríbeme a lalectorade.estrellas@gmail.com o en Instagram @lectoradeestrellas
 
@@ -336,6 +361,7 @@ Teléfono: ${order.phone}
 Productos: ${order.products}
 Total: ${order.total}
 
+${order.carrier === PICKUP_CARRIER ? '📍 RECOGE EN MONTERREY — no generar guía' : `Envío: ${order.carrier}`}
 Dirección: ${order.address}, ${order.city}, ${order.state} ${order.postalCode}
 
 ${order.notes ? `Datos especiales:\n${order.notes}` : ''}

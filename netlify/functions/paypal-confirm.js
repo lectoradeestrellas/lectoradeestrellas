@@ -69,7 +69,7 @@ exports.handler = async (event) => {
     }
 
     // 6. Decrementar stock de productos con cupo limitado (ej. talleres)
-    await decrementLimitedStock(productIds);
+    await decrementLimitedStock(products.filter(p => p.id).map(p => ({ id: p.id, qty: p.qty || 1 })));
 
     console.log(`PayPal order ${orderData.orderId} processed successfully`);
     return { statusCode: 200, body: JSON.stringify({ success: true, orderId: orderData.orderId }) };

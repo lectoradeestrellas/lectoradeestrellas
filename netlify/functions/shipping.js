@@ -34,7 +34,37 @@ exports.handler = async (event) => {
       };
     }
 
-    const totalWeight = items.reduce((sum, item) => sum + (item.weight || 0.3) * (item.qty || 1), 0);
+    // Agendas, libretas y diarios pesan ~400 g. Si el pedido es UNO solo, va en sobre de envío (20×15×3 cm)
+    const ENVELOPE_IDS = ['agenda-lunar-2027', 'diario-lunar-2027'];
+    const ENVELOPE_PREFIXES = ['libreta-', 'diario-zodiacal-'];
+    const isEnvelopeItem = id => ENVELOPE_IDS.includes(id) || ENVELOPE_PREFIXES.some(p => String(id || '').startsWith(p));
+    const itemWeight = item => item.weight || (isEnvelopeItem(item.id) ? 0.4 : 0.3);
+    const totalWeight = items.reduce((sum, item) => sum + itemWeight(item) * (item.qty || 1), 0);
+    const totalUnits = items.reduce((sum, item) => sum + (item.qty || 1), 0);
+    const useEnvelope = totalUnits === 1 && isEnvelopeItem(items[0].id);
+
+    const boxPackage = {
+      content: 'Productos Lectora de Estrellas',
+      amount: items.length,
+      type: 'box',
+      dimensions: {
+        length: 25,
+        width: 20,
+        height: items.length * 3 + 5,
+      },
+      weight: Math.max(0.1, totalWeight),
+      insurance: 0,
+      declaredValue: 0,
+    };
+    const envelopePackage = {
+      content: 'Productos Lectora de Estrellas',
+      amount: 1,
+      type: 'envelope',
+      dimensions: { length: 20, width: 15, height: 3 },
+      weight: 0.4,
+      insurance: 0,
+      declaredValue: 0,
+    };
 
     const basePayload = {
       origin: {
@@ -53,25 +83,13 @@ exports.handler = async (event) => {
         street: street || 'Destino',
         number: '1',
       },
-      packages: [{
-        content: 'Productos Lectora de Estrellas',
-        amount: items.length,
-        type: 'box',
-        dimensions: {
-          length: 25,
-          width: 20,
-          height: items.length * 3 + 5,
-        },
-        weight: Math.max(0.1, totalWeight),
-        insurance: 0,
-        declaredValue: 0,
-      }],
+      packages: [useEnvelope ? envelopePackage : boxPackage],
     };
 
     // Envia.com requiere una petición individual por paquetería
     const CARRIERS = ['fedex', 'estafeta', 'dhl', 'ups'];
 
-    async function quoteCarrier(carrier) {
+    async function quoteCarrier(carrier, payload = basePayload) {
       try {
         const res = await fetch('https://api.envia.com/ship/rate/', {
           method: 'POST',
@@ -79,7 +97,7 @@ exports.handler = async (event) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
           },
-          body: JSON.stringify({ ...basePayload, shipment: { carrier, type: 1 } }),
+          body: JSON.stringify({ ...payload, shipment: { carrier, type: 1 } }),
         });
         const ct = res.headers.get('content-type') || '';
         if (!ct.includes('application/json')) return [];
@@ -91,7 +109,14 @@ exports.handler = async (event) => {
       }
     }
 
-    const results = await Promise.all(CARRIERS.map(quoteCarrier));
+    let results = await Promise.all(CARRIERS.map(c => quoteCarrier(c)));
+
+    // Si ninguna paquetería cotiza el sobre, se cotiza como caja para no dejar a la clienta sin envío
+    if (useEnvelope && !results.flat().some(r => r.totalPrice > 0)) {
+      console.warn('Sin cotizaciones para sobre — cotizando como caja');
+      const boxPayload = { ...basePayload, packages: [{ ...boxPackage, weight: 0.4 }] };
+      results = await Promise.all(CARRIERS.map(c => quoteCarrier(c, boxPayload)));
+    }
 
     const rates = results.flat()
       .filter(r => r.totalPrice > 0)

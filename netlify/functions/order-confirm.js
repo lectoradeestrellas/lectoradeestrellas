@@ -89,7 +89,11 @@ exports.handler = async (event) => {
     }
 
     // 6. Decrementar stock de productos con cupo limitado (ej. talleres)
-    await decrementLimitedStock(productIds);
+    // productQtys: "id:qty,id:qty" — si no viene (pedidos viejos), cada ID cuenta como 1
+    const stockItems = metadata.productQtys
+      ? metadata.productQtys.split(',').map(s => { const [id, qty] = s.split(':'); return { id: id.trim(), qty: Number(qty) || 1 }; })
+      : productIds;
+    await decrementLimitedStock(stockItems);
 
     console.log(`Order ${orderData.orderId} processed successfully`);
     return { statusCode: 200, body: JSON.stringify({ success: true, orderId: orderData.orderId }) };

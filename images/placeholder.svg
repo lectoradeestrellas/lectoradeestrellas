@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <rect width="800" height="800" fill="#F3ECE4"/>
+  <circle cx="400" cy="350" r="90" fill="none" stroke="#9B7A9E" stroke-width="3"/>
+  <path d="M430 270a90 90 0 1 0 0 160a70 70 0 1 1 0-160z" fill="#9B7A9E" opacity="0.35"/>
+  <text x="400" y="510" text-anchor="middle" font-family="Georgia, serif" font-size="30" letter-spacing="4" fill="#6B4471">FOTO PRÓXIMAMENTE</text>
+  <text x="400" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#9B7A9E">✦ Lectora de Estrellas ✦</text>
+</svg>
