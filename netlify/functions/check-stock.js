@@ -16,7 +16,7 @@ exports.handler = async (event) => {
 
   try {
     const { productId } = JSON.parse(event.body || '{}');
-    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, { realtime: { transport: require('ws') } });
 
     const { data, error } = await supabase
       .from('product_stock')

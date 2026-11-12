@@ -19,13 +19,13 @@ function buildHtml(nombre) {
     <p style="font-size:17px;color:#1a1118;margin:0 0 16px;">Hola ${escapeHtml(nombre)}! ✦</p>
     <p style="font-size:15px;color:#3d2e3a;line-height:1.6;margin:0 0 16px;">Gracias por tomarte el tiempo de responder la encuesta de la Agenda Lunar. Tus respuestas me ayudaron muchísimo a darle forma a la nueva edición, y por eso quiero que seas de las primeras en tenerla.</p>
     <a href="${AGENDA_URL}" style="display:block;margin:0 0 24px;"><img src="${IMG_URL}" alt="Agenda Lunar 2027" width="100%" style="display:block;width:100%;max-width:520px;height:auto;border-radius:12px;margin:0 auto;"></a>
-    <p style="font-size:15px;color:#3d2e3a;line-height:1.6;margin:0 0 24px;">La <strong>Agenda Lunar 2027</strong> abre su preventa y tú tienes acceso exclusivo un día antes que todas:</p>
+    <p style="font-size:15px;color:#3d2e3a;line-height:1.6;margin:0 0 24px;">La <strong>Agenda Lunar 2027</strong> abre su preventa y tú tienes acceso exclusivo desde hoy, un día antes que todas:</p>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:24px;">
       <tr>
         <td style="padding:12px 16px;background:#3d1f45;border-radius:8px 8px 0 0;">
           <p style="font-size:11px;color:#d4a853;margin:0 0 4px;text-transform:uppercase;letter-spacing:1.5px;">Tu preventa exclusiva</p>
-          <p style="font-size:17px;color:#ffffff;margin:0;font-weight:bold;">Jueves 12 de noviembre</p>
+          <p style="font-size:17px;color:#ffffff;margin:0;font-weight:bold;">Hoy, jueves 12 de noviembre</p>
         </td>
       </tr>
       <tr>
@@ -57,9 +57,9 @@ function buildText(nombre) {
 
 Gracias por tomarte el tiempo de responder la encuesta de la Agenda Lunar. Tus respuestas me ayudaron muchísimo a darle forma a la nueva edición, y por eso quiero que seas de las primeras en tenerla.
 
-La Agenda Lunar 2027 abre su preventa y tú tienes acceso exclusivo un día antes que todas:
+La Agenda Lunar 2027 abre su preventa y tú tienes acceso exclusivo desde hoy, un día antes que todas:
 
-Tu preventa exclusiva: jueves 12 de noviembre
+Tu preventa exclusiva: hoy, jueves 12 de noviembre
 Preventa general: viernes 13 de noviembre
 
 Solo hay 15 agendas en preventa. Al apartarla un día antes, aseguras la tuya antes de que se abra para todas.

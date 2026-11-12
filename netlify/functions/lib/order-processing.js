@@ -132,7 +132,9 @@ async function saveToSupabase(order, products, paymentId, paymentMethod) {
     const { createClient } = require('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
+      process.env.SUPABASE_SERVICE_KEY,
+      // Node 20 no trae WebSocket nativo y Supabase lo exige al crear el cliente
+      { realtime: { transport: require('ws') } }
     );
 
     const { error: sbError } = await supabase.from('user_orders').insert({

@@ -63,7 +63,9 @@ exports.handler = async (event) => {
 
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
+      process.env.SUPABASE_SERVICE_KEY,
+      // Node 20 no trae WebSocket nativo y Supabase lo exige al crear el cliente
+      { realtime: { transport: require('ws') } }
     );
 
     const email = booking?.attendees?.[0]?.email || booking?.email;
