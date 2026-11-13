@@ -85,7 +85,7 @@
       <!-- Gallery -->
       <div class="gallery">
         <div class="gallery-main" id="gallery-main" onclick="openZoom()">
-          <img id="main-img" src="images/productos/print-calendario-lunar-2027-1.jpg" alt="Print Calendario Lunar 2027" onerror="this.onerror=null;this.src=\'images/placeholder.svg\'">
+          <img id="main-img" src="images/productos/print-calendario-lunar-2027-1.jpg" alt="Print Calendario Lunar 2027" onerror="this.onerror=null;this.src='images/placeholder.svg'">
           <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
           <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
         </div>
@@ -231,7 +231,7 @@
 </aside>
 
 <script src="js/products.js?v=2027e"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20261113"></script>
 <script src="js/producto.js"></script>
 <script>
   const PRODUCT_DATA = {
@@ -241,8 +241,8 @@
     sku: 'PRINTCAL27',
     reviewsKey: 'lde_reviews_print-calendario-lunar-2027',
     images: [
-      'images/productos/print-calendario-lunar-2027-1.jpg',
-      'images/productos/print-calendario-lunar-2027-2.jpg',
+      'images/placeholder.svg', // print-calendario-lunar-2027-1.jpg cuando haya foto
+      'images/placeholder.svg', // print-calendario-lunar-2027-2.jpg cuando haya foto
     ],
   };
   initProductPage(PRODUCT_DATA);

@@ -85,7 +85,7 @@
       <!-- Gallery -->
       <div class="gallery">
         <div class="gallery-main" id="gallery-main" onclick="openZoom()">
-          <img id="main-img" src="images/productos/agenda-lunar-2027-1.jpg" alt="Agenda Lunar 2027" onerror="this.onerror=null;this.src=\'images/placeholder.svg\'">
+          <img id="main-img" src="images/productos/agenda-lunar-2027-1.jpg" alt="Agenda Lunar 2027" onerror="this.onerror=null;this.src='images/placeholder.svg'">
           <button class="gallery-arrow prev" onclick="event.stopPropagation();prevImg()">‹</button>
           <button class="gallery-arrow next" onclick="event.stopPropagation();nextImg()">›</button>
         </div>
@@ -166,21 +166,56 @@
             <button class="detail-toggle open" onclick="toggleDetail(this)">Descripción <span class="chevron">▾</span></button>
             <div class="detail-content open">
               <p>La Agenda Lunar 2027 es tu compañera cósmica para sincronizarte con los ciclos de la luna cada día del año. Realizada a mano con intención y magia para ayudarte a planear, reflexionar y crecer alineada al cosmos.</p>
-              <p>Cada semana está pensada para que conectes con la energía lunar, establezcas intenciones y celebres tus logros desde la guía de los astros.</p>
+              <p>Su enfoque es co-crear con el universo: tú pones tu intención y haces tu parte, y dejas que el universo haga lo suyo a través de las 4 magias: lunar, solar, estacional y planetaria.</p>
+              <p>También acompaña tu bienestar emocional, con trackers de hábitos, emociones y ciclo menstrual, reflexiones para recibir y despedir cada mes y prompts de journaling para cada día.</p>
             </div>
           </div>
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Características <span class="chevron">▾</span></button>
             <div class="detail-content">
+              <p style="margin-bottom:0.3rem"><strong>Al inicio del año</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li>Explicación de uso e introducción a las 4 magias: lunar, solar, estacional y planetaria</li>
+                <li>Calendario lunar y solar, calendario anual y fechas de planetas retrógrados</li>
+                <li>Sección para recibir el año nuevo, metas anuales, vision board y carta al universo</li>
+                <li>Espacio para hacer tu carta astral</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>Cada mes</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li>Reflexión para recibir el mes y otra para despedirlo</li>
+                <li>Calendario mensual y metas mensuales</li>
+                <li>Tracker de hábitos, tracker emocional y de ciclo menstrual</li>
+                <li>Página para colorear</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>Cada día</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li>Vista semanal con fases lunares marcadas día a día</li>
+                <li>Prompts de journaling y avisos de eventos cósmicos todos los días</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>Las 4 magias</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li><strong>Magia lunar:</strong> secciones para pedir deseos en luna nueva y luna llena</li>
+                <li><strong>Magia solar:</strong> un mantra para escribir en cada temporada zodiacal</li>
+                <li><strong>Magia estacional:</strong> rituales y tiradas de oráculo para cada festividad de la rueda del año</li>
+                <li><strong>Magia planetaria:</strong> actividades y espacio para journaling para cada planeta retrógrado del 2027</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>Al final del año</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li>Sección para despedir el año</li>
+                <li>Hojas de notas</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>Contenido bonus</strong></p>
+              <ul style="margin-bottom:1rem">
+                <li>Código QR con el calendario astrológico digital para descargar en tu celular o computadora, compatible con iCal y Google Calendar</li>
+              </ul>
+              <p style="margin-bottom:0.3rem"><strong>La agenda</strong></p>
               <ul>
                 <li>Portada ilustrada edición 2027 con acabados especiales</li>
-                <li>Vista semanal con fases lunares marcadas día a día</li>
-                <li>Secciones de intención mensual y reflexión lunar</li>
-                <li>Calendario de retrógrados y eventos astrológicos 2027</li>
                 <li>Edición numerada</li>
                 <li>Papel de alta calidad 90g, tapa dura con espiral plateado</li>
                 <li>Listón separador</li>
                 <li>Incluye stickers y separadores con pestañas</li>
+                <li>Sobre interior para guardar notas, stickers y pequeños recuerdos</li>
               </ul>
             </div>
           </div>
@@ -199,7 +234,7 @@
           <div class="detail-accordion">
             <button class="detail-toggle" onclick="toggleDetail(this)">Especificaciones <span class="chevron">▾</span></button>
             <div class="detail-content">
-              <p>Tamaño media carta (14 × 21.6 cm) · 328 páginas con separadores · Espiral plateado · Tapa dura · Listón separador</p>
+              <p>Tamaño media carta (14 × 21.6 cm) · 328 páginas con separadores con pestaña · Espiral plateado · Tapa dura · Listón separador · Liga con ojillos</p>
             </div>
           </div>
           <div class="detail-accordion">
@@ -337,7 +372,7 @@
 </aside>
 
 <script src="js/products.js?v=2027e"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20261113"></script>
 <script src="js/producto.js"></script>
 <script>
   const PRODUCT_DATA = {
@@ -348,8 +383,8 @@
     reviewsKey: 'lde_reviews_agenda-lunar-2027',
     images: [
       'images/productos/agenda-lunar-2027-1.jpg',
-      'images/productos/agenda-lunar-2027-2.jpg',
-      'images/productos/agenda-lunar-2027-3.jpg',
+      'images/placeholder.svg', // agenda-lunar-2027-2.jpg cuando haya foto
+      'images/placeholder.svg', // agenda-lunar-2027-3.jpg cuando haya foto
     ],
   };
   initProductPage(PRODUCT_DATA);
