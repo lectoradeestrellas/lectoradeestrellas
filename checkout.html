@@ -572,7 +572,7 @@
 
 </div>
 
-<script src="js/products.js?v=2027e"></script>
+<script src="js/products.js?v=2027f"></script>
 <script src="js/main.js?v=20261113"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -664,6 +664,13 @@
   // ── Cart ─────────────────────────────────────────────────
   function loadCart() {
     cartItems = JSON.parse(localStorage.getItem('lde_cart') || '[]');
+    // Carritos guardados durante la preventa: usar el precio actual de la agenda y el bundle
+    let precioCambio = false;
+    cartItems.forEach(i => {
+      const p = window.PRODUCTS && window.PRODUCTS[i.id];
+      if ((i.id === 'agenda-lunar-2027' || i.id === 'bundle-lunar-2027') && p && i.price !== p.price) { i.price = p.price; precioCambio = true; }
+    });
+    if (precioCambio) localStorage.setItem('lde_cart', JSON.stringify(cartItems));
     renderSummary();
 
     if (cartItems.length === 0) {
@@ -887,7 +894,6 @@
       paypal.Buttons({
         createOrder: async (data, actions) => {
           if (!validateForm()) return Promise.reject(new Error('Validation failed'));
-          if (!(await checkPreventaStock())) return Promise.reject(new Error('Preventa sin stock'));
           const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0) + (selectedShipping?.price || 0);
           return actions.order.create({
             purchase_units: [{
@@ -966,36 +972,9 @@
     return true;
   }
 
-  // ── Preventa Agenda Lunar 2027 (15 unidades) ─────────────
-  // La agenda sola y el Bundle Lunar 2027 cuentan contra el mismo stock
-  async function checkPreventaStock() {
-    const wanted = cartItems
-      .filter(i => i.id === 'agenda-lunar-2027' || i.id === 'bundle-lunar-2027')
-      .reduce((s, i) => s + (i.qty || 1), 0);
-    if (wanted === 0) return true;
-    try {
-      const res = await fetch('/.netlify/functions/check-stock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: 'agenda-lunar-2027' }),
-      });
-      const data = await res.json();
-      if (typeof data.stock_available === 'number' && wanted > data.stock_available) {
-        alert(data.stock_available > 0
-          ? `Solo quedan ${data.stock_available} Agenda${data.stock_available !== 1 ? 's' : ''} Lunar 2027 en preventa (incluyendo las del Bundle). Ajusta la cantidad en tu carrito para continuar.`
-          : 'La preventa de la Agenda Lunar 2027 se agotó. Quítala de tu carrito para continuar.');
-        return false;
-      }
-    } catch (err) {
-      console.error('No se pudo verificar el stock de preventa:', err);
-    }
-    return true;
-  }
-
   async function submitOrder() {
     if (!validateForm()) return;
     if (cartItems.length === 0) { alert('Tu carrito está vacío.'); return; }
-    if (!(await checkPreventaStock())) return;
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;

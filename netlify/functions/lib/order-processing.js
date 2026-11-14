@@ -175,11 +175,8 @@ function parseProductsString(productsStr) {
 
 // Productos con cupo limitado — agregar aquí futuros productos con stock.
 // Clave: ID del producto en el carrito → valor: fila de product_stock que descuenta.
-// El Bundle Lunar 2027 incluye una agenda, así que descuenta de la preventa de la agenda.
 const STOCK_LIMITED_PRODUCTS = {
   'taller-libreta-magica': 'taller-libreta-magica',
-  'agenda-lunar-2027':     'agenda-lunar-2027',
-  'bundle-lunar-2027':     'agenda-lunar-2027',
 };
 
 // Descuenta del stock las unidades de cada producto de cupo limitado del pedido.
