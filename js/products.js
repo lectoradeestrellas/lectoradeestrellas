@@ -17,7 +17,7 @@ const PRODUCTS = {
     sku: 'AGENDALUNAR27',
     digital: false,
     images: [
-      'images/productos/agenda-lunar-2027-1.jpg',
+      'images/productos/agenda-lunar-2027-1.jpg?v=2',
       'images/productos/agenda-lunar-2027-2.jpg',
       'images/productos/agenda-lunar-2027-3.jpg',
       'images/productos/agenda-lunar-2027-4.jpg',
