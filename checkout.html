@@ -725,16 +725,25 @@
     addrCp.addEventListener('input', () => { cpInput.value = addrCp.value; });
   }
 
+  // Cotiza solo cuando el CP está completo (5 dígitos en México) y la clienta dejó de escribir
+  let cpTimer = null;
+  function cpIsComplete(cp) {
+    const country = document.getElementById('addr-country')?.value || 'MX';
+    return country === 'MX' ? /^\d{5}$/.test(cp) : cp.length >= 3;
+  }
+
   function onCpChange() {
-    const cp = document.getElementById('addr-cp').value;
+    const cp = document.getElementById('addr-cp').value.trim();
     document.getElementById('cp-input').value = cp;
-    if (cp.length >= 4) fetchShipping();
+    clearTimeout(cpTimer);
+    if (cpIsComplete(cp)) cpTimer = setTimeout(fetchShipping, 500);
   }
 
   function onCountryChange() {
     selectedShipping = null;
     document.getElementById('shipping-result').innerHTML = '';
     updateTotal();
+    onCpChange();
   }
 
   // ── Recoger en Monterrey ──────────────────────────────────
@@ -757,6 +766,7 @@
     return (n >= 64000 && n <= 64999) || (n >= 66000 && n <= 66679) || (n >= 67100 && n <= 67299);
   }
 
+  let shippingRequestId = 0;
   async function fetchShipping() {
     const cp = document.getElementById('addr-cp').value.trim() ||
                 document.getElementById('cp-input').value.trim();
@@ -769,13 +779,19 @@
 
     const resultEl = document.getElementById('shipping-result');
     resultEl.innerHTML = '<div class="shipping-loading">✦ Calculando opciones de envío...</div>';
+    // Si la clienta cambia el CP mientras se cotiza, solo cuenta la respuesta más reciente
+    const requestId = ++shippingRequestId;
+    selectedShipping = null;
+    updateTotal();
 
     try {
       const res = await fetch('/.netlify/functions/shipping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout ? AbortSignal.timeout(20000) : undefined,
         body: JSON.stringify({
           postalCode: cp,
+          country: document.getElementById('addr-country')?.value || 'MX',
           city:   document.getElementById('addr-city')?.value.trim()   || '',
           state:  document.getElementById('addr-state')?.value.trim()  || '',
           street: document.getElementById('addr-street')?.value.trim() || '',
@@ -784,6 +800,7 @@
       });
 
       const data = await res.json();
+      if (requestId !== shippingRequestId) return;
       const pickupAvailable = isMonterreyMetroCP(cp);
 
       // En el área metropolitana se ofrece recoger, aunque la paquetería no haya cotizado
@@ -804,7 +821,8 @@
 
       renderRates(data.rates);
     } catch (err) {
-      resultEl.innerHTML = `<div class="shipping-error">Error de conexión. Intenta de nuevo.</div>`;
+      if (requestId !== shippingRequestId) return;
+      resultEl.innerHTML = `<div class="shipping-error">No se pudo calcular el envío. Revisa tu conexión y da clic en «Calcular envío» para intentar de nuevo.</div>`;
     }
   }
 

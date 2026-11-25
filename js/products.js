@@ -20,6 +20,16 @@ const PRODUCTS = {
       'images/productos/agenda-lunar-2027-1.jpg',
       'images/productos/agenda-lunar-2027-2.jpg',
       'images/productos/agenda-lunar-2027-3.jpg',
+      'images/productos/agenda-lunar-2027-4.jpg',
+      'images/productos/agenda-lunar-2027-5.jpg',
+      'images/productos/agenda-lunar-2027-6.jpg',
+      'images/productos/agenda-lunar-2027-7.jpg',
+      'images/productos/agenda-lunar-2027-8.jpg',
+      'images/productos/agenda-lunar-2027-9.jpg',
+      'images/productos/agenda-lunar-2027-10.jpg',
+      'images/productos/agenda-lunar-2027-11.jpg',
+      'images/productos/agenda-lunar-2027-12.jpg',
+      'images/productos/bundle-lunar-2027-1.jpg',
     ],
     description: `La Agenda Lunar 2027 es tu compañera cósmica para sincronizarte con los ciclos de la luna cada día del año. Realizada a mano con intención y magia para ayudarte a planear, reflexionar y crecer alineada al cosmos.`,
     features: [
@@ -75,6 +85,7 @@ const PRODUCTS = {
     images: [
       'images/productos/calendario-mini-lunar-2027-1.jpg',
       'images/productos/calendario-mini-lunar-2027-2.jpg',
+      'images/productos/calendario-mini-lunar-2027-3.jpg',
     ],
     description: `El calendario mini de escritorio lunar 2027 es el accesorio perfecto para tener el cosmos siempre a la vista. Compacto, funcional y lleno de magia lunar.`,
     features: [
@@ -101,6 +112,7 @@ const PRODUCTS = {
     images: [
       'images/productos/print-calendario-lunar-2027-1.jpg',
       'images/productos/print-calendario-lunar-2027-2.jpg',
+      'images/productos/print-calendario-lunar-2027-3.jpg',
     ],
     description: `El print del calendario lunar 2027 con todas las fases del año en un diseño ilustrado, con marco blanco listo para colgar en tu espacio sagrado.`,
     features: [

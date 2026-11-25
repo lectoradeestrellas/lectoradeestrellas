@@ -109,7 +109,31 @@
         <p class="product-subtitle">Tu espacio sagrado para escritura intuitiva, seguimiento de sueños y conexión profunda con los ciclos de la luna. Edición limitada.</p>
 
         <div class="product-price-block">
-          <div class="product-price">$250 <span class="price-currency">MXN</span></div>
+          <div class="product-price"><span id="price-main">$250</span> <span class="price-currency">MXN</span></div>
+          <div class="product-price-original" id="price-original"></div>
+        </div>
+
+        <!-- Opción: diario solo o Bundle Lunar 2027 (diario de regalo) -->
+        <div class="option-group">
+          <div class="option-label">Elige: <span class="selected-name" id="selected-option-name">Diario Lunar 2027 · Ed. Limitada</span></div>
+          <div class="workbook-options">
+            <div class="workbook-option active" data-option="solo" onclick="selectBundleOption('solo')">
+              <img src="images/productos/diario-lunar-2027-1.jpg" alt="Diario Lunar 2027" onerror="this.onerror=null;this.src='images/placeholder.svg'">
+              <div>
+                <div class="workbook-option-name">Diario Lunar 2027 · Ed. Limitada</div>
+                <div class="workbook-option-desc">Edición limitada</div>
+              </div>
+              <div class="workbook-option-price">$250</div>
+            </div>
+            <div class="workbook-option" data-option="bundle" onclick="selectBundleOption('bundle')">
+              <img src="images/productos/bundle-lunar-2027-1.jpg" alt="Bundle Lunar 2027" onerror="this.onerror=null;this.src='images/placeholder.svg'">
+              <div>
+                <div class="workbook-option-name">Bundle Lunar 2027</div>
+                <div class="workbook-option-desc">¡Llévate el diario gratis! Agenda + Print Calendario Lunar + Calendario Mini + Diario Lunar de regalo · Valor real $1,750, ahorras $250</div>
+              </div>
+              <div class="workbook-option-price">$1,500</div>
+            </div>
+          </div>
         </div>
 
         <!-- Quantity -->
@@ -123,7 +147,7 @@
         </div>
 
         <div class="add-to-cart-block">
-          <button class="add-btn-main" id="add-btn" onclick="addToCart()">
+          <button class="add-btn-main" id="add-btn" onclick="addBundleOption()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             Agregar al carrito
           </button>
@@ -244,11 +268,51 @@
     sku: 'DIARIOLUNARLIM27',
     reviewsKey: 'lde_reviews_diario-lunar-2027',
     images: [
-      'images/placeholder.svg', // diario-lunar-2027-1.jpg cuando haya foto
-      'images/placeholder.svg', // diario-lunar-2027-2.jpg cuando haya foto
+      'images/productos/diario-lunar-2027-1.jpg',
+      'images/productos/diario-lunar-2027-2.jpg',
     ],
   };
   initProductPage(PRODUCT_DATA);
+
+  // ── Diario solo o Bundle Lunar 2027 (diario de regalo) ───
+  const BUNDLE_OPTIONS = {
+    solo: {
+      id: 'diario-lunar-2027',
+      name: 'Diario Lunar 2027 · Edición Limitada',
+      price: 250,
+      originalPrice: '',
+      sku: 'DIARIOLUNARLIM27',
+      image: 'images/productos/diario-lunar-2027-1.jpg',
+    },
+    bundle: {
+      id: 'bundle-lunar-2027',
+      name: 'Bundle Lunar 2027 (Agenda + Print + Calendario Mini + Diario de regalo)',
+      price: 1500,
+      originalPrice: '$1,750',
+      sku: 'BUNDLELUNAR27',
+      image: 'images/productos/bundle-lunar-2027-1.jpg',
+      weight: 1.5,
+    },
+  };
+  let selectedBundleOption = 'solo';
+  function selectBundleOption(key) {
+    selectedBundleOption = key;
+    const opt = BUNDLE_OPTIONS[key];
+    document.querySelectorAll('.workbook-option[data-option]').forEach(el => {
+      el.classList.toggle('active', el.dataset.option === key);
+    });
+    document.getElementById('selected-option-name').textContent = key === 'bundle' ? 'Bundle Lunar 2027' : 'Diario Lunar 2027 · Ed. Limitada';
+    document.getElementById('price-main').textContent = `$${opt.price.toLocaleString('es-MX')}`;
+    document.getElementById('price-original').textContent = opt.originalPrice;
+  }
+
+  function addBundleOption() {
+    const opt = BUNDLE_OPTIONS[selectedBundleOption];
+    for (let i = 0; i < qty; i++) {
+      Cart.add({ id: opt.id, name: opt.name, price: opt.price, image: opt.image, sku: opt.sku, ...(opt.weight ? { weight: opt.weight } : {}) });
+    }
+    flashAddBtn();
+  }
 </script>
 </body>
 </html>

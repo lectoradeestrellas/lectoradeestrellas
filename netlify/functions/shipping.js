@@ -15,7 +15,10 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { postalCode, city, state, street, items } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    const { city, state, street, items } = body;
+    const country = String(body.country || "MX").toUpperCase();
+    let postalCode = String(body.postalCode || "").trim();
 
     if (!postalCode || !items?.length) {
       return {
@@ -23,6 +26,20 @@ exports.handler = async (event) => {
         headers,
         body: JSON.stringify({ error: 'Se requiere CP y productos' }),
       };
+    }
+
+    // Países sin cotización automática ("Otro país")
+    if (!/^[A-Z]{2}$/.test(country)) {
+      return { statusCode: 200, headers, body: JSON.stringify({ rates: [] }) };
+    }
+
+    // En México el estado y la ciudad se obtienen del CP: si la clienta deja el estado vacío
+    // o lo escribe abreviado ("N.L.", "Edo. Méx"), envia.com no regresa ninguna cotización
+    let geo = null;
+    if (country === "MX") {
+      postalCode = postalCode.replace(/\D/g, "");
+      if (postalCode.length === 4) postalCode = "0" + postalCode;
+      geo = await lookupZip(postalCode);
     }
 
     const apiKey = process.env.ENVIA_API_KEY;
@@ -77,9 +94,10 @@ exports.handler = async (event) => {
       },
       destination: {
         postalCode,
-        country: 'MX',
-        city: city || '',
-        state: toStateCode(state),
+        country,
+        city: geo?.city || city || '',
+        // Fuera de México el estado va tal cual lo escribió la clienta (ej. "TX", "CA")
+        state: country === "MX" ? (geo?.state || toStateCode(state)) : String(state || "").trim().toUpperCase(),
         street: street || 'Destino',
         number: '1',
       },
@@ -98,6 +116,8 @@ exports.handler = async (event) => {
             'Authorization': `Bearer ${apiKey}`,
           },
           body: JSON.stringify({ ...payload, shipment: { carrier, type: 1 } }),
+          // Netlify corta la función a los 10 s: si una paquetería tarda, se descarta y no se queda "cargando"
+          signal: AbortSignal.timeout(6000),
         });
         const ct = res.headers.get('content-type') || '';
         if (!ct.includes('application/json')) return [];
@@ -150,23 +170,44 @@ exports.handler = async (event) => {
   }
 };
 
+// Estado (código de 2 letras) y ciudad de un CP mexicano, según envia.com
+async function lookupZip(cp) {
+  if (!/^\d{5}$/.test(cp)) return null;
+  try {
+    const res = await fetch(`https://geocodes.envia.com/zipcode/MX/${cp}`, { signal: AbortSignal.timeout(3000) });
+    const data = await res.json();
+    const z = Array.isArray(data) ? data[0] : null;
+    const state = z?.state?.code?.["2digit"];
+    if (!state) return null;
+    return { state, city: z.locality || z.city || "" };
+  } catch {
+    return null;
+  }
+}
+
 function toStateCode(state) {
   if (!state) return '';
-  const s = state.trim().toLowerCase();
+  // Sin acentos ni puntos: "Ciudad de México", "Edo. Méx." y "N.L." deben reconocerse igual
+  const s = state.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\./g, "").replace(/\s+/g, " ");
+  // Códigos oficiales de envia.com (los mismos que da geocodes.envia.com)
   const map = {
-    'aguascalientes':'AGS','baja california':'BC','baja california norte':'BC',
-    'baja california sur':'BCS','campeche':'CAM','chiapas':'CHIS','chihuahua':'CHIH',
-    'ciudad de mexico':'DF','cdmx':'DF','df':'DF','distrito federal':'DF',
-    'coahuila':'COAH','colima':'COL','durango':'DGO','guanajuato':'GTO',
-    'guerrero':'GRO','hidalgo':'HGO','jalisco':'JAL','mexico':'MEX',
-    'estado de mexico':'MEX','michoacan':'MICH','michoacán':'MICH','morelos':'MOR',
-    'nayarit':'NAY','nuevo leon':'NL','nuevo león':'NL','oaxaca':'OAX',
-    'puebla':'PUE','queretaro':'QRO','querétaro':'QRO','quintana roo':'QROO',
-    'san luis potosi':'SLP','san luis potosí':'SLP','sinaloa':'SIN','sonora':'SON',
-    'tabasco':'TAB','tamaulipas':'TAMS','tlaxcala':'TLAX','veracruz':'VER',
-    'yucatan':'YUC','yucatán':'YUC','zacatecas':'ZAC',
+    'aguascalientes':'AG','ags':'AG','baja california':'BC','baja california norte':'BC','bc':'BC',
+    'baja california sur':'BS','bcs':'BS','campeche':'CM','camp':'CM','chiapas':'CS','chis':'CS',
+    'chihuahua':'CH','chih':'CH','ciudad de mexico':'CX','cdmx':'CX','df':'CX','distrito federal':'CX',
+    'coahuila':'CO','coahuila de zaragoza':'CO','coah':'CO','colima':'CL','col':'CL',
+    'durango':'DG','dgo':'DG','guanajuato':'GT','gto':'GT','guerrero':'GR','gro':'GR',
+    'hidalgo':'HG','hgo':'HG','jalisco':'JA','jal':'JA',
+    'mexico':'EM','estado de mexico':'EM','edo mex':'EM','edo de mex':'EM','edomex':'EM','mex':'EM',
+    'michoacan':'MI','michoacan de ocampo':'MI','mich':'MI','morelos':'MO','mor':'MO',
+    'nayarit':'NA','nay':'NA','nuevo leon':'NL','nl':'NL','oaxaca':'OA','oax':'OA',
+    'puebla':'PU','pue':'PU','queretaro':'QT','queretaro de arteaga':'QT','qro':'QT',
+    'quintana roo':'QR','qroo':'QR','q roo':'QR','san luis potosi':'SL','slp':'SL',
+    'sinaloa':'SI','sin':'SI','sonora':'SO','son':'SO','tabasco':'TB','tab':'TB',
+    'tamaulipas':'TM','tamps':'TM','tams':'TM','tlaxcala':'TL','tlax':'TL',
+    'veracruz':'VE','veracruz de ignacio de la llave':'VE','ver':'VE',
+    'yucatan':'YU','yuc':'YU','zacatecas':'ZA','zac':'ZA',
   };
-  return map[s] || state.slice(0, 4).toUpperCase();
+  return map[s] || state.trim().slice(0, 2).toUpperCase();
 }
 
 function getCarrierLogo(carrier) {

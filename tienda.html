@@ -466,7 +466,7 @@
     { key: 'agenda-lunar-2027', cat: 'agendas', image: 'images/productos/agenda-lunar-2027-1.jpg', optionsLabel: 'También en Bundle Lunar 2027' },
     { key: 'diario-lunar-2027', cat: 'agendas', image: 'images/productos/diario-lunar-2027-1.jpg', optionsLabel: null },
     { key: 'calendario-mini-lunar-2027', cat: 'agendas', image: 'images/productos/calendario-mini-lunar-2027-1.jpg', optionsLabel: null },
-    { key: 'print-calendario-lunar-2027', cat: 'prints', image: 'images/productos/print-calendario-lunar-2027-1.jpg', optionsLabel: null },
+    { key: 'print-calendario-lunar-2027', cat: 'agendas', alsoIn: ['prints'], image: 'images/productos/print-calendario-lunar-2027-1.jpg', optionsLabel: null },
     { key: 'workbook-zodiac-elements-duo', cat: 'cuadernos', image: 'images/productos/workbook-zodiac-1.jpg', optionsLabel: null },
     { key: 'workbook-emociones-ciclos', cat: 'cuadernos', image: 'images/productos/emociones-ciclos-1.jpg', optionsLabel: 'English · Español próximamente' },
     { key: 'libretas', cat: 'libretas', image: 'images/productos/libreta-mistica-1.jpg', optionsLabel: '6 diseños disponibles' },
@@ -543,7 +543,7 @@
 
   function renderGrid(cat) {
     currentCat = cat;
-    const filtered = cat === 'all' ? CATALOG : CATALOG.filter(p => p.cat === cat);
+    const filtered = cat === 'all' ? CATALOG : CATALOG.filter(p => p.cat === cat || (p.alsoIn || []).includes(cat));
     const grid = document.getElementById('shop-grid');
     const empty = document.getElementById('empty-state');
     const resultsText = document.getElementById('results-text');
